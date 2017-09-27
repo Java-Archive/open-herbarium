@@ -21,9 +21,7 @@ stages:
 
 build-develop:
   stage: build
-  script: 
-    - "git checkout -b $BRANCH_NAME"
-    - "mvn versions:set -DnewVersion=$VERSION.$CI_PIPELINE_ID"
+  script:
     - "mvn --batch-mode compile -Dmaven.test.skip=true -Djacoco.skip=true"
     - "mvn --batch-mode verify deploy sonar:sonar  -Dusername=$ARTIFACTORY_USERNAME -Dpassword=$ARTIFACTORY_PASSWORD -Dsonar.host.url=https://sonar.loe.auf.uni-rostock.de -Dsonar.login=$SONAR_LOGIN"
   only:
@@ -31,9 +29,7 @@ build-develop:
      
 build-master:
   stage: build
-  script: 
-    - "git checkout -b $BRANCH_NAME"
-    - "mvn versions:set -DnewVersion=$VERSION.$CI_PIPELINE_ID"
+  script:
     - "mvn --batch-mode compile -Dmaven.test.skip=true -Djacoco.skip=true"
     - "mvn --batch-mode verify deploy sonar:sonar  -Dusername=$ARTIFACTORY_USERNAME -Dpassword=$ARTIFACTORY_PASSWORD -Dsonar.host.url=https://sonar.loe.auf.uni-rostock.de -Dsonar.login=$SONAR_LOGIN"
   only:
