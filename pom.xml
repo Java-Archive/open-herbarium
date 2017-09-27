@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.open-herbarium</groupId>
+  <artifactId>open-herbarium-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <parent>
+    <groupId>org.rapidpm</groupId>
+    <artifactId>rapidpm-dependencies</artifactId>
+    <version>3.5.1</version>
+  </parent>
+
+
+
+  <!--Project Header Infos-->
+  <inceptionYear>2013</inceptionYear>
+  <organization>
+    <name>Open Herbarium</name>
+    <url>http://www.open-herbarium.org</url>
+  </organization>
+  <!--<url>http://www.java-microservice.org/</url>-->
+  <url>https://github.com/JavaMicroService/rapidpm-microservice</url>
+  <name>RapidPM MicroService Framework / Implementation</name>
+  <description>MicroService Implementation for easy usage and fine grained options for production</description>
+
+  <scm>
+    <url>https://github.com/JavaMicroService/rapidpm-microservice</url>
+    <connection>scm:git:https://github.com/JavaMicroService/rapidpm-microservice.git</connection>
+    <developerConnection>scm:git:https://github.com/JavaMicroService/rapidpm-microservice.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+  <developers>
+    <developer>
+      <name>Sven Ruppert</name>
+      <email>sven.ruppert@gmail.com</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+  </developers>
+  <issueManagement>
+    <system>Youtrack</system>
+    <url>https://issues.rapidpm.org/issues?q=project%3A+Java-MicroService</url>
+  </issueManagement>
+  <ciManagement>
+    <system>TeamCity</system>
+    <url>https://build.rapidpm.org/</url>
+  </ciManagement>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+
+  <prerequisites>
+    <maven>3.3.9</maven>
+  </prerequisites>
+
+
+  <properties>
+    <!--change in bom too !!!-->
+    <open-herbarium.version>0.0.1-SNAPSHOT</open-herbarium.version>
+  </properties>
+
+  <modules>
+    <module>bom</module>
+    <module>modules</module>
+  </modules>
+
+  <repositories>
+
+    <!--Official Release Repos-->
+    <repository>
+      <id>vaadin-addons</id>
+      <url>http://maven.vaadin.com/vaadin-addons</url>
+    </repository>
+  </repositories>
+
+
+  <!--<dependencies>-->
+    <!--&lt;!&ndash;Microkernel related&ndash;&gt;-->
+    <!--&lt;!&ndash;Undertow&ndash;&gt;-->
+    <!--<dependency>-->
+      <!--<groupId>io.undertow</groupId>-->
+      <!--<artifactId>undertow-core</artifactId>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>io.undertow</groupId>-->
+      <!--<artifactId>undertow-servlet</artifactId>-->
+    <!--</dependency>-->
+    <!--&lt;!&ndash;Undertow&ndash;&gt;-->
+
+  <!--</dependencies>-->
+
+  <build>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.vaadin</groupId>
+          <artifactId>vaadin-maven-plugin</artifactId>
+          <version>8.1.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>versions-maven-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+        <plugin>
+          <groupId>com.github.webdriverextensions</groupId>
+          <artifactId>webdriverextensions-maven-plugin</artifactId>
+          <version>3.1.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+          <properties>
+            <!-- <includeTags>fast</includeTags> -->
+            <excludeTags>slow</excludeTags>
+          </properties>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-surefire-provider</artifactId>
+            <version>1.0.0-RC3</version>
+          </dependency>
+          <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.0.0</version>
+          </dependency>
+          <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>4.12.0</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>develop-repos</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <!--for development of features/develop branch-->
+      <distributionManagement>
+        <repository>
+          <id>sonatype-nexus-snapshots</id>
+          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <snapshotRepository>
+          <id>sonatype-nexus-snapshots</id>
+          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+      </distributionManagement>
+
+      <repositories>
+        <repository>
+          <id>vaadin-prereleases</id>
+          <url>http://maven.vaadin.com/vaadin-prereleases</url>
+        </repository>
+        <repository>
+          <id>vaadin-snapshots</id>
+          <name>Vaadin snapshot repository</name>
+          <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
+        </repository>
+
+        <repository>
+          <id>snapshots-repo</id>
+          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+          </snapshots>
+        </repository>
+
+        <!--Testcontainers SNAPSHOT-->
+        <repository>
+          <id>jitpack.io</id>
+          <url>https://jitpack.io</url>
+        </repository>
+
+      </repositories>
+
+      <pluginRepositories>
+        <pluginRepository>
+          <id>vaadin-prereleases</id>
+          <url>http://maven.vaadin.com/vaadin-prereleases</url>
+        </pluginRepository>
+      </pluginRepositories>
+
+    </profile>
+  </profiles>
+
+</project>
