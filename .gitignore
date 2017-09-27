@@ -1,6 +1,7 @@
 .idea/
 *.iml
 
+.checkstyle
 
 ## Maven stuff
 
