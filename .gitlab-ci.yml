@@ -1,0 +1,68 @@
+image: maven:3-jdk-8
+
+before_script:
+   - mkdir -p ~/.ssh
+   - echo "$SSH" | tr -d '\r' > ~/.ssh/id_rsa
+   - chmod 600 ~/.ssh/id_rsa
+   - ssh-keyscan -H 'git.loe.auf.uni-rostock.de' >> ~/.ssh/known_hosts
+   - ssh-keyscan -H 'loe2.loe.auf.uni-rostock.de' >> ~/.ssh/known_hosts
+   - ssh-keyscan -H 'loe3.loe.auf.uni-rostock.de' >> ~/.ssh/known_hosts
+   - "git config --global user.email 'dve@vergien.net'"
+   - "git config --global user.name 'GitLab-CI Bot'"
+   
+variables:
+  MAVEN_OPTS: -Dmaven.repo.local=/cache/maven.repository
+  BRANCH_NAME: release-$VERSION.$CI_PIPELINE_ID
+  
+stages:
+  - build
+  - test
+  - deploy
+ 
+build-master:
+  stage: build
+  script: 
+    - "git checkout -b $BRANCH_NAME"
+    - "mvn versions:set -DnewVersion=$VERSION.$CI_PIPELINE_ID"
+    - "mvn --batch-mode compile -Dmaven.test.skip=true -Djacoco.skip=true"
+    - "mvn --batch-mode verify deploy sonar:sonar  -Dusername=$ARTIFACTORY_USERNAME -Dpassword=$ARTIFACTORY_PASSWORD -Dsonar.host.url=https://sonar.loe.auf.uni-rostock.de -Dsonar.login=$SONAR_LOGIN"
+  only:
+    - master
+
+deploy_test:
+  stage: deploy
+  script:
+    - echo "Would deploy version $VERSION.$CI_PIPELINE_ID to integration"
+  only:
+    - development
+
+deploy_prod:
+  stage: deploy
+  script:
+    - echo "Would deploy version $VERSION.$CI_PIPELINE_ID to production"
+  when: manual
+  only:
+  - master
+
+build_merge_job:
+  stage: build
+  except:
+    - master
+    - development
+    - tags
+    - /^release-.*$/
+  script:
+    - git merge origin development --no-commit --no-ff
+    - mvn --batch-mode compile -Dmaven.test.skip=true -Djacoco.skip=true
+    
+test_sonar_preview_job:
+  stage: test
+  except:
+    - master
+    - development
+    - tags
+    - /^release-.*$/
+  script:
+    - git merge origin development --no-commit --no-ff
+    - mvn --batch-mode verify sonar:sonar -Dsonar.analysis.mode=preview -Dsonar.issuesReport.console.enable=true  -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.issuesReport.console.enable=true -Dsonar.gitlab.commit_hashes=$(git log --pretty=format:%H origin/development..$CI_BUILD_REF | tr '\n' ',') -Dsonar.gitlab.ref_name=${CI_BUILD_REF_NAME} -Dsonar.gitlab.project_id=${CI_PROJECT_ID} -Dsonar.gitlab.failure_notification_mode=status-code 
+
