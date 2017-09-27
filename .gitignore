@@ -15,6 +15,7 @@ buildNumber.properties
 
 ## Eclipse stuff
 
+.project
 .metadata
 bin/
 tmp/
