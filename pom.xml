@@ -18,20 +18,19 @@
 
 
   <!--Project Header Infos-->
-  <inceptionYear>2013</inceptionYear>
+  <inceptionYear>2017</inceptionYear>
   <organization>
     <name>Open Herbarium</name>
     <url>http://www.open-herbarium.org</url>
   </organization>
-  <!--<url>http://www.java-microservice.org/</url>-->
-  <url>https://github.com/JavaMicroService/rapidpm-microservice</url>
-  <name>RapidPM MicroService Framework / Implementation</name>
-  <description>MicroService Implementation for easy usage and fine grained options for production</description>
+  <url>https://github.com/open-herbarium/open-herbariume</url>
+  <name>Open-Herbarium</name>
+  <description>A software for an online herbarium</description>
 
   <scm>
-    <url>https://github.com/JavaMicroService/rapidpm-microservice</url>
-    <connection>scm:git:https://github.com/JavaMicroService/rapidpm-microservice.git</connection>
-    <developerConnection>scm:git:https://github.com/JavaMicroService/rapidpm-microservice.git</developerConnection>
+    <url>https://github.com/open-herbarium/open-herbarium</url>
+    <connection>scm:git:https://github.com/open-herbarium/open-herbarium.git</connection>
+    <developerConnection>scm:git:https://github.com/open-herbarium/open-herbarium.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
   <developers>
@@ -45,12 +44,12 @@
     </developer>
   </developers>
   <issueManagement>
-    <system>Youtrack</system>
-    <url>https://issues.rapidpm.org/issues?q=project%3A+Java-MicroService</url>
+    <system>GitHub</system>
+    <url>https://github.com/open-herbarium/open-herbarium/issues</url>
   </issueManagement>
   <ciManagement>
-    <system>TeamCity</system>
-    <url>https://build.rapidpm.org/</url>
+    <system>GitLab-Ci</system>
+    <url>https://git.loe.auf.uni-rostock.de/werbeo/open-herbarium/pipelines</url>
   </ciManagement>
   <licenses>
     <license>
