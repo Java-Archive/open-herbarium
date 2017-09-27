@@ -1,4 +1,5 @@
 .idea/
+*.iml
 
 
 ## Maven stuff
@@ -68,3 +69,4 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
+
