@@ -61,7 +61,17 @@
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>open-herbarium-modules-app-backend</artifactId>
+        <artifactId>open-herbarium-modules-app-backend-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>open-herbarium-modules-app-backend-rest-client</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>open-herbarium-modules-app-backend-rest-endpoint</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

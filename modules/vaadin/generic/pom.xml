@@ -39,21 +39,12 @@
           <drivers>
             <driver>
               <name>chromedriver</name>
-              <platform>mac</platform>
-              <bit>64</bit>
-              <version>2.29</version>
             </driver>
             <driver>
               <name>operadriver</name>
-              <platform>mac</platform>
-              <bit>64</bit>
-              <version>0.2.2</version>
             </driver>
             <driver>
               <name>geckodriver</name>
-              <platform>mac</platform>
-              <bit>64</bit>
-              <version>0.16.0</version>
             </driver>
           </drivers>
         </configuration>
