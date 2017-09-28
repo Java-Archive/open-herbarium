@@ -13,7 +13,7 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>mikrokernel</module>
+    <module>microkernel</module>
     <module>vaadin</module>
     <module>app</module>
   </modules>

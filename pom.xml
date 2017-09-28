@@ -67,6 +67,7 @@
   <properties>
     <!--change in bom too !!!-->
     <open-herbarium.version>0.0.1-SNAPSHOT</open-herbarium.version>
+    <vaadin.version>8.1.4</vaadin.version>
   </properties>
 
   <modules>
@@ -74,15 +75,26 @@
     <module>modules</module>
   </modules>
 
+
   <build>
+    <!--Lack of bom functionality-->
     <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>versions-maven-plugin</artifactId>
-          <version>2.4</version>
+          <version>2.5</version>
         </plugin>
-
+        <plugin>
+          <groupId>com.vaadin</groupId>
+          <artifactId>vaadin-maven-plugin</artifactId>
+          <version>${vaadin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>com.github.webdriverextensions</groupId>
+          <artifactId>webdriverextensions-maven-plugin</artifactId>
+          <version>3.1.2</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
