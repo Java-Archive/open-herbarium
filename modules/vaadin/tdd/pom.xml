@@ -11,5 +11,53 @@
 
   <artifactId>open-herbarium-modules-vaadin-tdd</artifactId>
 
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>open-herbarium-modules-microkernel</artifactId>
+    </dependency>
+  </dependencies>
 
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.github.webdriverextensions</groupId>
+        <artifactId>webdriverextensions-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>install-drivers</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <keepDownloadedWebdrivers>true</keepDownloadedWebdrivers>
+          <!--Distributed FS-->
+          <!--<installationDirectory>/Users/andidev/drivers</installationDirectory>-->
+          <installationDirectory>_data/webdrivers</installationDirectory>
+          <drivers>
+            <driver>
+              <name>chromedriver</name>
+              <platform>mac</platform>
+              <bit>64</bit>
+              <version>2.29</version>
+            </driver>
+            <driver>
+              <name>operadriver</name>
+              <platform>mac</platform>
+              <bit>64</bit>
+              <version>0.2.2</version>
+            </driver>
+            <driver>
+              <name>geckodriver</name>
+              <platform>mac</platform>
+              <bit>64</bit>
+              <version>0.16.0</version>
+            </driver>
+          </drivers>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

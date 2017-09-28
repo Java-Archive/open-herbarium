@@ -88,15 +88,23 @@
         <type>pom</type>
       </dependency>
 
+      <!--<dependency>-->
+        <!--<groupId>org.rapidpm.dynamic-cdi</groupId>-->
+        <!--<artifactId>rapidpm-dynamic-cdi-bom</artifactId>-->
+        <!--<version>${rapidpm-dynamic-cdi.version}</version>-->
+        <!--<scope>import</scope>-->
+        <!--<type>pom</type>-->
+      <!--</dependency>-->
+
       <dependency>
-        <groupId>org.rapidpm.dynamic-cdi</groupId>
-        <artifactId>rapidpm-dynamic-cdi-bom</artifactId>
-        <version>${rapidpm-dynamic-cdi.version}</version>
+        <groupId>org.rapidpm.microservice</groupId>
+        <artifactId>rapidpm-microservice-bom</artifactId>
+        <version>${rapidpm-microservice.version}</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
 
-
+      <!--Vaadin ProTools-->
       <dependency>
         <groupId>com.vaadin</groupId>
         <artifactId>vaadin-testbench</artifactId>
@@ -104,7 +112,6 @@
         <scope>test</scope>
       </dependency>
 
-      <!--Vaadin ProTools-->
       <dependency>
         <groupId>com.vaadin</groupId>
         <artifactId>vaadin-charts</artifactId>
