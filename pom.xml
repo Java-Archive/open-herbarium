@@ -22,7 +22,7 @@
     <name>Open Herbarium</name>
     <url>http://www.open-herbarium.org</url>
   </organization>
-  <url>https://github.com/open-herbarium/open-herbariume</url>
+  <url>https://github.com/open-herbarium/open-herbarium</url>
   <name>Open-Herbarium</name>
   <description>A software for an online herbarium</description>
 
@@ -74,82 +74,19 @@
     <module>modules</module>
   </modules>
 
-  <repositories>
-
-    <!--Official Release Repos-->
-    <repository>
-      <id>vaadin-addons</id>
-      <url>http://maven.vaadin.com/vaadin-addons</url>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>central</id>
-      <name>bintray-plugins</name>
-      <url>http://jcenter.bintray.com</url>
-    </pluginRepository>
-  </pluginRepositories>
-
   <build>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>com.vaadin</groupId>
-          <artifactId>vaadin-maven-plugin</artifactId>
-          <version>8.1.4</version>
-        </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>versions-maven-plugin</artifactId>
           <version>2.4</version>
         </plugin>
-        <plugin>
-          <groupId>com.github.webdriverextensions</groupId>
-          <artifactId>webdriverextensions-maven-plugin</artifactId>
-          <version>3.1.2</version>
-        </plugin>
+
       </plugins>
     </pluginManagement>
 
     <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>versions-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <includes>
-            <include>**/*Test.java</include>
-          </includes>
-          <properties>
-            <!-- <includeTags>fast</includeTags> -->
-            <excludeTags>slow</excludeTags>
-          </properties>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-surefire-provider</artifactId>
-            <version>1.0.0</version>
-          </dependency>
-          <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.0.0</version>
-          </dependency>
-          <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>4.12.0</version>
-          </dependency>
-        </dependencies>
-      </plugin>
       <plugin>
         <groupId>org.jfrog.buildinfo</groupId>
         <artifactId>artifactory-maven-plugin</artifactId>
