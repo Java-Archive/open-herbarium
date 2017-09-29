@@ -7,6 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.openherbarium.module.api.HasLogger;
 import org.openherbarium.module.api.security.login.LoginService;
 import com.google.gson.Gson;
 
@@ -14,7 +15,7 @@ import com.google.gson.Gson;
  *
  */
 @Path("/v001/security/login")
-public class LoginServiceREST {
+public class LoginServiceREST implements HasLogger {
 
 
   @Inject private LoginService loginService;
@@ -24,7 +25,7 @@ public class LoginServiceREST {
   @Produces(MediaType.APPLICATION_JSON)
   public String checkLogin(@QueryParam("username") final String username ,
                            @QueryParam("password") final String password) {
-
+    logger().info("Login via REST for user " + username);
     return new Gson().toJson(loginService.checkLogin(username , password) , Boolean.class);
   }
 

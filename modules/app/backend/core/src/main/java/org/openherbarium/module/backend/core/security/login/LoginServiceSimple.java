@@ -6,18 +6,20 @@ import static org.rapidpm.frp.matcher.Case.matchCase;
 import static org.rapidpm.frp.model.Result.failure;
 import static org.rapidpm.frp.model.Result.success;
 
+import javax.inject.Inject;
+
+import org.openherbarium.module.api.HasLogger;
 import org.openherbarium.module.api.security.login.LoginService;
 import org.rapidpm.frp.model.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
  */
-public class LoginServiceSimple implements LoginService {
+public class LoginServiceSimple implements LoginService, HasLogger {
 
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(LoginServiceSimple.class);
+  @Inject private LoginServiceInMemoryDB inMemory;
+
 
   @Override
   public Boolean checkLogin(String username , String password) {
@@ -28,12 +30,14 @@ public class LoginServiceSimple implements LoginService {
         matchCase(username::isEmpty , () -> failure("Username is empty")) ,
         matchCase(() -> isNull(password) , () -> failure("Password is null")) ,
         matchCase(password::isEmpty , () -> failure("Password is empty")) ,
-        matchCase(() -> username.equals("admin") && password.equals("admin") , () -> success(Boolean.TRUE)) ,
-        matchCase(() -> username.equals("user") && password.equals("user") , () -> success(Boolean.TRUE))
+        matchCase(() -> inMemory.checkLogin(username , password) , () -> success(Boolean.TRUE))
+
+//        matchCase(() -> username.equals("admin") && password.equals("admin") , () -> success(Boolean.TRUE)) ,
+//        matchCase(() -> username.equals("user") && password.equals("user") , () -> success(Boolean.TRUE))
     );
     result.ifPresentOrElse(
-        success -> LOGGER.info("User with username = " + username + " logged in ") ,
-        failure -> LOGGER.warn("User with username = " + username + " login failed:  " + failure)
+        success -> logger().info("User with username = " + username + " logged in ") ,
+        failure -> logger().warn("User with username = " + username + " login failed:  " + failure)
     );
     return result.getOrElse(() -> Boolean.FALSE);
   }

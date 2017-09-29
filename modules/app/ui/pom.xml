@@ -26,27 +26,16 @@
       <artifactId>open-herbarium-modules-app-backend-rest-client</artifactId>
     </dependency>
 
-
-    <!--Vaadin -->
     <dependency>
-      <groupId>com.vaadin</groupId>
-      <artifactId>vaadin-server</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.vaadin</groupId>
-      <artifactId>vaadin-push</artifactId>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>open-herbarium-modules-vaadin-generic</artifactId>
     </dependency>
 
+    <!--Vaadin AddOn-->
     <dependency>
-      <groupId>com.vaadin</groupId>
-      <artifactId>vaadin-themes</artifactId>
+      <groupId>org.vaadin.addon</groupId>
+      <artifactId>confirmdialog</artifactId>
     </dependency>
-
-    <dependency>
-      <groupId>com.vaadin</groupId>
-      <artifactId>vaadin-client-compiled</artifactId>
-    </dependency>
-
 
   </dependencies>
 

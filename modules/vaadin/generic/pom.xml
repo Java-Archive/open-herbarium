@@ -16,6 +16,44 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>open-herbarium-modules-microkernel</artifactId>
     </dependency>
+
+    <!--Vaadin -->
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-server</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-push</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-themes</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-client-compiled</artifactId>
+    </dependency>
+
+
+    <!--Vaadin ProTools for widgetset -->
+    <!--<dependency>-->
+      <!--<groupId>com.vaadin</groupId>-->
+      <!--<artifactId>vaadin-charts</artifactId>-->
+    <!--</dependency>-->
+
+    <!--<dependency>-->
+      <!--<groupId>com.vaadin</groupId>-->
+      <!--<artifactId>vaadin-board</artifactId>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>com.vaadin</groupId>-->
+      <!--<artifactId>vaadin-board-precompiled</artifactId>-->
+    <!--</dependency>-->
+
+
   </dependencies>
 
 
