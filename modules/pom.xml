@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <groupId>org.open-herbarium</groupId>
-    <artifactId>open-herbarium-parent</artifactId>
+    <artifactId>herbarium-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>open-herbarium-modules</artifactId>
+  <artifactId>herbarium-m</artifactId>
   <packaging>pom</packaging>
 
   <modules>
@@ -22,7 +22,7 @@
     <dependencies>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>open-herbarium-bom</artifactId>
+        <artifactId>herbarium-bom</artifactId>
         <version>${open-herbarium.version}</version>
         <type>pom</type>
         <scope>import</scope>

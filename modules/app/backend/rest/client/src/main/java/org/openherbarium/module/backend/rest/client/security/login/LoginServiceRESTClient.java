@@ -9,13 +9,13 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Response;
 
 import org.openherbarium.module.api.HasLogger;
-import org.openherbarium.module.api.security.login.LoginService;
+import org.openherbarium.module.backend.rest.api.security.login.LoginServiceREST;
 import com.google.gson.Gson;
 
 /**
  *
  */
-public class LoginServiceRESTClient implements LoginService , HasLogger {
+public class LoginServiceRESTClient implements LoginServiceREST, HasLogger {
 
 
   private String port = System.getProperty("org.openherbarium.rest.port");

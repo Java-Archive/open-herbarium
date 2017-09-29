@@ -40,12 +40,14 @@ public class MyUIComponentFactory implements JumpstartUIComponentFactory , HasLo
   @Override
   public Component createComponentToSetAsContent(final VaadinRequest vaadinRequest) {
 
-    final boolean userPresent = isUserPresent();
-    final boolean remembered = isRemembered();
-    logger().info("remembered = " + remembered);
-    logger().info("userPresent = " + userPresent);
-    if (! (userPresent && remembered))  return DI.activateDI(LoginComponent.class);
-    else                                return DI.activateDI(MainView.class);
+//    final boolean userPresent = isUserPresent();
+//    final boolean remembered = isRemembered();
+//    logger().info("remembered = " + remembered);
+//    logger().info("userPresent = " + userPresent);
+//    if (! (userPresent && remembered))  return DI.activateDI(LoginComponent.class);
+//    else                                return DI.activateDI(MainView.class);
+
+    return DI.activateDI(MainView.class);
 
   }
 

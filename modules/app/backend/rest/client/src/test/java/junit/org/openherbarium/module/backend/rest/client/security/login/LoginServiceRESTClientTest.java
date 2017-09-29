@@ -2,8 +2,6 @@ package junit.org.openherbarium.module.backend.rest.client.security.login;
 
 import static org.rapidpm.microservice.MainUndertow.REST_HOST_PROPERTY;
 import static org.rapidpm.microservice.MainUndertow.REST_PORT_PROPERTY;
-import static org.rapidpm.microservice.MainUndertow.SERVLET_HOST_PROPERTY;
-import static org.rapidpm.microservice.MainUndertow.SERVLET_PORT_PROPERTY;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
@@ -21,7 +19,9 @@ import org.rapidpm.microservice.Main;
 public class LoginServiceRESTClientTest {
 
 
-  @Test @Disabled //expecting that a service is running
+  @Test
+  @Disabled
+    //expecting that a service is running
   void test001() {
     final LoginServiceRESTClient restClient = DI.activateDI(LoginServiceRESTClient.class);
     Assert.assertTrue(restClient.checkLogin("admin" , "admin"));
@@ -32,7 +32,7 @@ public class LoginServiceRESTClientTest {
   void setUp() {
     PortUtils portUtils = new PortUtils();
     System.setProperty(REST_HOST_PROPERTY , "127.0.0.1");
-    System.setProperty(REST_PORT_PROPERTY , 7081+"");
+    System.setProperty(REST_PORT_PROPERTY , 7081 + "");
 //    System.setProperty(REST_PORT_PROPERTY , portUtils.nextFreePortForTest() + "");
 
     DI.clearReflectionModel();
