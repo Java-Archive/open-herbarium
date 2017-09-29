@@ -59,11 +59,6 @@
     </license>
   </licenses>
 
-  <prerequisites>
-    <maven>3.3.9</maven>
-  </prerequisites>
-
-
   <properties>
     <!--change in bom too !!!-->
     <open-herbarium.version>0.0.1-SNAPSHOT</open-herbarium.version>
