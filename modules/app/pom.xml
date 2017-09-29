@@ -13,7 +13,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>api</module>
-    <module>backend</module>
+    <module>srv</module>
     <module>ui</module>
   </modules>
 

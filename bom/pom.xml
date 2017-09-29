@@ -79,6 +79,82 @@
         <artifactId>herbarium-m-app-srv-rest-endpoint</artifactId>
         <version>${project.version}</version>
       </dependency>
+
+
+
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>herbarium-m-app-srv-imagesrv-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>herbarium-m-app-srv-imagesrv-rest-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>herbarium-m-app-srv-imagesrv-rest-endpoint</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>herbarium-m-app-srv-imagesrv-rest-client</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>herbarium-m-app-srv-metadatasrv-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>herbarium-m-app-srv-metadatasrv-rest-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>herbarium-m-app-srv-metadatasrv-rest-endpoint</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>herbarium-m-app-srv-metadatasrv-rest-client</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>herbarium-m-app-srv-thumbnailsrv-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>herbarium-m-app-srv-thumbnailsrv-rest-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>herbarium-m-app-srv-thumbnailsrv-rest-endpoint</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>herbarium-m-app-srv-thumbnailsrv-rest-client</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+
+
+
+
+
+
+
+
+
+
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>herbarium-m-app-ui</artifactId>
