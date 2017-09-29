@@ -12,4 +12,10 @@
   <artifactId>herbarium-m-app-srv-thumbnailsrv-rest-client</artifactId>
 
 
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>herbarium-m-app-srv-thumbnailsrv-api</artifactId>
+    </dependency>
+  </dependencies>
 </project>

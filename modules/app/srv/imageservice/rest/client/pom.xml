@@ -11,5 +11,11 @@
 
   <artifactId>herbarium-m-app-srv-imagesrv-rest-client</artifactId>
 
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>herbarium-m-app-srv-imagesrv-api</artifactId>
+    </dependency>
+  </dependencies>
 
 </project>

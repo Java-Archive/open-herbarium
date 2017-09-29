@@ -64,23 +64,6 @@
         <artifactId>herbarium-m-app-srv-core</artifactId>
         <version>${project.version}</version>
       </dependency>
-      <dependency>
-        <groupId>${project.groupId}</groupId>
-        <artifactId>herbarium-m-app-srv-rest-api</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${project.groupId}</groupId>
-        <artifactId>herbarium-m-app-srv-rest-client</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${project.groupId}</groupId>
-        <artifactId>herbarium-m-app-srv-rest-endpoint</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-
 
       <dependency>
         <groupId>${project.groupId}</groupId>

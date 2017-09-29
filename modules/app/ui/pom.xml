@@ -23,7 +23,15 @@
 
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>herbarium-m-app-srv-rest-client</artifactId>
+      <artifactId>herbarium-m-app-srv-imagesrv-rest-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>herbarium-m-app-srv-metadatasrv-rest-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>herbarium-m-app-srv-thumbnailsrv-rest-client</artifactId>
     </dependency>
 
     <dependency>
