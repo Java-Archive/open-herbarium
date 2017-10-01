@@ -56,7 +56,7 @@ public class ImageServiceTest {
 
   public static class ImageServiceImpl implements ImageService {
 
-    public static final String CACHE_NAME = "default";
+    public static final String CACHE_NAME = "images";
     @Inject
     private BinaryCacheClient cache;
 
