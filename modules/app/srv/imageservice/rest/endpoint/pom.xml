@@ -20,6 +20,11 @@
       <groupId>org.rapidpm.microservice</groupId>
       <artifactId>rapidpm-microservice-modules-core</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.rapidpm.binarycache</groupId>
+      <artifactId>rapidpm-binarycache</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <build>
