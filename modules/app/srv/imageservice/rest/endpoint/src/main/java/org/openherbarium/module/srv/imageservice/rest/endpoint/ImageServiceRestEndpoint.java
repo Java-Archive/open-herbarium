@@ -1,4 +1,4 @@
-package org.openherbarium.module.srv.imageservice.rest.endpoint.srv.imageservice.rest.client;
+package org.openherbarium.module.srv.imageservice.rest.endpoint;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
