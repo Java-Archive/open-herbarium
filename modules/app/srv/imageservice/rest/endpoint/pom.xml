@@ -22,7 +22,12 @@
     </dependency>
     <dependency>
       <groupId>org.rapidpm.binarycache</groupId>
-      <artifactId>rapidpm-binarycache</artifactId>
+      <artifactId>rapidpm-binarycache-modules-client-connect-inmemory</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.rapidpm.binarycache</groupId>
+      <artifactId>rapidpm-binarycache-modules-app-cache-provider-ehcache</artifactId>
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
