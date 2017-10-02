@@ -1,6 +1,5 @@
 package org.openherbarium.module.backend.metadataservice.rest.endpoint;
 
-import static org.junit.Assert.fail;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,9 +19,8 @@ public class MetadataServiceRESTEndpointTest {
   }
 
   @Test
-  public void test() {
+  public void test_activate() {
     MetadataService endpoint = DI.activateDI(MetadataService.class);
-    fail("Not yet implemented");
   }
 
 }
