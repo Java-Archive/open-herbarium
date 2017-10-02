@@ -10,7 +10,7 @@ import org.openherbarium.module.backend.metadataservice.api.SortOrder;
 import org.openherbarium.module.backend.metadataservice.rest.api.MetadataServiceREST;
 
 /**
- * Workaround till "interface bug" is fixed.
+ * Workaround till "interface bug" is fixed. This must be outside of the scanned packages.
  * 
  * @see MetadataServiceREST
  */
