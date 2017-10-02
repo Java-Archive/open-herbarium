@@ -22,7 +22,8 @@ stages:
 build-develop:
   stage: build
   script:
-    - "mvn --batch-mode deploy sonar:sonar  -Dusername=$ARTIFACTORY_USERNAME -Dpassword=$ARTIFACTORY_PASSWORD -Dsonar.host.url=https://sonar.loe.auf.uni-rostock.de -Dsonar.login=$SONAR_LOGIN"
+    - "mvn --batch-mode deploy -Dusername=$ARTIFACTORY_USERNAME -Dpassword=$ARTIFACTORY_PASSWORD
+    - "mvn --batch-mode sonar:sonar -Dsonar.host.url=https://sonar.loe.auf.uni-rostock.de -Dsonar.login=$SONAR_LOGIN"
   only:
     - develop
      
