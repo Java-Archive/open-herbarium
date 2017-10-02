@@ -1,29 +1,38 @@
 package org.openherbarium.module.backend.metadataservice.rest.client;
 
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-import org.openherbarium.module.backend.metadataservice.rest.api.MetadataServiceREST;
+import org.openherbarium.module.api.config.Configuration;
+import org.openherbarium.module.backend.metadataservice.api.Metadata;
+import org.openherbarium.module.backend.metadataservice.api.MetadataService;
+import org.openherbarium.module.backend.metadataservice.api.SortOrder;
+import xx.org.openherbarium.module.backend.metadataservice.rest.client.IMetadataServiceRest;
 
 /**
  *
  */
-public class MetadataServiceRESTClient {
+public class MetadataServiceRESTClient implements MetadataService {
 
-  private final ResteasyClient client;
-  private final ResteasyWebTarget target;
+  @Inject
+  private Configuration configuration;
 
-  MetadataServiceRESTClient(String serverURL) {
+  private ResteasyClient client;
+  private ResteasyWebTarget target;
+  private MetadataService delegate;
 
+  @PostConstruct
+  public void init() {
     client = new ResteasyClientBuilder().connectionPoolSize(10).build();
-    target = client.target(serverURL);
+    target = client.target(configuration.getMetaServiceUrl());
+    delegate = target.proxy(IMetadataServiceRest.class);
   }
 
-  public static MetadataServiceRESTClient getInstance(String serverURL) {
-    return new MetadataServiceRESTClient(serverURL);
-  }
-
-  public MetadataServiceREST metaDataService() {
-    return target.proxy(MetadataServiceREST.class);
+  @Override
+  public List<Metadata> find(String sortField, SortOrder sortOrder, int limit, int offset) {
+    return delegate.find(sortField, sortOrder, limit, offset);
   }
 }

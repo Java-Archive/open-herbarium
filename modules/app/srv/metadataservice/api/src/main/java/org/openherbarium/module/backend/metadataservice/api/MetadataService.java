@@ -1,13 +1,11 @@
 package org.openherbarium.module.backend.metadataservice.api;
 
-import org.openherbarium.module.api.HasLogger;
+import java.util.List;
 
 /**
  *
  */
-public interface MetadataService extends HasLogger {
+public interface MetadataService {
 
-
-
-
+  public List<Metadata> find(String sortField, SortOrder sortOrder, int limit, int offset);
 }

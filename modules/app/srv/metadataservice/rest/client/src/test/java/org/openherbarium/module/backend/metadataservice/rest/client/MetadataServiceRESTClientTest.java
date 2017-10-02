@@ -4,29 +4,29 @@ import static org.rapidpm.microservice.MainUndertow.REST_HOST_PROPERTY;
 import static org.rapidpm.microservice.MainUndertow.REST_PORT_PROPERTY;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.openherbarium.module.api.config.Configuration;
+import org.openherbarium.module.backend.metadataservice.api.MetadataService;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
-import org.openherbarium.module.backend.metadataservice.rest.endpoint.MetadataServiceRESTEndpoint;
 import org.rapidpm.ddi.DI;
-import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
 
 public class MetadataServiceRESTClientTest {
 
-  private int restPort;
-  private String host;
+  private static int restPort = 7081;
+  private static String host = "127.0.0.1";
   @Before
   public void setUp() {
-    PortUtils portUtils = new PortUtils();
-    host = "127.0.0.1";
+
+
     System.setProperty(REST_HOST_PROPERTY, host);
-    restPort = portUtils.nextFreePortForTest();
+
     System.setProperty(REST_PORT_PROPERTY, restPort + "");
     DI.clearReflectionModel();
 
     DI.activatePackages("org.rapidpm");
-    DI.activatePackages(MetadataServiceRESTEndpoint.class);
+    DI.activatePackages("org.openherbarium");
+    DI.activatePackages(MetadataServiceRESTClientTest.class);
 
     Main.deploy();
   }
@@ -38,11 +38,21 @@ public class MetadataServiceRESTClientTest {
   }
 
   @Test
-  @Ignore
   public void test() {
-    MetadataServiceRESTClient client =
-        MetadataServiceRESTClient.getInstance("http://" + host + ":" + restPort + "/rest");
-    System.out.println(client.metaDataService().find("id", SortOrder.ASC, 1, 1));
+    MetadataService client = DI.activateDI(MetadataServiceRESTClient.class);
+    System.out.println(client.find("id", SortOrder.ASC, 1, 1));
   }
 
+  public static class TestConfiguration implements Configuration {
+
+    @Override
+    public String getMetaServiceUrl() {
+      return "http://" + host + ":" + restPort + "/rest/";
+    }
+
+    @Override
+    public String toString() {
+      return getMetaServiceUrl();
+    }
+  }
 }
