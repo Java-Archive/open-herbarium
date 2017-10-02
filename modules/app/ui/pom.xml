@@ -103,6 +103,7 @@
               <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
               <createSourcesJar>false</createSourcesJar>
               <shadeSourcesContent>false</shadeSourcesContent>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
               <filters>
                 <filter>
                   <artifact>org.bouncycastle:*</artifact>
