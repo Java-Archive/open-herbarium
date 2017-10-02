@@ -62,6 +62,7 @@
               <dependencyReducedPomLocation>
                 ${project.build.directory}/reduced-pom.xml
               </dependencyReducedPomLocation>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
               <transformers>
                 <transformer
                     implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"/>
