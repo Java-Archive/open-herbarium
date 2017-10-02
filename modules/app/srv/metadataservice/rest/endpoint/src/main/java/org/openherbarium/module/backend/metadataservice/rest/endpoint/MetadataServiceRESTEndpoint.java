@@ -32,7 +32,7 @@ public class MetadataServiceRESTEndpoint implements MetadataService, HasLogger {
       @QueryParam("offset") int offset) {
     logger().info("Call rest service endpont.");
     List<Metadata> result = new ArrayList<>();
-    result.add(new Metadata(1l, UUID.randomUUID(), "Abies alba", UUID.randomUUID()));
+    result.add(new Metadata(1L, UUID.randomUUID(), "Abies alba", UUID.randomUUID()));
     return result;
   }
 }
