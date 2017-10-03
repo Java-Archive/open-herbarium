@@ -11,7 +11,7 @@ import org.openherbarium.module.backend.metadataservice.api.SortOrder;
 /**
  * Workaround till "interface bug" is fixed. This must be outside of the scanned packages.
  *
- * @see MetadataServiceREST
+ * @see org.openherbarium.module.backend.metadataservice.rest.api.MetadataServiceREST
  */
 @Path("/metadataservice")
 public interface IMetadataServiceRest extends MetadataService {
