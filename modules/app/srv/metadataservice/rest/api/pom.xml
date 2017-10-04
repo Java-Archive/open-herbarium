@@ -13,6 +13,10 @@
 
 
   <dependencies>
+  	<dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>jaxrs-api</artifactId>	
+  	</dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>herbarium-m-app-srv-metadatasrv-api</artifactId>

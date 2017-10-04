@@ -23,6 +23,12 @@
       <artifactId>rapidpm-microservice-modules-core</artifactId>
     </dependency>
 
+    <!--  TODO: Manage dependency -->
+    <dependency>
+       <groupId>org.jboss.resteasy</groupId>
+       <artifactId>resteasy-jackson-provider</artifactId>
+       <version>3.1.4.Final</version>
+    </dependency> 
     <!--speedment-->
     <dependency>
       <groupId>com.speedment</groupId>
@@ -62,6 +68,7 @@
               <dependencyReducedPomLocation>
                 ${project.build.directory}/reduced-pom.xml
               </dependencyReducedPomLocation>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
               <transformers>
                 <transformer
                     implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"/>
