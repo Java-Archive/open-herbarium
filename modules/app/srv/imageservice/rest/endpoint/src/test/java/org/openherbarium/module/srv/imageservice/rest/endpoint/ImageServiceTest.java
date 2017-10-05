@@ -44,8 +44,8 @@ public class ImageServiceTest {
 
     assertTrue(image.isPresent());
     assertEquals(resource.toFile().length(), image.get().length());
-
   }
+
   public interface ImageService {
 
     void loadImages(Path path);
