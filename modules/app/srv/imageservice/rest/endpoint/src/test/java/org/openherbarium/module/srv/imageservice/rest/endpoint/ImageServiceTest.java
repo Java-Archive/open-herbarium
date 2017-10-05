@@ -3,25 +3,16 @@ package org.openherbarium.module.srv.imageservice.rest.endpoint;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.rapidpm.binarycache.api.BinaryCacheClient;
-import org.rapidpm.binarycache.api.CacheByteArray;
-import org.rapidpm.binarycache.api.defaultkey.DefaultCacheKey;
+import org.openherbarium.module.srv.imageservice.rest.endpoint.api.ImageService;
 import org.rapidpm.ddi.DI;
 
-import javax.inject.Inject;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.FileVisitOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
-import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ImageServiceTest {
+
+  private ImageService imageService;
 
   @BeforeEach
   void setUp() {
@@ -31,72 +22,46 @@ public class ImageServiceTest {
 
   @AfterEach
   void tearDown() {
+    imageService.clearCache();
     DI.clearReflectionModel();
   }
 
   @Test
-  void test001() throws Exception {
-    final Path resource = Paths.get(this.getClass().getResource("GiantTwisters.jpg").toURI());
-    final ImageService imageService = DI.activateDI(ImageService.class);
+  void test001() {
+    imageService = DI.activateDI(ImageService.class);
+    final byte[] image = imageService.getImage("Care_bohe_GFW_47659", "TileGroup0", "0-0-0.jpg");
 
-    imageService.loadImages(resource.getParent());
-    final Optional<File> image = imageService.getImage(resource.getFileName().toString());
-
-    assertTrue(image.isPresent());
-    assertEquals(resource.toFile().length(), image.get().length());
+    assertTrue(image.length != 0);
   }
 
-  public interface ImageService {
+  @Test
+  void test002() {
+    imageService = DI.activateDI(ImageService.class);
 
-    void loadImages(Path path);
+    assertFalse(imageService.isImageCached("Care_bohe_GFW_47659", "TileGroup0", "0-0-0.jpg"));
+    final byte[] image = imageService.getImage("Care_bohe_GFW_47659", "TileGroup0", "0-0-0.jpg");
 
-    Optional<File> getImage(String id);
-
+    assertTrue(imageService.isImageCached("Care_bohe_GFW_47659", "TileGroup0", "0-0-0.jpg"));
   }
 
-  public static class ImageServiceImpl implements ImageService {
+  @Test
+  void test003() {
+    imageService = DI.activateDI(ImageService.class);
 
-    public static final String CACHE_NAME = "images";
-    @Inject
-    private BinaryCacheClient cache;
+    final Optional<String> imageProperties = imageService.getImageProperties("47659");
+    assertTrue(imageProperties.isPresent());
+    assertTrue(imageProperties.get().length() != 0);
+    assertEquals("<IMAGE_PROPERTIES WIDTH=\"7217\" HEIGHT=\"8841\" NUMTILES=\"1386\" NUMIMAGES=\"1\" VERSION=\"1.8\" TILESIZE=\"256\" />",
+        imageProperties.get());
+  }
 
-    @Override
-    public void loadImages(Path path) {
-      try (Stream<Path> paths = Files.walk(path, FileVisitOption.FOLLOW_LINKS)) {
-        paths.filter(Files::isRegularFile)
-            .forEach(this::cacheFile);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
+  @Test
+  void test004() {
+    imageService = DI.activateDI(ImageService.class);
 
-    private void cacheFile(Path file) {
-      try {
-        final DefaultCacheKey key = new DefaultCacheKey(file.getFileName().toString());
-        final CacheByteArray value = new CacheByteArray(Files.readAllBytes(file));
-        cache.cacheBinary(CACHE_NAME, key, value);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-
-    @Override
-    public Optional<File> getImage(String id) {
-      final Optional<CacheByteArray> cachedElement = cache.getCachedElement(CACHE_NAME, new DefaultCacheKey(id));
-      if (cachedElement.isPresent()) {
-        try {
-          final Path file = Files.write(Paths.get(id), cachedElement.get().byteArray);
-          return Optional.ofNullable(file.toFile());
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
-
-      return Optional.empty();
-    }
-
+    final Optional<String> imageProperties = imageService.getImageProperties("blub");
+    assertFalse(imageProperties.isPresent());
   }
 
 }
 
-// TODO singleton

@@ -1,4 +1,6 @@
-package org.openherbarium.module.srv.imageservice.rest.endpoint;
+package org.openherbarium.module.srv.imageservice.rest.endpoint.rest;
+
+import org.openherbarium.module.srv.imageservice.rest.endpoint.api.ImageService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;

@@ -1,4 +1,4 @@
-package org.openherbarium.module.srv.imageservice.rest.endpoint;
+package org.openherbarium.module.srv.imageservice.rest.endpoint.api;
 
 import java.util.Optional;
 

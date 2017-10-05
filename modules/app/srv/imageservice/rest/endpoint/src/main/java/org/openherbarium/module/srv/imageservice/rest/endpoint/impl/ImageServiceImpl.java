@@ -1,6 +1,8 @@
-package org.openherbarium.module.srv.imageservice.rest.endpoint;
+package org.openherbarium.module.srv.imageservice.rest.endpoint.impl;
 
 import org.apache.commons.io.IOUtils;
+import org.openherbarium.module.srv.imageservice.rest.endpoint.api.ImageService;
+import org.openherbarium.module.srv.imageservice.rest.endpoint.util.PathFinder;
 import org.rapidpm.binarycache.api.BinaryCacheClient;
 import org.rapidpm.binarycache.api.CacheByteArray;
 import org.rapidpm.binarycache.api.defaultkey.DefaultCacheKey;
@@ -15,13 +17,24 @@ import java.util.Optional;
 public class ImageServiceImpl implements ImageService {
 
   public static final String CACHE_NAME = "images";
+  public static final String IMAGE_PROPERTIES_XML = "ImageProperties.xml";
   @Inject
   private BinaryCacheClient cache;
 
   @Override
   public Optional<String> getImageProperties(String imageid) {
     final Path basePath = getBasePath();
-    final Path path = Paths.get(basePath.toString(), imageid, "ImageProperties.xml");
+    final Optional<Path> imagePath = PathFinder.find(basePath, imageid);
+
+    if (!imagePath.isPresent()) {
+      return Optional.empty();
+    } else {
+      return loadImageProperties(imageid, imagePath.get());
+    }
+  }
+
+  private Optional<String> loadImageProperties(String imageid, Path basePath) {
+    final Path path = Paths.get(basePath.toString(), IMAGE_PROPERTIES_XML);
     try {
       final byte[] bytes = Files.readAllBytes(path);
       final String content = new String(bytes);
@@ -34,7 +47,7 @@ public class ImageServiceImpl implements ImageService {
 
   @Override
   public byte[] getImage(String imageId, String tileGroup, String image) {
-    final DefaultCacheKey cacheKey = new DefaultCacheKey(imageId + "_" + tileGroup + "_" + "image");
+    final DefaultCacheKey cacheKey = new DefaultCacheKey(imageId + "_" + tileGroup + "_" + image);
     final Optional<CacheByteArray> cachedElement = cache.getCachedElement(CACHE_NAME, cacheKey);
     if (cachedElement.isPresent()) {
       return cachedElement.get().byteArray;
@@ -62,13 +75,13 @@ public class ImageServiceImpl implements ImageService {
 
   @Override
   public boolean isImageCached(String imageId, String tileGroup, String image) {
-    final DefaultCacheKey cacheKey = new DefaultCacheKey(imageId + "_" + tileGroup + "_" + "image");
+    final DefaultCacheKey cacheKey = new DefaultCacheKey(imageId + "_" + tileGroup + "_" + image);
     final Optional<CacheByteArray> cachedElement = cache.getCachedElement(CACHE_NAME, cacheKey);
     return cachedElement.isPresent();
   }
 
   @Override
-  public void clearCache(){
+  public void clearCache() {
     cache.clearCache(CACHE_NAME);
   }
 
