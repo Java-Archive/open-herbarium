@@ -7,7 +7,7 @@ import org.rapidpm.microservice.Main;
 
 import java.util.Optional;
 
-public class EndpointStartupAction implements Main.MainStartupAction{
+public class EndpointStartupAction implements Main.MainStartupAction {
 
   @Override
   public void execute(Optional<String[]> args) {

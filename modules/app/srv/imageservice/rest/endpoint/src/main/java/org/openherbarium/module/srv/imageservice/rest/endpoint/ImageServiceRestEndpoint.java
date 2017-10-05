@@ -13,21 +13,21 @@ public class ImageServiceRestEndpoint {
 
   @GET
   @Path("/image/{id}")
-  public Response getImage(@PathParam("id") String id){
+  public Response getImage(@PathParam("id") String id) {
     // do something
     return Response.ok().build();
   }
 
   @POST
   @Path("/image/{id}")
-  public Response updateImage(@PathParam("id") String id){
+  public Response updateImage(@PathParam("id") String id) {
     // do something
     return Response.ok().build();
   }
 
   @DELETE
   @Path("/image/{id}")
-  public Response deleteImage(@PathParam("id") String id){
+  public Response deleteImage(@PathParam("id") String id) {
     // do something
     return Response.ok().build();
   }
