@@ -1,19 +1,20 @@
 package org.openherbarium.module.backend.metadataservice.rest.api;
 
-import java.util.List;
-
-import javax.ws.rs.QueryParam;
-
-import org.openherbarium.module.backend.metadataservice.api.Metadata;
 import org.openherbarium.module.backend.metadataservice.api.MetadataService;
-import org.openherbarium.module.backend.metadataservice.api.SortOrder;
 
-//@Path("/metadataservice")
+/**
+ * only a few methods if you need additional stuff for REST
+ */
 public interface MetadataServiceREST extends MetadataService {
 
 
-  @Override
-  public abstract List<Metadata> find(@QueryParam("sortField") String sortField ,
-                                      @QueryParam("sortOrder") SortOrder sortOrder , @QueryParam("limit") int limit ,
-                                      @QueryParam("offset") int offset);
+  String PATH_BASE = "/metadataservice";
+  String PATH_METHODE_FIND = "find";
+  String METHODE_FIND_QUERYPARAM_SORTFIELD = "sortField";
+  String METHODE_FIND_QUERYPARAM_SORTORDER = "sortOrder";
+  String METHODE_FIND_QUERYPARAM_LIMIT = "limit";
+  String METHODE_FIND_QUERYPARAM_SORTOFFSET = "offset";
+
+
+
 }

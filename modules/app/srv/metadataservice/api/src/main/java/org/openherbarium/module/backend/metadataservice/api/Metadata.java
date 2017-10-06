@@ -2,7 +2,7 @@ package org.openherbarium.module.backend.metadataservice.api;
 
 import java.util.UUID;
 
-// TODO implementing QUAD breaks JSON deserialization because of missing defualt constructor
+// TODO implementing QUAD breaks JSON deserialization because of missing default constructor
 public class Metadata {
 
   private long id;
@@ -56,17 +56,15 @@ public class Metadata {
 
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("Metadata [id=");
-    builder.append(id);
-    builder.append(", occurrenceUUID=");
-    builder.append(occurrenceUUID);
-    builder.append(", taxon=");
-    builder.append(taxon);
-    builder.append(", imageId=");
-    builder.append(imageId);
-    builder.append("]");
-    return builder.toString();
+    return "Metadata [id=" +
+           id +
+           ", occurrenceUUID=" +
+           occurrenceUUID +
+           ", taxon=" +
+           taxon +
+           ", imageId=" +
+           imageId +
+           "]";
   }
 
 

@@ -49,7 +49,7 @@ public class MetadataServiceRESTClientTest {
 
     @Override
     public String getMetaServiceUrl() {
-      return "http://" + host + ":" + restPort + "/rest/";
+      return "http://" + host + ":" + restPort + "/rest";
     }
 
     @Override

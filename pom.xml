@@ -150,7 +150,7 @@
   
   <profiles>
     <profile>
-      <id>develop-repos</id>
+      <id>repo-develop</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
@@ -167,10 +167,6 @@
       </distributionManagement>
 
       <repositories>
-        <repository>
-          <id>vaadin-prereleases</id>
-          <url>http://maven.vaadin.com/vaadin-prereleases</url>
-        </repository>
         <repository>
           <id>vaadin-snapshots</id>
           <name>Vaadin snapshot repository</name>
@@ -197,12 +193,7 @@
 
       </repositories>
 
-      <pluginRepositories>
-        <pluginRepository>
-          <id>vaadin-prereleases</id>
-          <url>http://maven.vaadin.com/vaadin-prereleases</url>
-        </pluginRepository>
-      </pluginRepositories>
+
 
     </profile>
   </profiles>
