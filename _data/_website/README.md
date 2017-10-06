@@ -41,7 +41,7 @@ CMD ["bash"]
 #hugo server port
 EXPOSE 1313
 
-RUN git clone https://sven.ruppert%40gmail.com:geheim88@git.loe.auf.uni-rostock.de/bheeren/open-herbarium-homepage.git
+RUN git clone https://username:password@git.loe.auf.uni-rostock.de/bheeren/open-herbarium-homepage.git
 
 CMD ["git" , "pull", "https://username:password@git.loe.auf.uni-rostock.de/bheeren/open-herbarium-homepage.git" ]
 
@@ -50,7 +50,7 @@ WORKDIR /root/open-herbarium-homepage
 ENTRYPOINT hugo server --bind 0.0.0.0
 ```
 
-With the follwing docker command you can run the 
+With the following docker command you can run the 
 image.
 
 ```
