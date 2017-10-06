@@ -140,6 +140,14 @@
     </plugins>
   </build>
 
+  <pluginRepositories>
+   <pluginRepository>
+     <id>bintray-central</id>
+     <name>bintray-plugins</name>
+     <url>http://jcenter.bintray.com</url>
+   </pluginRepository>
+  </pluginRepositories>
+  
   <profiles>
     <profile>
       <id>develop-repos</id>
@@ -193,14 +201,6 @@
         <pluginRepository>
           <id>vaadin-prereleases</id>
           <url>http://maven.vaadin.com/vaadin-prereleases</url>
-        </pluginRepository>
-        <pluginRepository>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <id>central</id>
-          <name>bintray-plugins</name>
-          <url>http://jcenter.bintray.com</url>
         </pluginRepository>
       </pluginRepositories>
 
