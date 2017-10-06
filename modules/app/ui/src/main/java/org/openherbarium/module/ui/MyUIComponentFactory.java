@@ -19,23 +19,18 @@
 
 package org.openherbarium.module.ui;
 
-import javax.inject.Inject;
-
 import org.openherbarium.module.api.HasLogger;
-import org.openherbarium.module.api.security.SecurityService;
-import org.openherbarium.module.api.security.session.SessionService;
 import org.openherbarium.module.ui.component.mainview.MainView;
-import org.openherbarium.module.ui.component.security.login.LoginComponent;
 import org.openherbarium.module.vaadin.generic.bootstrap.JumpstartUIComponentFactory;
 import org.rapidpm.ddi.DI;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Component;
 
-public class MyUIComponentFactory implements JumpstartUIComponentFactory , HasLogger {
+public class MyUIComponentFactory implements JumpstartUIComponentFactory, HasLogger {
 
-  @Inject private LoginComponent loginScreen;
-  @Inject private SessionService userService;
-  @Inject private SecurityService securityService;
+//  @Inject private LoginComponent loginScreen;
+//  @Inject private SessionService userService;
+//  @Inject private SecurityService securityService;
 
   @Override
   public Component createComponentToSetAsContent(final VaadinRequest vaadinRequest) {
@@ -51,12 +46,12 @@ public class MyUIComponentFactory implements JumpstartUIComponentFactory , HasLo
 
   }
 
-  private boolean isRemembered() {
-    return securityService.isRemembered();
-  }
-
-  private boolean isUserPresent() {
-    return userService.isUserPresent();
-  }
+//  private boolean isRemembered() {
+//    return securityService.isRemembered();
+//  }
+//
+//  private boolean isUserPresent() {
+//    return userService.isUserPresent();
+//  }
 
 }

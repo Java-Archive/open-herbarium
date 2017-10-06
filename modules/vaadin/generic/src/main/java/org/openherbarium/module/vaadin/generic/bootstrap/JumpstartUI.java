@@ -26,11 +26,12 @@ import org.slf4j.LoggerFactory;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Title;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 
 @PreserveOnRefresh
-//@Widgetset("org.openherbarium.module.vaadin.generic.bootstrap.VaadinJumpstartWidgetset")
+@Widgetset("org.openherbarium.module.vaadin.generic.bootstrap.VaadinJumpstartWidgetset")
 @Title("JumpstartServlet")
 @Push
 public class JumpstartUI extends UI {

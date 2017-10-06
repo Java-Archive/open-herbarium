@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>herbarium-m-vaadin-comp</artifactId>
+    <groupId>org.open-herbarium</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>herbarium-m-vaadin-comp-zoomify</artifactId>
+
+  <properties>
+    <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
+    <!-- ZIP Manifest fields -->
+    <Implementation-Version>${project.version}</Implementation-Version>
+    <!-- Must not change this because of the Directory -->
+    <Implementation-Title>${project.name}</Implementation-Title>
+    <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+    <Vaadin-License-Title>Apache License 2.0</Vaadin-License-Title>
+    <Vaadin-Addon>${project.artifactId}-${project.version}.jar</Vaadin-Addon>
+  </properties>
+
+
+
+  <dependencies>
+    <dependency>
+      <groupId>org.vaadin.addon</groupId>
+      <artifactId>v-leaflet</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.infinitenature</groupId>
+      <artifactId>g-leaflet-zoomify</artifactId>
+      <version>0.0.1</version>
+      <!-- Only needed during widgetset compilation, so provided scope would
+        be great for this, but with it is left out from widgetset compilation by
+        vaadin plugin -->
+      <!-- <scope>provided</scope> -->
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-server</artifactId>
+      <version>${vaadin.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-client</artifactId>
+      <version>${vaadin.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.vaadin</groupId>
+      <artifactId>addon-test-helpers</artifactId>
+      <version>2.0.alpha5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-themes</artifactId>
+      <version>${vaadin.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-client-compiled</artifactId>
+      <version>${vaadin.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+      <resource>
+        <!-- GWT hack. This adds sources, .gwt.xml files etc to jar from source
+          directory. Not quite maven convention but easieast to setup this way. -->
+        <directory>src/main/java</directory>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <index>true</index>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+            <manifestEntries>
+              <!-- Package format version - do not change -->
+              <Vaadin-Package-Version>1</Vaadin-Package-Version>
+              <Vaadin-License-Title>${Vaadin-License-Title}</Vaadin-License-Title>
+              <Vaadin-Widgetsets>org.infinitenature.leafletzoomify.Widgetset</Vaadin-Widgetsets>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-maven-plugin</artifactId>
+        <configuration>
+          <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+          <webappDirectory>
+            ${basedir}/target/classes/VAADIN/widgetsets
+          </webappDirectory>
+          <draftCompile>true</draftCompile>
+          <compileReport>false</compileReport>
+          <!-- Change to PRETTY (or possibly DETAILED) to get
+          unobfuscated client side stack traces. A better approach
+          for debugging is to use Super Dev Mode -->
+          <style>OBF</style>
+          <strict>true</strict>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>update-widgetset</goal>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <appendAssemblyId>false</appendAssemblyId>
+          <descriptors>
+            <descriptor>assembly/assembly.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <phase>install</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>

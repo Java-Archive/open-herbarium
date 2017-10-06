@@ -63,6 +63,7 @@
     <!--change in bom too !!!-->
     <open-herbarium.version>0.0.1-SNAPSHOT</open-herbarium.version>
     <vaadin.version>8.1.4</vaadin.version>
+    <speedment.version>3.0.14</speedment.version>
   </properties>
 
   <modules>
@@ -71,17 +72,10 @@
   </modules>
 
 
-
   <build>
     <!--Lack of bom functionality-->
     <pluginManagement>
       <plugins>
-        <!--http://junit.org/junit5/docs/current/user-guide/#running-tests-build-maven-->
-        <!--DownGrade : related to Bug-->
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.19</version>
-        </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>versions-maven-plugin</artifactId>
@@ -96,6 +90,11 @@
           <groupId>com.github.webdriverextensions</groupId>
           <artifactId>webdriverextensions-maven-plugin</artifactId>
           <version>3.1.2</version>
+        </plugin>
+        <plugin>
+          <groupId>com.speedment</groupId>
+          <artifactId>speedment-maven-plugin</artifactId>
+          <version>${speedment.version}</version>
         </plugin>
         <plugin>
           <groupId>org.flywaydb</groupId>
@@ -198,13 +197,13 @@
         <pluginRepository>
           <snapshots>
             <enabled>false</enabled>
-	 </snapshots>
+          </snapshots>
           <id>central</id>
-	 <name>bintray-plugins</name>
-	 <url>http://jcenter.bintray.com</url>
+          <name>bintray-plugins</name>
+          <url>http://jcenter.bintray.com</url>
         </pluginRepository>
       </pluginRepositories>
-             
+
     </profile>
   </profiles>
 
