@@ -8,13 +8,10 @@ import javax.inject.Inject;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
-import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.openherbarium.module.api.HasLogger;
 import org.openherbarium.module.api.config.Configuration;
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
-import org.openherbarium.module.backend.metadataservice.api.MetadataService;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
 import org.openherbarium.module.backend.metadataservice.rest.api.MetadataServiceREST;
 
@@ -52,7 +49,7 @@ public class MetadataServiceRESTClient implements MetadataServiceREST, HasLogger
     logger().info("Result Status " + response.getStatusInfo().toString());
 
     return (response.hasEntity())
-           ? response.readEntity(new GenericType<List<Metadata>>() {})
+           ? response.readEntity(new GenericType<List<Metadata>>() { })
            : Collections.emptyList();
 
 //    return delegate.find(sortField, sortOrder, limit, offset);
