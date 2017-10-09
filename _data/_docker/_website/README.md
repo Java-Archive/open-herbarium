@@ -1,68 +1,58 @@
 # Dockerfile for the website open-herbarium.org
 
-THIS REPO MUST BE SHIFTED TO GITHUB
-
-## how to use
-use this directory as working directory.
-build the image with the following command
-
-
+## use images
 ```
-docker build -t hugo .
-```
-With this command you will create an Image that will be able to serve
-the lates website version from the git repo and master branch
-
-```docker
-FROM ubuntu:latest
-
-MAINTAINER Sven Ruppert <sven.ruppert@gmail.com>
-LABEL Open Herbarium website with Hugo
-USER root
-RUN \
-  apt-get update && \
-  apt-get -y upgrade && \
-  apt-get -y install hugo && \
-  apt-get -y install git
-
-#RUN \
-#  apt-get -y install hugo && \
-#  apt-get -y install git
-
-# Set environment variables.
-ENV HOME /root
-
-# Define working directory.
-WORKDIR /root
-
-# Define default command.
-CMD ["bash"]
-
-#hugo server port
-EXPOSE 1313
-
-RUN git clone https://username:password@git.loe.auf.uni-rostock.de/bheeren/open-herbarium-homepage.git
-
-CMD ["git" , "pull", "https://username:password@git.loe.auf.uni-rostock.de/bheeren/open-herbarium-homepage.git" ]
-
-WORKDIR /root/open-herbarium-homepage
-
-ENTRYPOINT hugo server --bind 0.0.0.0
+docker run --rm -ti -p 1313:1313 -t openherbarium/website_from_develop
+docker run --rm -ti -p 1313:1313 --mount type=bind,source="$(pwd)",target=/app/,readonly -t openherbarium/website_from_local
 ```
 
-With the following docker command you can run the 
-image.
+
+
+
+## create images
+Go to the relative directory **_data/_docker/*** 
+and start the following commands to build the images by yourself
 
 ```
-docker run --rm -ti -p 1313:1313 --name hugo_openherbarium -i -t hugo
-```
-
-This will create a container for one run, exposes the port 1313 to server thw website.
-After you killed the server process inside the opened terminal from the docker container
-the server and container will disappear.
-
-if you want to delete the image as well, use the following command.
+docker build -t openherbarium/component_hugo   ./_component/hugo/ 
+docker build -t openherbarium/website_from_develop  ./_website/_from_git_develop/ 
+docker build -t openherbarium/website_from_local  ./_website/_from_local
 
 ```
-docker image rm hugo
+
+
+## tag images
+If you want to push the images to your own registry after you modified them.
+Tag the images first like shown in the following listing.
+
 ```
+docker tag openherbarium/component_hugo   openherbarium/component_hugo :0001
+docker tag openherbarium/website_from_develop  openherbarium/website_from_develop:0001
+docker tag openherbarium/website_from_local  openherbarium/website_from_local:0001
+```
+
+## push images
+
+```
+docker push openherbarium/component_hugo 
+docker push openherbarium/website_from_develop
+docker push openherbarium/website_from_local
+```
+
+
+## clean images
+```
+docker image prune
+
+```
+
+## login into a registry
+
+```
+export DOCKER_ID_USER="username
+docker login
+```
+
+
+
+
