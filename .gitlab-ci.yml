@@ -1,7 +1,7 @@
 image: docker:latest
 
 before_script:
-   - apk update && apk add openssh
+   - apk update && apk add openssh git
    - mkdir -p ~/.ssh
    - echo "$SSH" | tr -d '\r' > ~/.ssh/id_rsa
    - chmod 600 ~/.ssh/id_rsa
