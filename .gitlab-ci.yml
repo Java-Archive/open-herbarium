@@ -26,6 +26,8 @@ build-develop:
   stage: build
   script:
     - "$MAVEN_CMD --batch-mode deploy sonar:sonar -Dusername=$ARTIFACTORY_USERNAME -Dpassword=$ARTIFACTORY_PASSWORD -Dsonar.host.url=https://sonar.loe.auf.uni-rostock.de -Dsonar.login=$SONAR_LOGIN"
+    - cd _data/_docker/_fullstack
+    - docker-compose build
   only:
     - develop
      
