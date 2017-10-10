@@ -1,7 +1,8 @@
 image: docker:latest
 
 before_script:
-   - apk update && apk add openssh git openjdk8
+   - apk update && apk add openssh git openjdk8 py-pip
+   - pip install docker-compose
    - export JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
    - mkdir -p ~/.ssh
    - echo "$SSH" | tr -d '\r' > ~/.ssh/id_rsa
@@ -11,7 +12,11 @@ before_script:
    - ssh-keyscan -H 'loe3.loe.auf.uni-rostock.de' >> ~/.ssh/known_hosts
    - "git config --global user.email 'dve@vergien.net'"
    - "git config --global user.name 'GitLab-CI Bot'"
-   
+   - docker info
+ 
+services:
+   - docker:dind
+ 
 variables:
   MAVEN_CMD: "./mvnw"
   MAVEN_OPTS: -Dmaven.repo.local=/cache/maven.repository
