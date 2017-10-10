@@ -13,7 +13,7 @@ networks:
 
 services:
   postgres:
-#    container_name: openherbarium-postgres
+    container_name: openherbarium-postgres
     build: _postgresql/
     ports:
           - 5432:5432
@@ -21,15 +21,18 @@ services:
           - ./_postgresql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/
     networks:
       - openherbarium
-    deploy:
-          mode: global #deploy as singleton
+#    deploy:
+#          mode: global #deploy as singleton
 
   metadataservice:
-#    container_name: openherbarium-metadataservice
-    build: _metadataservice/
+    container_name: openherbarium-metadataservice
+#    build: _metadataservice/
+    image: openherbarium/component_microkernel
+    environment:
+          - XMX=128m
     ports:
-          - 7080:7080
-          - 7081:7081
+          - 7180:7080
+          - 7181:7081
 
     volumes:
           - "${basepath}/metadataservice/rest/endpoint/target/herbarium-m-app-srv-metadatasrv-rest-endpoint-${version}.jar:/app/fat.jar"
@@ -42,23 +45,30 @@ services:
     links:
       - postgres
 
+
   imageservice:
-#    container_name: openherbarium-imageservice
-    build: _imageservice/
+    container_name: openherbarium-imageservice
+#    build: _imageservice/
+    image: openherbarium/component_microkernel
+    environment:
+          - XMX=128m
     ports:
-          - 7180:7080
-          - 7181:7081
+          - 7280:7080
+          - 7281:7081
     volumes:
           - "${basepath}/imageservice/rest/endpoint/target/herbarium-m-app-srv-imagesrv-rest-endpoint-${version}.jar:/app/fat.jar"
     networks:
           - openherbarium
 
   thumbnailservice:
-#    container_name: openherbarium-thumbnailservice
-    build: _thumbnailservice/
+    container_name: openherbarium-thumbnailservice
+#    build: _thumbnailservice/
+    image: openherbarium/component_microkernel
+    environment:
+          - XMX=128m
     ports:
-      - 7280:7080
-      - 7281:7081
+      - 7380:7080
+      - 7381:7081
 
     volumes:
       - "${basepath}/thumbnailservice/rest/endpoint/target/herbarium-m-app-srv-thumbnailsrv-rest-endpoint-${version}.jar:/app/fat.jar"
@@ -66,3 +76,23 @@ services:
     networks:
       - openherbarium
 
+  ui:
+    container_name: openherbarium-ui
+#    build: _ui/
+    image: openherbarium/component_microkernel
+    environment:
+          - XMX=128m
+    ports:
+      - 7080:7080
+      - 7081:7081
+
+    volumes:
+      - "./../../../modules/app/ui/target/herbarium-m-app-ui-${version}.jar:/app/fat.jar"
+
+    networks:
+      - openherbarium
+    depends_on:
+      - postgres
+      - imageservice
+      - metadataservice
+      - thumbnailservice

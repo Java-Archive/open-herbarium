@@ -1,7 +1,7 @@
 FROM openjdk:8-jdk-alpine
 
 MAINTAINER Sven Ruppert <sven.ruppert@gmail.com>
-LABEL Open Herbarium - ThumbnailService
+LABEL Open Herbarium - Vaadin UI
 
 USER root
 WORKDIR /app
