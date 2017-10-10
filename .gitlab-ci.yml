@@ -1,4 +1,4 @@
-image: openjdk:8
+image: docker:latest
 
 before_script:
    - mkdir -p ~/.ssh
