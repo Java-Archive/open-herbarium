@@ -2,6 +2,7 @@ image: docker:latest
 
 before_script:
    - apk update && apk add openssh git openjdk8
+   - export JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk/jre
    - mkdir -p ~/.ssh
    - echo "$SSH" | tr -d '\r' > ~/.ssh/id_rsa
    - chmod 600 ~/.ssh/id_rsa
