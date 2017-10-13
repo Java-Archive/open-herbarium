@@ -29,6 +29,7 @@ Tag the images first like shown in the following listing.
 docker tag openherbarium/component_hugo   openherbarium/component_hugo :0001
 docker tag openherbarium/website_from_develop  openherbarium/website_from_develop:0001
 docker tag openherbarium/website_from_local  openherbarium/website_from_local:0001
+docker tag openherbarium/component_microkernel  openherbarium/component_microkernel:0001
 ```
 
 ## push images
@@ -37,6 +38,7 @@ docker tag openherbarium/website_from_local  openherbarium/website_from_local:00
 docker push openherbarium/component_hugo 
 docker push openherbarium/website_from_develop
 docker push openherbarium/website_from_local
+docker push openherbarium/component_microkernel
 ```
 
 
