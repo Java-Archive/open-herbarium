@@ -103,6 +103,43 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>io.gatling</groupId>
+        <artifactId>gatling-maven-plugin</artifactId>
+        <version>2.2.1</version>
+        <!-- optional if you only have one simulation -->
+        <configuration>
+          <runMultipleSimulations>true</runMultipleSimulations>
+        </configuration>
+        <executions>
+          <execution>
+            <id>performance test</id>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
+            <configuration>
+              <skip>${skipPerformanceTest}</skip>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+
+  <properties>
+    <skipPerformanceTest>true</skipPerformanceTest>
+  </properties>
+
+  <profiles>
+    <profile>
+      <id>qm-qs-performancetest</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <skipPerformanceTest>false</skipPerformanceTest>
+      </properties>
+    </profile>
+  </profiles>
+
 </project>

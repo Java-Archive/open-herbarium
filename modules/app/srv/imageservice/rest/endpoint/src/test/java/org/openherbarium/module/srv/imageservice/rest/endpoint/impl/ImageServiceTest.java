@@ -1,4 +1,4 @@
-package org.openherbarium.module.srv.imageservice.rest.endpoint;
+package org.openherbarium.module.srv.imageservice.rest.endpoint.impl;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

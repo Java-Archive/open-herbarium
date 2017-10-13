@@ -11,7 +11,7 @@
     <value-type>org.rapidpm.binarycache.api.CacheByteArray</value-type>
     <expiry>
       <!-- tti=time to idle; ttl=time to live; -->
-      <tti unit="hours">1</tti>
+      <tti unit="hours">2</tti>
     </expiry>
 
     <heap unit="entries">200000</heap>

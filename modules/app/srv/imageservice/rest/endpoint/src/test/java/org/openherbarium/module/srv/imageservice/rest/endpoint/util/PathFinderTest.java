@@ -1,7 +1,6 @@
-package org.openherbarium.module.srv.imageservice.rest.endpoint;
+package org.openherbarium.module.srv.imageservice.rest.endpoint.util;
 
 import org.junit.jupiter.api.Test;
-import org.openherbarium.module.srv.imageservice.rest.endpoint.util.PathFinder;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
