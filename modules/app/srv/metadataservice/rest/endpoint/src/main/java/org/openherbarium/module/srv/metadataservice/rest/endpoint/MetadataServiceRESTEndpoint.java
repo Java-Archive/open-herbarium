@@ -1,4 +1,4 @@
-package org.openherbarium.module.srv.imageservice.rest.endpoint;
+package org.openherbarium.module.srv.metadataservice.rest.endpoint;
 
 import static org.openherbarium.module.backend.metadataservice.rest.api.MetadataServiceREST.PATH_BASE;
 import java.util.ArrayList;
