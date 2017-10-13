@@ -1,5 +1,6 @@
 package org.openherbarium.module.backend.metadataservice.api;
 
+import java.time.LocalDate;
 import java.util.Set;
 import net.vergien.beanautoutils.annotation.Bean;
 
@@ -12,6 +13,7 @@ public class Metadata {
   private String taxonName;
   private Person recorder;
   private Person determiner;
+  private LocalDate date;
   private Set<Scan> scans;
 
   public long getId() {
@@ -60,6 +62,14 @@ public class Metadata {
 
   public void setScans(Set<Scan> scans) {
     this.scans = scans;
+  }
+
+  public LocalDate getDate() {
+    return date;
+  }
+
+  public void setDate(LocalDate date) {
+    this.date = date;
   }
 
   @Override

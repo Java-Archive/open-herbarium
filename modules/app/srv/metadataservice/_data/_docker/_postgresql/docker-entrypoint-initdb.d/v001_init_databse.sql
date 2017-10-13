@@ -9,6 +9,7 @@ CREATE TABLE metadata (
    id SERIAL PRIMARY KEY,
    external_id VARCHAR(255) NOT NULL,
    taxon_id INTEGER NOT NULL,
+   date DATE NOT NULL,
    determiner INTEGER NOT NULL REFERENCES people (id),
    recorder INTEGER NOT NULL REFERENCES people (id)
 );
