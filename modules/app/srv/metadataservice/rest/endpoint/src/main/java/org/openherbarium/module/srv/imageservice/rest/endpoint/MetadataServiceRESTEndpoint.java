@@ -1,17 +1,13 @@
 package org.openherbarium.module.srv.imageservice.rest.endpoint;
 
 import static org.openherbarium.module.backend.metadataservice.rest.api.MetadataServiceREST.PATH_BASE;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
 import org.openherbarium.module.api.HasLogger;
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
@@ -35,7 +31,7 @@ public class MetadataServiceRESTEndpoint implements MetadataServiceREST, HasLogg
                              @QueryParam(METHODE_FIND_QUERYPARAM_SORTOFFSET) int offset) {
     logger().info("Call rest service endpoint.");
     final List<Metadata> result = new ArrayList<>();
-    result.add(new Metadata(1L , UUID.randomUUID() , "Abies alba" , UUID.randomUUID()));
+
     return result;
   }
 }
