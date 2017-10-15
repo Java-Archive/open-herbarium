@@ -6,11 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.openherbarium.module.srv.imageservice.rest.endpoint.api.ImageService;
 import org.rapidpm.ddi.DI;
 
+import java.io.File;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-public class ImageServiceTest {
+public class ImageServiceTest001 {
 
   private ImageService imageService;
 
@@ -29,9 +30,12 @@ public class ImageServiceTest {
   @Test
   void test001() {
     imageService = DI.activateDI(ImageService.class);
-    final byte[] image = imageService.getImage("Care_bohe_GFW_47659", "TileGroup0", "0-0-0.jpg");
+    final byte[] image = imageService.getImage("47659", "TileGroup0", "0-0-0.jpg");
 
     assertTrue(image.length != 0);
+
+    final File file = new File("_data/example_images/Care_bohe_GFW_47659/TileGroup0/0-0-0.jpg");
+    assertEquals(file.length(), image.length);
   }
 
   @Test
@@ -41,6 +45,7 @@ public class ImageServiceTest {
     assertFalse(imageService.isImageCached("Care_bohe_GFW_47659", "TileGroup0", "0-0-0.jpg"));
     final byte[] image = imageService.getImage("Care_bohe_GFW_47659", "TileGroup0", "0-0-0.jpg");
 
+    assertNotNull(image);
     assertTrue(imageService.isImageCached("Care_bohe_GFW_47659", "TileGroup0", "0-0-0.jpg"));
   }
 

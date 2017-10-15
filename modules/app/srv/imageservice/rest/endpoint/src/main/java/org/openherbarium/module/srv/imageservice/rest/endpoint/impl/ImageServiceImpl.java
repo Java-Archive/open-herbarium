@@ -11,6 +11,7 @@ import org.rapidpm.binarycache.api.defaultkey.DefaultCacheKey;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,12 +19,11 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static org.openherbarium.module.srv.imageservice.rest.endpoint.util.ImageServiceConstants.*;
+
 public class ImageServiceImpl implements ImageService {
 
   private static final Logger LOGGER = Logger.getLogger(ImageServiceImpl.class.getSimpleName());
-  private static final String CACHE_NAME = "default";
-  private static final String IMAGE_PROPERTIES_XML = "ImageProperties.xml";
-  private static final String IMAGE_FOLDER_PROPERTY = "images";
 
   @Inject
   private BinaryCacheClient cache;
@@ -66,11 +66,16 @@ public class ImageServiceImpl implements ImageService {
   private byte[] tryToLoadImageFromDisk(String imageId, String tileGroup, String image, DefaultCacheKey cacheKey) {
     try {
       final Path imageFolder = getBasePath();
-      final Path path = Paths.get(imageFolder.toString(), imageId, tileGroup, image);
-      final byte[] bytes = IOUtils.toByteArray(path.toUri());
-      cacheLoadedImage(imageId, cacheKey, bytes);
-      return bytes;
+      final Optional<Path> imageIdPath = PathFinder.find(imageFolder, imageId);
 
+      if (!imageIdPath.isPresent()) {
+        return loadDummyImage();
+      } else {
+        final Path imagePath = Paths.get(imageIdPath.get().toString(), tileGroup, image);
+        final byte[] bytes = IOUtils.toByteArray(imagePath.toUri());
+        cacheLoadedImage(imageId, cacheKey, bytes);
+        return bytes;
+      }
     } catch (IOException e) {
       LOGGER.log(Level.SEVERE, e.getMessage(), e);
       return loadDummyImage();
@@ -93,9 +98,10 @@ public class ImageServiceImpl implements ImageService {
 
   private byte[] loadDummyImage() {
     try {
-      final Path path = Paths.get(getClass().getResource("404.jpg").toURI());
+      URL url = getClass().getClassLoader().getResource("404.jpg");
+      final Path path = Paths.get(url.toURI());
       return Files.readAllBytes(path);
-    } catch (URISyntaxException | IOException e) {
+    } catch (NullPointerException | URISyntaxException | IOException e) {
       LOGGER.log(Level.SEVERE, e.getMessage(), e);
       return new byte[0];
     }
