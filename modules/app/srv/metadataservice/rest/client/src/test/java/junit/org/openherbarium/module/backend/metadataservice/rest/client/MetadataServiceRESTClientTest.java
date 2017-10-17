@@ -1,4 +1,4 @@
-package org.openherbarium.module.backend.metadataservice.rest.client;
+package junit.org.openherbarium.module.backend.metadataservice.rest.client;
 
 import org.junit.After;
 import org.junit.Before;
@@ -6,7 +6,10 @@ import org.junit.Test;
 import org.openherbarium.module.api.config.Configuration;
 import org.openherbarium.module.backend.metadataservice.api.MetadataService;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
+import org.openherbarium.module.backend.metadataservice.rest.client.MetadataServiceRESTClient;
 import org.rapidpm.ddi.DI;
+import org.rapidpm.ddi.ResponsibleFor;
+import org.rapidpm.ddi.implresolver.ClassResolver;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
 
@@ -34,7 +37,7 @@ public class MetadataServiceRESTClientTest {
   }
 
   @After
-  public void teatDown() {
+  public void tearDown() {
     Main.stop();
     DI.clearReflectionModel();
   }
@@ -55,6 +58,15 @@ public class MetadataServiceRESTClientTest {
     @Override
     public String toString() {
       return getMetaServiceUrl();
+    }
+  }
+
+  @ResponsibleFor(Configuration.class)
+  public static class ConfigurationClassResolver implements ClassResolver<Configuration> {
+
+    @Override
+    public Class<? extends Configuration> resolve(final Class<Configuration> interf) {
+      return TestConfiguration.class;
     }
   }
 }

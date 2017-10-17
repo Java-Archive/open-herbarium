@@ -27,6 +27,7 @@ import org.openherbarium.module.api.security.role.RoleService;
 import org.openherbarium.module.api.security.user.User;
 import org.openherbarium.module.ui.component.mainview.MainView;
 import org.openherbarium.module.ui.component.mainview.dashboard.DashBoard;
+import org.openherbarium.module.ui.component.mainview.searchview.SearchView;
 import org.rapidpm.frp.model.Pair;
 import org.vaadin.dialogs.ConfirmDialog;
 import com.vaadin.icons.VaadinIcons;
@@ -81,7 +82,7 @@ public class MenuComponent extends Composite implements HasLogger {
     return Stream
         .of(
             createMenuButton(VIEWPORT , MENU_POINT_DASHBOARD , DashBoard::new) ,
-            createMenuButton(ABACUS , MENU_POINT_CALCULATE , DashBoard::new) ,
+            createMenuButton(ABACUS , MENU_POINT_CALCULATE , SearchView::new) ,
             createMenuButton(EDIT , MENU_POINT_WRITE , DashBoard::new) ,
             createMenuButton(PLAY , MENU_POINT_GAMES_MEMORY , DashBoard::new) ,
             createMenuButton(BAR_CHART , MENU_POINT_REPORT , DashBoard::new) ,
