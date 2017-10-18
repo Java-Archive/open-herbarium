@@ -73,13 +73,13 @@ public class TimeSpanFilter extends Composite implements HasValue.ValueChangeLis
         final DateFilter filter = (DateFilter) dateField.getData();
         switch (filter) {
             case FROM:
-                if (to.getValue() != null && newDate.isAfter(to.getValue())) {
+                if (to.getValue() != null && newDate != null && newDate.isAfter(to.getValue())) {
                     to.setValue(newDate);
                 }
                 timeSpan.setFrom(from.getValue());
                 break;
             case TO:
-                if (from.getValue() != null && newDate.isBefore(from.getValue())) {
+                if (from.getValue() != null && newDate != null && newDate.isBefore(from.getValue())) {
                     from.setValue(newDate);
                 }
                 timeSpan.setTo(to.getValue());
