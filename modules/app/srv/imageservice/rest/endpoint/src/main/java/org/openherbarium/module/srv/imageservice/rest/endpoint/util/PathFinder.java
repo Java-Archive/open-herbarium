@@ -5,6 +5,7 @@ import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class PathFinder {
 
@@ -12,10 +13,8 @@ public class PathFinder {
   }
 
   public static Optional<Path> find(Path base, String id) {
-    try {
-      return Files.walk(base, 1, FileVisitOption.FOLLOW_LINKS)
-          .filter(path -> path.getFileName().toString().contains(id))
-          .findFirst();
+    try (Stream<Path> walk = Files.walk(base, 1, FileVisitOption.FOLLOW_LINKS)) {
+      return walk.filter(path -> path.getFileName().toString().contains(id)).findFirst();
     } catch (IOException e) {
       e.printStackTrace();
     }
