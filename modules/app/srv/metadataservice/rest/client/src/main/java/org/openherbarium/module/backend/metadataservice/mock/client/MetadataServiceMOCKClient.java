@@ -4,6 +4,7 @@ import org.openherbarium.module.api.HasLogger;
 import org.openherbarium.module.api.config.Configuration;
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
 import org.openherbarium.module.backend.metadataservice.api.Person;
+import org.openherbarium.module.backend.metadataservice.api.Scan;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
 import org.openherbarium.module.backend.metadataservice.mock.api.MetadataServiceMOCK;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  *
@@ -58,7 +60,16 @@ public class MetadataServiceMOCKClient implements MetadataServiceMOCK, HasLogger
             metadata.setRecorder(recorder);
             metadata.setExternalId("externe ID");
             metadata.setId(random.nextInt(1000) - 1);
-            metadata.setScans(new HashSet<>());
+            final int scanNumber = random.nextInt(3) + 1;
+            final Set<Scan> scanSet = new HashSet<>();
+            for (int scan = 0; scan < scanNumber; scan++) {
+                final int scanID = random.nextInt(5000) + 1;
+                final Scan oneScan = new Scan();
+                oneScan.setId(scanID);
+                oneScan.setName(scanID + "_" + letters[scan]);
+                scanSet.add(oneScan);
+            }
+            metadata.setScans(scanSet);
             metadataList.add(metadata);
         }
         return metadataList;
@@ -81,4 +92,5 @@ public class MetadataServiceMOCKClient implements MetadataServiceMOCK, HasLogger
     private final String[] lastNames = new String[]{"Müller", "Meier", "Knutsen", "Patton", "Leber", "Schuhmacher"};
     private final String[] taxonNameFirstParts = new String[]{"Carex", "Bartos", "Cranel"};
     private final String[] taxonNameSecondParts = new String[]{"Finea", "Rudea", "Flavella", "Bohemica"};
+    private final char[] letters = new char[]{'A', 'B', 'C', 'D', 'E'};
 }

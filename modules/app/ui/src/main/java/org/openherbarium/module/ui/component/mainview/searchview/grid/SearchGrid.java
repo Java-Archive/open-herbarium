@@ -11,8 +11,10 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.components.grid.HeaderCell;
 import com.vaadin.ui.components.grid.HeaderRow;
+import com.vaadin.ui.renderers.TextRenderer;
 import com.vaadin.ui.themes.ValoTheme;
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
+import org.openherbarium.module.backend.metadataservice.api.Scan;
 import org.openherbarium.module.ui.component.mainview.searchview.grid.filter.TimeSpanFilter;
 import org.openherbarium.module.ui.component.mainview.searchview.grid.filter.FilterableColumn;
 
@@ -27,6 +29,7 @@ public class SearchGrid extends Grid<Metadata> {
     private static final String RECORDER = "Finder";
     private static final String DETERMINER = "Bestimmer";
     private static final String DATE = "Datum";
+    private static final String SCANS = "Scans";
     private static final String SELECTED = "Auswahl";
 
     private static final String MESSAGE_MAX_2_ENTITIES_SELECTABLE = "Maximal 2 Datens\u00E4tze ausw\u00E4hlbar";
@@ -58,6 +61,17 @@ public class SearchGrid extends Grid<Metadata> {
         columnDecorators.add(columnDecorator);
         columnDecorator = new FilterableColumn(addColumn(metadata -> metadata.getDeterminer().getFirstName() + " " + metadata.getDeterminer().getLastName()).setCaption(DETERMINER).setId(DETERMINER), true);
         columnDecorators.add(columnDecorator);
+        columnDecorator = new FilterableColumn(addColumn(Metadata::getScans).setCaption(SCANS).setId(SCANS).setSortable(false).setExpandRatio(6).setRenderer(scans -> {
+            final StringBuilder sb = new StringBuilder();
+            if (scans != null) {
+                for (final Scan scan : scans) {
+                    sb.append(scan.getName()).append(", ");
+                }
+                return sb.substring(0, sb.length() - 2);
+            }
+            return "";
+        }, new TextRenderer("")), false);
+        columnDecorators.add(columnDecorator);
         columnDecorator = new FilterableColumn(addComponentColumn(metadata -> {
             final CheckBox checkBox = new CheckBox();
             checkBox.setData(metadata);
@@ -77,7 +91,7 @@ public class SearchGrid extends Grid<Metadata> {
                 System.out.println(selectedMetadatas);
             });
             return checkBox;
-        }).setCaption(SELECTED).setId(SELECTED), false);
+        }).setSortable(false).setCaption("").setId(SELECTED), false);
         columnDecorators.add(columnDecorator);
     }
 
