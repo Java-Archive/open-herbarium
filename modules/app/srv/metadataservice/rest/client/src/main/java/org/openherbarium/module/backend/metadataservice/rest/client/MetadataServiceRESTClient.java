@@ -12,6 +12,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.openherbarium.module.api.HasLogger;
 import org.openherbarium.module.api.config.Configuration;
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
+import org.openherbarium.module.backend.metadataservice.api.MetadataFilter;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
 import org.openherbarium.module.backend.metadataservice.rest.api.MetadataServiceREST;
 
@@ -34,7 +35,13 @@ public class MetadataServiceRESTClient implements MetadataServiceREST, HasLogger
   }
 
   @Override
-  public List<Metadata> find(String sortField , SortOrder sortOrder , int limit , int offset) {
+  public long count(MetadataFilter filter) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+  
+  @Override
+  public List<Metadata> find(String sortField , SortOrder sortOrder , int limit , int offset, MetadataFilter filter) {
     final Response response = new ResteasyClientBuilder()
         .build()
         .target(targetURL())

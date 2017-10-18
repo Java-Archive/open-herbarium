@@ -1,6 +1,7 @@
 package org.openherbarium.module.backend.metadataservice.mock.api;
 
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
+import org.openherbarium.module.backend.metadataservice.api.MetadataFilter;
 import org.openherbarium.module.backend.metadataservice.api.MetadataService;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
 
@@ -15,5 +16,5 @@ public interface MetadataServiceMOCK extends MetadataService {
   String PATH_BASE = "metadataservice";
 
   @Override //TODO decide what will happen with Checkstyle
-  List<Metadata> find(String sortField, SortOrder sortOrder, int limit, int offset);
+  List<Metadata> find(String sortField, SortOrder sortOrder, int limit, int offset, MetadataFilter filter);
 }

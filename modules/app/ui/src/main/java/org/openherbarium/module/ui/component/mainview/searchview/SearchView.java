@@ -30,7 +30,7 @@ public class SearchView extends Composite implements HasLogger {
     @PostConstruct
     private void postConstruct() {
 
-        final List<Metadata> metadataList = metadataService.find("", SortOrder.ASC, 100, 0);
+        final List<Metadata> metadataList = metadataService.find("", SortOrder.ASC, 100, 0, null);
         searchGrid = new SearchGrid("Suche", metadataList);
         mainLayout = new HorizontalLayout();
         mainLayout.setSizeFull();

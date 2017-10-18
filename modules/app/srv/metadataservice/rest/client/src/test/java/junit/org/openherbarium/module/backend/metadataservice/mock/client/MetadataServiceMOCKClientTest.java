@@ -3,6 +3,7 @@ package junit.org.openherbarium.module.backend.metadataservice.mock.client;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openherbarium.module.backend.metadataservice.api.MetadataFilter;
 import org.openherbarium.module.backend.metadataservice.api.MetadataService;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
 import org.openherbarium.module.backend.metadataservice.mock.client.MetadataServiceMOCKClient;
@@ -41,7 +42,7 @@ public class MetadataServiceMOCKClientTest {
   @Test
   public void test() {
     MetadataService client = DI.activateDI(MetadataServiceMOCKClient.class);
-    System.out.println(client.find("id", SortOrder.ASC, 1, 1));
+    System.out.println(client.find("id", SortOrder.ASC, 1, 1, new MetadataFilter()));
   }
 
 }

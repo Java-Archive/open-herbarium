@@ -3,6 +3,7 @@ package org.openherbarium.module.backend.metadataservice.mock.client;
 import org.openherbarium.module.api.HasLogger;
 import org.openherbarium.module.api.config.Configuration;
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
+import org.openherbarium.module.backend.metadataservice.api.MetadataFilter;
 import org.openherbarium.module.backend.metadataservice.api.Person;
 import org.openherbarium.module.backend.metadataservice.api.Scan;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
@@ -38,7 +39,13 @@ public class MetadataServiceMOCKClient implements MetadataServiceMOCK, HasLogger
     }
 
     @Override
-    public List<Metadata> find(String sortField, SortOrder sortOrder, int limit, int offset) {
+    public long count(MetadataFilter filter) {
+      // TODO Auto-generated method stub
+      return 0;
+    }
+    
+    @Override
+    public List<Metadata> find(String sortField, SortOrder sortOrder, int limit, int offset, MetadataFilter filter) {
         final List<Metadata> metadataList = new ArrayList<>();
         for (int i = 0; i < limit; i++) {
             final Random random = new Random();
@@ -93,4 +100,5 @@ public class MetadataServiceMOCKClient implements MetadataServiceMOCK, HasLogger
     private final String[] taxonNameFirstParts = new String[]{"Carex", "Bartos", "Cranel"};
     private final String[] taxonNameSecondParts = new String[]{"Finea", "Rudea", "Flavella", "Bohemica"};
     private final char[] letters = new char[]{'A', 'B', 'C', 'D', 'E'};
+    
 }

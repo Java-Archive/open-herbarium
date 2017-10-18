@@ -7,5 +7,7 @@ import java.util.List;
  */
 public interface MetadataService {
 
-  public List<Metadata> find(String sortField, SortOrder sortOrder, int limit, int offset);
+  public List<Metadata> find(String sortField, SortOrder sortOrder, int limit, int offset, MetadataFilter filter);
+  
+  public long count(MetadataFilter filter);
 }
