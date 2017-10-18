@@ -31,7 +31,7 @@ import com.vaadin.annotations.VaadinServletConfiguration;
     name = "JumpstartServlet",
     displayName = "JumpstartServlet",
     asyncSupported = true)
-@VaadinServletConfiguration(ui = JumpstartUI.class, productionMode = false)
+@VaadinServletConfiguration(ui = OpenHerbariumUI.class, productionMode = false)
 public class JumpstartServlet extends DDIVaadinServlet {
 
   @Override

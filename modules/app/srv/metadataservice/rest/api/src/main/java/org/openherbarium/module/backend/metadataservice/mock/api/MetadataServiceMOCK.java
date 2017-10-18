@@ -1,4 +1,4 @@
-package org.openherbarium.module.backend.metadataservice.rest.api;
+package org.openherbarium.module.backend.metadataservice.mock.api;
 
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
 import org.openherbarium.module.backend.metadataservice.api.MetadataService;

@@ -5,7 +5,7 @@ import org.openherbarium.module.api.config.Configuration;
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
 import org.openherbarium.module.backend.metadataservice.api.Person;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
-import org.openherbarium.module.backend.metadataservice.rest.api.MetadataServiceMOCK;
+import org.openherbarium.module.backend.metadataservice.mock.api.MetadataServiceMOCK;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;

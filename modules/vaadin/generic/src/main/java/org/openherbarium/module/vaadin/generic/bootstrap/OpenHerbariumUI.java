@@ -32,11 +32,11 @@ import com.vaadin.ui.UI;
 
 @PreserveOnRefresh
 @Widgetset("org.openherbarium.module.vaadin.generic.bootstrap.VaadinJumpstartWidgetset")
-@Title("JumpstartServlet")
+@Title("Open Herbarium")
 @Push
-public class JumpstartUI extends UI {
+public class OpenHerbariumUI extends UI {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(JumpstartUI.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(OpenHerbariumUI.class);
 
   @Inject private JumpstartUIComponentFactory jumpstartUIComponentFactory;
 
