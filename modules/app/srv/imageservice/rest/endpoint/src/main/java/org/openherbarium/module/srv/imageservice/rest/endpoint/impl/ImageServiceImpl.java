@@ -53,32 +53,32 @@ public class ImageServiceImpl implements ImageService {
   }
 
   @Override
-  public byte[] getImage(String imageId, String tileGroup, String image) {
+  public Optional<byte[]> getImage(String imageId, String tileGroup, String image) {
     final DefaultCacheKey cacheKey = new DefaultCacheKey(imageId + "_" + tileGroup + "_" + image);
     final Optional<CacheByteArray> cachedElement = cache.getCachedElement(CACHE_NAME, cacheKey);
     if (cachedElement.isPresent()) {
-      return cachedElement.get().byteArray;
+      return Optional.ofNullable(cachedElement.get().byteArray);
     } else {
       return tryToLoadImageFromDisk(imageId, tileGroup, image, cacheKey);
     }
   }
 
-  private byte[] tryToLoadImageFromDisk(String imageId, String tileGroup, String image, DefaultCacheKey cacheKey) {
+  private Optional<byte[]> tryToLoadImageFromDisk(String imageId, String tileGroup, String image, DefaultCacheKey cacheKey) {
     try {
       final Path imageFolder = getBasePath();
       final Optional<Path> imageIdPath = PathFinder.find(imageFolder, imageId);
 
       if (!imageIdPath.isPresent()) {
-        return loadDummyImage();
+        return Optional.empty();
       } else {
         final Path imagePath = Paths.get(imageIdPath.get().toString(), tileGroup, image);
         final byte[] bytes = IOUtils.toByteArray(imagePath.toUri());
         cacheLoadedImage(imageId, cacheKey, bytes);
-        return bytes;
+        return Optional.ofNullable(bytes);
       }
     } catch (IOException e) {
       LOGGER.log(Level.SEVERE, e.getMessage(), e);
-      return loadDummyImage();
+      return Optional.empty();
     }
   }
 
@@ -96,17 +96,6 @@ public class ImageServiceImpl implements ImageService {
     return Paths.get(path);
   }
 
-  private byte[] loadDummyImage() {
-    try {
-      URL url = getClass().getClassLoader().getResource("404.jpg");
-      final Path path = Paths.get(url.toURI());
-      return Files.readAllBytes(path);
-    } catch (NullPointerException | URISyntaxException | IOException e) {
-      LOGGER.log(Level.SEVERE, e.getMessage(), e);
-      return new byte[0];
-    }
-  }
-
   @Override
   public boolean isImageCached(String imageId, String tileGroup, String image) {
     final DefaultCacheKey cacheKey = new DefaultCacheKey(imageId + "_" + tileGroup + "_" + image);
@@ -117,6 +106,17 @@ public class ImageServiceImpl implements ImageService {
   @Override
   public void clearCache() {
     cache.clearCache(CACHE_NAME);
+  }
+
+  private byte[] loadDummyImage() {
+    try {
+      URL url = getClass().getClassLoader().getResource("404.jpg");
+      final Path path = Paths.get(url.toURI());
+      return Files.readAllBytes(path);
+    } catch (NullPointerException | URISyntaxException | IOException e) {
+      LOGGER.log(Level.SEVERE, e.getMessage(), e);
+      return new byte[0];
+    }
   }
 
 }

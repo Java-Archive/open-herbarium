@@ -21,7 +21,9 @@ public class ImageServiceRestEndpoint {
   @Path("{imageid}/properties")
   @Produces(MediaType.TEXT_XML)
   public Response getImageProperties(@PathParam("imageid") String imageid) {
+
     final Optional<String> imageProperties = imageService.getImageProperties(imageid);
+
     if (imageProperties.isPresent()) {
       return Response.ok(imageProperties.get()).build();
     } else {
@@ -31,13 +33,18 @@ public class ImageServiceRestEndpoint {
 
   @GET
   @Path("{imageid}/{tilegroup}/{image}")
+  @Produces(MediaType.APPLICATION_OCTET_STREAM)
   public Response getImage(@PathParam("imageid") String imageid,
                            @PathParam("tilegroup") String tilegroup,
                            @PathParam("image") String image) {
-    // TODO no default image, just response with or without image
-    final byte[] bytes = imageService.getImage(imageid, tilegroup, image);
 
-    return Response.ok(bytes, MediaType.APPLICATION_OCTET_STREAM_TYPE).build();
+    final Optional<byte[]> bytes = imageService.getImage(imageid, tilegroup, image);
+
+    if (bytes.isPresent()) {
+      return Response.ok(bytes.get(), MediaType.APPLICATION_OCTET_STREAM_TYPE).build();
+    } else {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
   }
 
 }
