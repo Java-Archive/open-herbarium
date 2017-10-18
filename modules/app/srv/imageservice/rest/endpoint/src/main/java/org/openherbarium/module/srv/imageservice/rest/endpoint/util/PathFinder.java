@@ -6,9 +6,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PathFinder {
-
+  private static final Logger LOGGER = LoggerFactory.getLogger(PathFinder.class);
   private PathFinder() {
   }
 
@@ -16,7 +18,7 @@ public class PathFinder {
     try (Stream<Path> walk = Files.walk(base, 1, FileVisitOption.FOLLOW_LINKS)) {
       return walk.filter(path -> path.getFileName().toString().contains(id)).findFirst();
     } catch (IOException e) {
-      e.printStackTrace();
+      LOGGER.error("Failure finding path", e);
     }
     return Optional.empty();
   }
