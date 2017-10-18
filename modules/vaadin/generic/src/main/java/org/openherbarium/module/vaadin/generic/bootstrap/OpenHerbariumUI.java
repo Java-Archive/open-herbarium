@@ -20,7 +20,6 @@
 package org.openherbarium.module.vaadin.generic.bootstrap;
 
 import javax.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.vaadin.annotations.PreserveOnRefresh;
@@ -42,8 +41,9 @@ public class OpenHerbariumUI extends UI {
 
   @Override
   protected void init(VaadinRequest vaadinRequest) {
-    LOGGER.debug("init - request = " + vaadinRequest);
-    LOGGER.debug("init - request getWrappedSession id = " + vaadinRequest.getWrappedSession().getId());
+    LOGGER.debug("init - request = {}", vaadinRequest);
+    LOGGER.debug("init - request getWrappedSession id = {}",
+        vaadinRequest.getWrappedSession().getId());
     setContent(jumpstartUIComponentFactory.createComponentToSetAsContent(vaadinRequest));
     setSizeFull();
   }

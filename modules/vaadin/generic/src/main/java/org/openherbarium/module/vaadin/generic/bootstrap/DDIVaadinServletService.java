@@ -20,9 +20,7 @@
 package org.openherbarium.module.vaadin.generic.bootstrap;
 
 import java.util.List;
-
 import javax.annotation.PostConstruct;
-
 import org.rapidpm.ddi.DI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +72,7 @@ public class DDIVaadinServletService extends VaadinServletService {
     final VaadinSession current = VaadinSession.getCurrent();
     if (current != null) {
       final int size = current.getUIs().size();
-      LOGGER.debug(" handleRequest getUIs().size() size = " + size);
+      LOGGER.debug(" handleRequest getUIs().size() size = {}", size);
     }
   }
 
