@@ -44,7 +44,7 @@ public class MetadataServiceMOCKClientTest {
   @Test
   public void test() {
     MetadataService client = DI.activateDI(MetadataServiceMOCKClient.class);
-    System.out.println(client.find("id", SortOrder.ASC, 1, 1, null, null, null));
+    System.out.println(client.find("id", SortOrder.ASC, 1, 1, null, null, null, null, null));
   }
 
   @Test

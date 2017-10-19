@@ -1,6 +1,7 @@
 package org.openherbarium.module.srv.metadataservice.rest.endpoint;
 
 import static org.openherbarium.module.backend.metadataservice.rest.api.MetadataServiceREST.PATH_BASE;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.GET;
@@ -25,13 +26,15 @@ public class MetadataServiceRESTEndpoint implements MetadataServiceREST, HasLogg
   @GET
   @Path(PATH_METHODE_FIND)
   @Produces(MediaType.APPLICATION_JSON)
-  public List<Metadata> find(@QueryParam(METHODE_FIND_QUERYPARAM_SORTFIELD) String sortField ,
-                             @QueryParam(METHODE_FIND_QUERYPARAM_SORTORDER) SortOrder sortOrder ,
-                             @QueryParam(METHODE_FIND_QUERYPARAM_LIMIT) int limit ,
-                             @QueryParam(METHODE_FIND_QUERYPARAM_SORTOFFSET) int offset,
+  public List<Metadata> find(@QueryParam(METHODE_FIND_QUERYPARAM_SORTFIELD) String sortField,
+      @QueryParam(METHODE_FIND_QUERYPARAM_SORTORDER) SortOrder sortOrder,
+      @QueryParam(METHODE_FIND_QUERYPARAM_LIMIT) int limit,
+      @QueryParam(METHODE_FIND_QUERYPARAM_SORTOFFSET) int offset,
       @QueryParam(METHODE_FIND_QUERYPARAM_TAXON) String taxon,
       @QueryParam(METHODE_FIND_QUERYPARAM_DETERMINER) String determiner,
-      @QueryParam(METHODE_FIND_QUERYPARAM_RECORDER) String recorder) {
+      @QueryParam(METHODE_FIND_QUERYPARAM_RECORDER) String recorder,
+      @QueryParam(METHODE_FIND_QUERYPARAM_FROM) LocalDate from,
+      @QueryParam(METHODE_FIND_QUERYPARAM_TO) LocalDate to) {
     logger().info("Call rest service endpoint.");
     final List<Metadata> result = new ArrayList<>();
 
@@ -44,7 +47,9 @@ public class MetadataServiceRESTEndpoint implements MetadataServiceREST, HasLogg
   @Produces(MediaType.APPLICATION_JSON)
   public long count(@QueryParam(METHODE_FIND_QUERYPARAM_TAXON) String taxon,
       @QueryParam(METHODE_FIND_QUERYPARAM_DETERMINER) String determiner,
-      @QueryParam(METHODE_FIND_QUERYPARAM_RECORDER) String recorder) {
+      @QueryParam(METHODE_FIND_QUERYPARAM_RECORDER) String recorder,
+      @QueryParam(METHODE_FIND_QUERYPARAM_FROM) LocalDate from,
+      @QueryParam(METHODE_FIND_QUERYPARAM_TO) LocalDate to) {
     logger().info("Call rest service endpoint.");
     return 0;
   }

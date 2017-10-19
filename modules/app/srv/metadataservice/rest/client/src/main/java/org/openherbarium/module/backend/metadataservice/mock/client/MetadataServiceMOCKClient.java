@@ -48,7 +48,7 @@ public class MetadataServiceMOCKClient implements MetadataServiceMOCK, HasLogger
 
     @Override
     public long count(String taxon,
-                      String determiner, String recorder) {
+                      String determiner, String recorder, LocalDate from, LocalDate to) {
         return getMetadataStreamFiltered(determiner, recorder, taxon).count();
     }
 
@@ -72,7 +72,7 @@ public class MetadataServiceMOCKClient implements MetadataServiceMOCK, HasLogger
     @Override
   public List<Metadata> find(String sortField, SortOrder sortOrder, int limit, int offset,
       String taxon, String determiner,
-      String recorder) {
+      String recorder, LocalDate from, LocalDate to) {
         return getMetadataStreamFiltered(determiner, recorder, taxon).skip(offset).limit(limit).collect(Collectors.toList());
     }
 
