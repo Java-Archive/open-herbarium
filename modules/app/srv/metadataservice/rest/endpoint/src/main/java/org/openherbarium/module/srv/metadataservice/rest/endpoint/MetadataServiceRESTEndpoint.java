@@ -10,7 +10,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.openherbarium.module.api.HasLogger;
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
-import org.openherbarium.module.backend.metadataservice.api.MetadataFilter;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
 import org.openherbarium.module.backend.metadataservice.rest.api.MetadataServiceREST;
 
@@ -30,18 +29,22 @@ public class MetadataServiceRESTEndpoint implements MetadataServiceREST, HasLogg
                              @QueryParam(METHODE_FIND_QUERYPARAM_SORTORDER) SortOrder sortOrder ,
                              @QueryParam(METHODE_FIND_QUERYPARAM_LIMIT) int limit ,
                              @QueryParam(METHODE_FIND_QUERYPARAM_SORTOFFSET) int offset,
-                             @QueryParam(METHODE_FIND_QUERYPARAM_FILTER) MetadataFilter filter) {
+      @QueryParam(METHODE_FIND_QUERYPARAM_TAXON) String taxon,
+      @QueryParam(METHODE_FIND_QUERYPARAM_DETERMINER) String determiner,
+      @QueryParam(METHODE_FIND_QUERYPARAM_RECORDER) String recorder) {
     logger().info("Call rest service endpoint.");
     final List<Metadata> result = new ArrayList<>();
 
     return result;
   }
-  
+
   @Override
   @GET
   @Path(PATH_METHODE_COUNT)
   @Produces(MediaType.APPLICATION_JSON)
-  public long count(MetadataFilter filter) {
+  public long count(@QueryParam(METHODE_FIND_QUERYPARAM_TAXON) String taxon,
+      @QueryParam(METHODE_FIND_QUERYPARAM_DETERMINER) String determiner,
+      @QueryParam(METHODE_FIND_QUERYPARAM_RECORDER) String recorder) {
     logger().info("Call rest service endpoint.");
     return 0;
   }

@@ -1,10 +1,11 @@
 package junit.org.openherbarium.module.backend.metadataservice.rest.client;
 
+import static org.rapidpm.microservice.MainUndertow.REST_HOST_PROPERTY;
+import static org.rapidpm.microservice.MainUndertow.REST_PORT_PROPERTY;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openherbarium.module.api.config.Configuration;
-import org.openherbarium.module.backend.metadataservice.api.MetadataFilter;
 import org.openherbarium.module.backend.metadataservice.api.MetadataService;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
 import org.openherbarium.module.backend.metadataservice.rest.client.MetadataServiceRESTClient;
@@ -13,9 +14,6 @@ import org.rapidpm.ddi.ResponsibleFor;
 import org.rapidpm.ddi.implresolver.ClassResolver;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
-
-import static org.rapidpm.microservice.MainUndertow.REST_HOST_PROPERTY;
-import static org.rapidpm.microservice.MainUndertow.REST_PORT_PROPERTY;
 
 public class MetadataServiceRESTClientTest {
 
@@ -46,7 +44,7 @@ public class MetadataServiceRESTClientTest {
   @Test
   public void test() {
     MetadataService client = DI.activateDI(MetadataServiceRESTClient.class);
-    System.out.println(client.find("id", SortOrder.ASC, 1, 1, new MetadataFilter()));
+    System.out.println(client.find("id", SortOrder.ASC, 1, 1, null, null, null));
   }
 
   public static class TestConfiguration implements Configuration {

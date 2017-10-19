@@ -1,9 +1,7 @@
 package org.openherbarium.module.backend.metadataservice.rest.api;
 
 import java.util.List;
-
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
-import org.openherbarium.module.backend.metadataservice.api.MetadataFilter;
 import org.openherbarium.module.backend.metadataservice.api.MetadataService;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
 
@@ -12,7 +10,6 @@ import org.openherbarium.module.backend.metadataservice.api.SortOrder;
  */
 public interface MetadataServiceREST extends MetadataService {
 
-
   String PATH_BASE = "/metadataservice";
   String PATH_METHODE_FIND = "find";
   String PATH_METHODE_COUNT = "count";
@@ -20,8 +17,13 @@ public interface MetadataServiceREST extends MetadataService {
   String METHODE_FIND_QUERYPARAM_SORTORDER = "sortOrder";
   String METHODE_FIND_QUERYPARAM_LIMIT = "limit";
   String METHODE_FIND_QUERYPARAM_SORTOFFSET = "offset";
-  String METHODE_FIND_QUERYPARAM_FILTER = "filter";
-  
+  String METHODE_FIND_QUERYPARAM_TAXON = "taxon";
+  String METHODE_FIND_QUERYPARAM_DETERMINER = "determiner";
+  String METHODE_FIND_QUERYPARAM_RECORDER = "recorder";
+  String METHODE_FIND_QUERYPARAM_BEFORE = "before";
+  String METHODE_FIND_QUERYPARAM_AFTER = "after";
+
   @Override //TODO decide what will happen with Checkstyle
-  List<Metadata> find(String sortField , SortOrder sortOrder , int limit , int offset, MetadataFilter filter);
+  List<Metadata> find(String sortField, SortOrder sortOrder, int limit, int offset, String taxon,
+      String determiner, String recorder);
 }

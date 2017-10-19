@@ -28,7 +28,12 @@
        <groupId>org.jboss.resteasy</groupId>
        <artifactId>resteasy-jackson-provider</artifactId>
        <version>3.1.4.Final</version>
-    </dependency> 
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+      <version>2.9.2</version>
+    </dependency>
     <!--speedment-->
     <dependency>
       <groupId>com.speedment</groupId>

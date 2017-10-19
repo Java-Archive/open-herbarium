@@ -1,17 +1,16 @@
 package org.openherbarium.module.ui.component.mainview.searchview;
 
-import com.vaadin.ui.Composite;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import org.openherbarium.module.api.HasLogger;
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
 import org.openherbarium.module.backend.metadataservice.api.MetadataService;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
 import org.openherbarium.module.ui.component.mainview.searchview.grid.SearchGrid;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import java.util.List;
+import com.vaadin.ui.Composite;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 
 
 /**
@@ -30,7 +29,8 @@ public class SearchView extends Composite implements HasLogger {
     @PostConstruct
     private void postConstruct() {
 
-        final List<Metadata> metadataList = metadataService.find("", SortOrder.ASC, 100, 0, null);
+    final List<Metadata> metadataList =
+        metadataService.find("", SortOrder.ASC, 100, 0, null, null, null);
         searchGrid = new SearchGrid("Suche", metadataList);
         mainLayout = new HorizontalLayout();
         mainLayout.setSizeFull();

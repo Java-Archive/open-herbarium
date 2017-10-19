@@ -4,6 +4,16 @@ import net.vergien.beanautoutils.annotation.Bean;
 
 @Bean
 public class Person {
+  public Person() {
+    super();
+  }
+
+  public Person(String firstName, String lastName) {
+    super();
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
   private String firstName;
   private String lastName;
 
