@@ -22,13 +22,11 @@ public class TimeSpanFilter extends Composite implements HasValue.ValueChangeLis
 
     private DateField from;
     private DateField to;
-    private final TimeSpan timeSpan;
 
     public TimeSpanFilter() {
         final HorizontalLayout dateFieldLayout = new HorizontalLayout();
         from = new DateField();
         to = new DateField();
-        timeSpan = new TimeSpan();
         createAndConfigureDateFields();
         layoutDateFields();
         dateFieldLayout.addComponents(from, to);
@@ -76,13 +74,11 @@ public class TimeSpanFilter extends Composite implements HasValue.ValueChangeLis
                 if (to.getValue() != null && newDate != null && newDate.isAfter(to.getValue())) {
                     to.setValue(newDate);
                 }
-                timeSpan.setFrom(from.getValue());
                 break;
             case TO:
                 if (from.getValue() != null && newDate != null && newDate.isBefore(from.getValue())) {
                     from.setValue(newDate);
                 }
-                timeSpan.setTo(to.getValue());
                 break;
             default:
                 break;
