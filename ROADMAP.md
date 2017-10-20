@@ -15,6 +15,7 @@ Version 0.3
   * Start to make open-herbarium known in the public
     - AG Geobotanik
     - Herbarium Berlin
+    - Make it an official uni-rostock project
 
 Version 0.4
 -----------
