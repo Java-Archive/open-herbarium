@@ -28,7 +28,7 @@ public class ImageServiceTest002 {
   }
 
   @Test
-  void test001() throws Exception {
+  void test001() {
     System.setProperty(ImageServiceConstants.IMAGE_FOLDER_PROPERTY, "/notThere");
     imageService = DI.activateDI(ImageService.class);
     final Optional<byte[]> image = imageService.getImage("Care_bohe_GFW_47659", "TileGroup0", "0-0-0.jpg");

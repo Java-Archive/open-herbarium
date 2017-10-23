@@ -30,6 +30,17 @@
       <artifactId>rapidpm-binarycache-modules-app-cache-provider-ehcache</artifactId>
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>io.gatling.highcharts</groupId>
+      <artifactId>gatling-charts-highcharts</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.gatling</groupId>
+      <artifactId>gatling-recorder</artifactId>
+      <version>2.3.0</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -104,9 +115,14 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <version>3.2.2</version>
+      </plugin>
+      <plugin>
         <groupId>io.gatling</groupId>
         <artifactId>gatling-maven-plugin</artifactId>
-        <version>2.2.1</version>
+        <version>2.2.4</version>
         <!-- optional if you only have one simulation -->
         <configuration>
           <runMultipleSimulations>true</runMultipleSimulations>
