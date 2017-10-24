@@ -2,9 +2,7 @@ package org.openherbarium.module.ui.services.property;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.annotation.PostConstruct;
-
 import org.openherbarium.module.api.property.PropertyService;
 
 
@@ -37,7 +35,8 @@ public class PropertyServiceInMemory implements PropertyService {
     storage.put("login.username", "username"); // i18n
     storage.put("login.password", "password"); // i18n
     storage.put("login.failed", "Login failed..."); // i18n
-    storage.put("login.failed.description", "Login failed, please use right User / Password combination"); // i18n
+    storage.put("login.failed.description",
+        "Login failed, please use right User / Password combination"); // i18n
 
     storage.put("login.language.de", "German");
     storage.put("login.language.en", "English");
@@ -50,5 +49,5 @@ public class PropertyServiceInMemory implements PropertyService {
     storage.put("menu.point.exit", "Logout");
     storage.put("menu.point.exit.message", "You want to go?");
 
-    }
+  }
 }

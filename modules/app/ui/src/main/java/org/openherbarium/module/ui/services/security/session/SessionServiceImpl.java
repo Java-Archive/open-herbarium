@@ -10,9 +10,6 @@ import com.vaadin.server.VaadinSession;
 public class SessionServiceImpl implements SessionService {
   @Override
   public boolean isUserPresent() {
-    return
-        (VaadinSession
-             .getCurrent()
-             .getAttribute(User.class) != null);
+    return (VaadinSession.getCurrent().getAttribute(User.class) != null);
   }
 }

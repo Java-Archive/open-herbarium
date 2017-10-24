@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface SelectionListSubject<T> {
 
-    void notifySubscribersAboutUpdatedList(final List<T> list);
+  void notifySubscribersAboutUpdatedList(final List<T> list);
 
-    void addSubscriber(final SelectionListSubscriber subscriber);
+  void addSubscriber(final SelectionListSubscriber subscriber);
 }

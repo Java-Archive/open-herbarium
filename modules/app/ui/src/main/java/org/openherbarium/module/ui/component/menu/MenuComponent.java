@@ -14,13 +14,10 @@ import static com.vaadin.ui.themes.ValoTheme.MENU_PART;
 import static com.vaadin.ui.themes.ValoTheme.MENU_PART_LARGE_ICONS;
 import static org.openherbarium.module.vaadin.generic.ComponentIDGenerator.buttonID;
 import static org.rapidpm.ddi.DI.activateDI;
-
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-
 import org.openherbarium.module.api.HasLogger;
 import org.openherbarium.module.api.property.PropertyService;
 import org.openherbarium.module.api.security.role.RoleService;
@@ -61,8 +58,10 @@ public class MenuComponent extends Composite implements HasLogger {
   }
 
 
-  @Inject private PropertyService propertyService;
-  @Inject private RoleService roleService;
+  @Inject
+  private PropertyService propertyService;
+  @Inject
+  private RoleService roleService;
 
   private String property(String key) {
     return propertyService.resolve(key);
@@ -80,50 +79,40 @@ public class MenuComponent extends Composite implements HasLogger {
 
   private Component[] getComponents() {
     return Stream
-        .of(
-            createMenuButton(VIEWPORT , MENU_POINT_DASHBOARD , DashBoard::new) ,
-            createMenuButton(ABACUS , MENU_POINT_CALCULATE , SearchView::new) ,
-            createMenuButton(EDIT , MENU_POINT_WRITE , DashBoard::new) ,
-            createMenuButton(PLAY , MENU_POINT_GAMES_MEMORY , DashBoard::new) ,
-            createMenuButton(BAR_CHART , MENU_POINT_REPORT , DashBoard::new) ,
+        .of(createMenuButton(VIEWPORT, MENU_POINT_DASHBOARD, DashBoard::new),
+            createMenuButton(ABACUS, MENU_POINT_CALCULATE, SearchView::new),
+            createMenuButton(EDIT, MENU_POINT_WRITE, DashBoard::new),
+            createMenuButton(PLAY, MENU_POINT_GAMES_MEMORY, DashBoard::new),
+            createMenuButton(BAR_CHART, MENU_POINT_REPORT, DashBoard::new),
 
-            createMenuButtonForNotification(EXIT , MENU_POINT_EXIT , MENU_POINT_EXIT_MESSAGE)
-        )
-        .filter(p -> roleService.hasRole("" , p.getT1())) //TODO how to get logged in user
-        .map(Pair::getT2)
-        .map(Component.class::cast)
-        .toArray(Component[]::new);
+            createMenuButtonForNotification(EXIT, MENU_POINT_EXIT, MENU_POINT_EXIT_MESSAGE))
+        .filter(p -> roleService.hasRole("", p.getT1())) // TODO how to get logged in user
+        .map(Pair::getT2).map(Component.class::cast).toArray(Component[]::new);
   }
 
 
-  //TODO more generic - refactoring
-  private Pair<String, Button> createMenuButtonForNotification(VaadinIcons icon ,
-                                                               String caption ,
-                                                               String message) {
-    final Button button
-        = new Button(property(caption) ,
-                     (e) -> {
-                       UI ui = UI.getCurrent();
-                       ConfirmDialog.show(
-                           ui ,
-                           property(message) ,
-                           (ConfirmDialog.Listener) dialog -> {
-                             if (dialog.isConfirmed()) {
-                               //TODO log out from Security
-//                               UI.getCurrent().close();
-                               VaadinSession vaadinSession = VaadinSession.getCurrent();
-                               vaadinSession.setAttribute(User.class , null);
-                               WrappedSession httpSession = vaadinSession.getSession();
-                               httpSession.invalidate();
-//                               VaadinSession vaadinSession = ui.getSession();
-//                               vaadinSession.close();
-                               ui.getPage().setLocation("/");
-                             } else {
-                               // VaadinUser did not confirm
-                               // CANCEL STUFF
-                             }
-                           });
-                     });
+  // TODO more generic - refactoring
+  private Pair<String, Button> createMenuButtonForNotification(VaadinIcons icon, String caption,
+      String message) {
+    final Button button = new Button(property(caption), (e) -> {
+      UI ui = UI.getCurrent();
+      ConfirmDialog.show(ui, property(message), (ConfirmDialog.Listener) dialog -> {
+        if (dialog.isConfirmed()) {
+          // TODO log out from Security
+          // UI.getCurrent().close();
+          VaadinSession vaadinSession = VaadinSession.getCurrent();
+          vaadinSession.setAttribute(User.class, null);
+          WrappedSession httpSession = vaadinSession.getSession();
+          httpSession.invalidate();
+          // VaadinSession vaadinSession = ui.getSession();
+          // vaadinSession.close();
+          ui.getPage().setLocation("/");
+        } else {
+          // VaadinUser did not confirm
+          // CANCEL STUFF
+        }
+      });
+    });
 
     button.setIcon(icon);
     button.addStyleName(BUTTON_HUGE);
@@ -132,17 +121,16 @@ public class MenuComponent extends Composite implements HasLogger {
     button.addStyleName(MENU_ITEM);
     button.setWidth(MENU_BTN_WIDTH);
 
-    button.setId(buttonID().apply(MainView.class , caption));
+    button.setId(buttonID().apply(MainView.class, caption));
 
-    return new Pair<>(caption , button);
+    return new Pair<>(caption, button);
 
   }
 
 
-  private Pair<String, Button> createMenuButton(VaadinIcons icon ,
-                                                String caption ,
-                                                Supplier<Composite> content) {
-    final Button button = new Button(property(caption) , (e) -> {
+  private Pair<String, Button> createMenuButton(VaadinIcons icon, String caption,
+      Supplier<Composite> content) {
+    final Button button = new Button(property(caption), (e) -> {
       contentLayout.removeAllComponents();
       contentLayout.addComponent(activateDI(content.get()));
     });
@@ -153,8 +141,8 @@ public class MenuComponent extends Composite implements HasLogger {
     button.addStyleName(MENU_ITEM);
     button.setWidth(MENU_BTN_WIDTH);
 
-    button.setId(buttonID().apply(this.getClass() , caption));
-    return new Pair<>(caption , button);
+    button.setId(buttonID().apply(this.getClass(), caption));
+    return new Pair<>(caption, button);
   }
 
 

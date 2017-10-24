@@ -7,7 +7,7 @@ import org.openherbarium.module.api.security.SecurityService;
  */
 public class SecurityServiceImpl implements SecurityService {
 
-  //TODO real implementation is needed
+  // TODO real implementation is needed
   @Override
   public boolean isRemembered() {
     return true;

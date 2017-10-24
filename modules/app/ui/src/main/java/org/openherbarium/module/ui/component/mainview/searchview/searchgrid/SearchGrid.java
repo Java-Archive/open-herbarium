@@ -33,188 +33,197 @@ import com.vaadin.ui.renderers.TextRenderer;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class SearchGrid extends Grid<Metadata>
-        implements VaadinSelectionListSubject<Metadata>, SelectionListSubscriber, HasLogger {
+    implements VaadinSelectionListSubject<Metadata>, SelectionListSubscriber, HasLogger {
 
-    private static final String SCANS = "Scans";
-    private static final String SELECTED = "Auswahl";
+  private static final String SCANS = "Scans";
+  private static final String SELECTED = "Auswahl";
 
-    @Inject
-    private MetadataService metadataService;
+  @Inject
+  private MetadataService metadataService;
 
-    private static final String MESSAGE_MAX_2_ENTITIES_SELECTABLE = "Maximal erlaubte Anzahl an Datens\u00E4tzen ausgew\u00E4hlt";
+  private static final String MESSAGE_MAX_2_ENTITIES_SELECTABLE =
+      "Maximal erlaubte Anzahl an Datens\u00E4tzen ausgew\u00E4hlt";
 
-    private MetadataDataProvider dataProvider = null;
-    private final Set<FilterableColumn> columnDecorators = new HashSet<>();
-    private List<Metadata> selectedMetadatas = new ArrayList<>();
+  private MetadataDataProvider dataProvider = null;
+  private final Set<FilterableColumn> columnDecorators = new HashSet<>();
+  private List<Metadata> selectedMetadatas = new ArrayList<>();
 
-    private List<SelectionListSubscriber> subscribers = new ArrayList<>();
+  private List<SelectionListSubscriber> subscribers = new ArrayList<>();
 
-    public SearchGrid() {
-    }
+  public SearchGrid() {}
 
-    private void buildAndAddColumns() {
-        addAllColumns();
-        addFilterRow();
-    }
+  private void buildAndAddColumns() {
+    addAllColumns();
+    addFilterRow();
+  }
 
-    private void addAllColumns() {
-        FilterableColumn columnDecorator = new FilterableColumn(addColumn(Metadata::getTaxonName).setCaption(TAXON_NAME).setId(TAXON_NAME), true);
-        columnDecorators.add(columnDecorator);
-        columnDecorator = new FilterableColumn(addColumn(Metadata::getDate).setCaption(DATE).setId(DATE), true);
-        columnDecorators.add(columnDecorator);
-        columnDecorator = new FilterableColumn(addColumn(metadata -> metadata.getRecorder().getFirstName() + " " + metadata.getRecorder().getLastName()).setCaption(RECORDER).setId(RECORDER), true);
-        columnDecorators.add(columnDecorator);
-        columnDecorator = new FilterableColumn(addColumn(metadata -> metadata.getDeterminer().getFirstName() + " " + metadata.getDeterminer().getLastName()).setCaption(DETERMINER).setId(DETERMINER), true);
-        columnDecorators.add(columnDecorator);
-        columnDecorator = new FilterableColumn(addColumn(Metadata::getScans).setCaption(SCANS).setId(SCANS).setSortable(false).setExpandRatio(6).setRenderer(scans -> {
-            final StringBuilder sb = new StringBuilder();
-            if (scans != null) {
-                for (final Scan scan : scans) {
-                    sb.append(scan.getName()).append(", ");
-                }
-                return sb.substring(0, sb.length() - 2);
+  private void addAllColumns() {
+    FilterableColumn columnDecorator = new FilterableColumn(
+        addColumn(Metadata::getTaxonName).setCaption(TAXON_NAME).setId(TAXON_NAME), true);
+    columnDecorators.add(columnDecorator);
+    columnDecorator =
+        new FilterableColumn(addColumn(Metadata::getDate).setCaption(DATE).setId(DATE), true);
+    columnDecorators.add(columnDecorator);
+    columnDecorator =
+        new FilterableColumn(addColumn(metadata -> metadata.getRecorder().getFirstName() + " "
+            + metadata.getRecorder().getLastName()).setCaption(RECORDER).setId(RECORDER), true);
+    columnDecorators.add(columnDecorator);
+    columnDecorator = new FilterableColumn(
+        addColumn(metadata -> metadata.getDeterminer().getFirstName() + " "
+            + metadata.getDeterminer().getLastName()).setCaption(DETERMINER).setId(DETERMINER),
+        true);
+    columnDecorators.add(columnDecorator);
+    columnDecorator = new FilterableColumn(addColumn(Metadata::getScans).setCaption(SCANS)
+        .setId(SCANS).setSortable(false).setExpandRatio(6).setRenderer(scans -> {
+          final StringBuilder sb = new StringBuilder();
+          if (scans != null) {
+            for (final Scan scan : scans) {
+              sb.append(scan.getName()).append(", ");
             }
-            return "";
+            return sb.substring(0, sb.length() - 2);
+          }
+          return "";
         }, new TextRenderer("")), false);
-        columnDecorators.add(columnDecorator);
-        columnDecorator = new FilterableColumn(addComponentColumn(metadata -> {
-            final CheckBox checkBox = new CheckBox();
-            checkBox.setData(metadata);
-            checkBox.addValueChangeListener(event -> {
-                if (!event.isUserOriginated()) {
-                    return;
-                }
-                final Boolean selected = event.getValue();
-                final Metadata metadataFromCheckbox = (Metadata) checkBox.getData();
-                boolean selectionChanged = false;
-                if (selected) {
-                    if (selectedMetadatas.size() < MAX_SELECTED_METADATA) {
-                        selectedMetadatas.add(metadataFromCheckbox);
-                        selectionChanged = true;
-                    } else {
-                        Notification.show(MESSAGE_MAX_2_ENTITIES_SELECTABLE);
-                        checkBox.setValue(false);
-                    }
-                } else {
-                    if (selectedMetadatas.contains(metadataFromCheckbox)) {
-                        selectedMetadatas.remove(metadataFromCheckbox);
-                        selectionChanged = true;
-                    }
-                }
-                if (selectionChanged) {
-                    notifySubscribersAboutUpdatedList(new ArrayList<Metadata>(selectedMetadatas));
-                }
-            });
-            return checkBox;
-        }).setSortable(false).setCaption("").setId(SELECTED), false);
-        columnDecorators.add(columnDecorator);
-    }
-
-    private void addFilterRow() {
-        final HeaderRow filterRow = appendHeaderRow();
-        filterRow.getCell(TAXON_NAME).setComponent(createColumnFilterField(TAXON_NAME));
-        filterRow.getCell(DATE).setComponent(createTimeSpanFilterField());
-        filterRow.getCell(RECORDER).setComponent(createColumnFilterField(RECORDER));
-        filterRow.getCell(DETERMINER).setComponent(createColumnFilterField(DETERMINER));
-    }
-
-    private Component createTimeSpanFilterField() {
-        final TimeSpanFilter timeSpanFilter = new TimeSpanFilter();
-        timeSpanFilter.addListener((Listener) event -> rebuildAndExecuteFilters());
-        return timeSpanFilter;
-    }
-
-    private TextField createColumnFilterField(final String placeholder) {
-        final TextField filterField = new TextField();
-        filterField.setWidth(100, Unit.PERCENTAGE);
-        filterField.addStyleName(ValoTheme.TEXTFIELD_TINY);
-        filterField.setPlaceholder(placeholder);
-        filterField.addValueChangeListener(event -> rebuildAndExecuteFilters());
-        return filterField;
-    }
-
-    private void rebuildAndExecuteFilters() {
-        dataProvider.clearFilters();
-        final HeaderRow filterRow = getHeaderRow(getHeaderRowCount() - 1);
-        for (final FilterableColumn filterableColumn : columnDecorators) {
-            final Column<?, ?> column = filterableColumn.getColumn();
-            final HeaderCell headerCell = filterRow.getCell(column);
-            if (headerCell.getCellType() != GridStaticCellType.WIDGET) {
-                continue;
-            }
-            final Component filterComponent = headerCell.getComponent();
-            if (columnDecorators.contains(filterableColumn) && filterableColumn.isFilterable() && filterComponent != null) {
-                if (filterComponent instanceof TextField) {
-                    handleTextFieldFilter(column, (TextField) filterComponent);
-                } else if (filterComponent instanceof TimeSpanFilter) {
-                    handleTimeSpanFilter((TimeSpanFilter) filterComponent);
-                }
-            }
+    columnDecorators.add(columnDecorator);
+    columnDecorator = new FilterableColumn(addComponentColumn(metadata -> {
+      final CheckBox checkBox = new CheckBox();
+      checkBox.setData(metadata);
+      checkBox.addValueChangeListener(event -> {
+        if (!event.isUserOriginated()) {
+          return;
         }
-        dataProvider.refreshAll();
-    }
-
-    private void handleTimeSpanFilter(final TimeSpanFilter timeSpanFilter) {
-        dataProvider.setFromFilter(timeSpanFilter.getFrom());
-        dataProvider.setToFilter(timeSpanFilter.getTo());
-    }
-
-    private void handleTextFieldFilter(final Column<?, ?> column, final TextField textField) {
-        final String textFieldValue = textField.getValue();
-        if (textFieldValue != null && !textFieldValue.isEmpty()) {
-            switch (column.getId()) {
-                case Metadata.DETERMINER:
-                    dataProvider.setDeterminerFilter(textFieldValue);
-                    break;
-                case Metadata.RECORDER:
-                    dataProvider.setRecorderFilter(textFieldValue);
-                    break;
-                case Metadata.TAXON_NAME:
-                    dataProvider.setTaxonFilter(textFieldValue);
-                    break;
-                default:
-                    logger().error("Filter by coloum {} is not supported!",
-                            column.getId());
-            }
+        final Boolean selected = event.getValue();
+        final Metadata metadataFromCheckbox = (Metadata) checkBox.getData();
+        boolean selectionChanged = false;
+        if (selected) {
+          if (selectedMetadatas.size() < MAX_SELECTED_METADATA) {
+            selectedMetadatas.add(metadataFromCheckbox);
+            selectionChanged = true;
+          } else {
+            Notification.show(MESSAGE_MAX_2_ENTITIES_SELECTABLE);
+            checkBox.setValue(false);
+          }
+        } else {
+          if (selectedMetadatas.contains(metadataFromCheckbox)) {
+            selectedMetadatas.remove(metadataFromCheckbox);
+            selectionChanged = true;
+          }
         }
-    }
-
-    @PostConstruct
-    public void postConstruct() {
-        dataProvider = new MetadataDataProvider(metadataService);
-        setDataProvider(dataProvider);
-        setSelectionMode(SelectionMode.NONE);
-        buildAndAddColumns();
-        setSizeFull();
-    }
-
-    @Override
-    public void notifySubscribersAboutUpdatedList(final List<Metadata> list) {
-        for (final SelectionListSubscriber subscriber : subscribers) {
-            subscriber.currentSelectionListIs(list);
+        if (selectionChanged) {
+          notifySubscribersAboutUpdatedList(new ArrayList<Metadata>(selectedMetadatas));
         }
-    }
+      });
+      return checkBox;
+    }).setSortable(false).setCaption("").setId(SELECTED), false);
+    columnDecorators.add(columnDecorator);
+  }
 
-    @Override
-    public void addSubscriber(final SelectionListSubscriber subscriber) {
-        subscribers.add(subscriber);
-    }
+  private void addFilterRow() {
+    final HeaderRow filterRow = appendHeaderRow();
+    filterRow.getCell(TAXON_NAME).setComponent(createColumnFilterField(TAXON_NAME));
+    filterRow.getCell(DATE).setComponent(createTimeSpanFilterField());
+    filterRow.getCell(RECORDER).setComponent(createColumnFilterField(RECORDER));
+    filterRow.getCell(DETERMINER).setComponent(createColumnFilterField(DETERMINER));
+  }
 
-    @Override
-    public void currentSelectionListIs(final List<Metadata> list) {
-        final List<Metadata> oldList = new ArrayList<>(selectedMetadatas);
-        selectedMetadatas = new ArrayList<>(list);
-        for (final Metadata oldSelectedMetadata : oldList) {
-            if (!selectedMetadatas.contains(oldSelectedMetadata)) {
-                final ValueProvider<Metadata, ?> valueProvider = getColumn(SELECTED).getValueProvider();
-                final CheckBox checkbox = (CheckBox) valueProvider.apply(oldSelectedMetadata);
-                undoSelectionAndReloadGridRow(oldSelectedMetadata, checkbox);
-            }
+  private Component createTimeSpanFilterField() {
+    final TimeSpanFilter timeSpanFilter = new TimeSpanFilter();
+    timeSpanFilter.addListener((Listener) event -> rebuildAndExecuteFilters());
+    return timeSpanFilter;
+  }
+
+  private TextField createColumnFilterField(final String placeholder) {
+    final TextField filterField = new TextField();
+    filterField.setWidth(100, Unit.PERCENTAGE);
+    filterField.addStyleName(ValoTheme.TEXTFIELD_TINY);
+    filterField.setPlaceholder(placeholder);
+    filterField.addValueChangeListener(event -> rebuildAndExecuteFilters());
+    return filterField;
+  }
+
+  private void rebuildAndExecuteFilters() {
+    dataProvider.clearFilters();
+    final HeaderRow filterRow = getHeaderRow(getHeaderRowCount() - 1);
+    for (final FilterableColumn filterableColumn : columnDecorators) {
+      final Column<?, ?> column = filterableColumn.getColumn();
+      final HeaderCell headerCell = filterRow.getCell(column);
+      if (headerCell.getCellType() != GridStaticCellType.WIDGET) {
+        continue;
+      }
+      final Component filterComponent = headerCell.getComponent();
+      if (columnDecorators.contains(filterableColumn) && filterableColumn.isFilterable()
+          && filterComponent != null) {
+        if (filterComponent instanceof TextField) {
+          handleTextFieldFilter(column, (TextField) filterComponent);
+        } else if (filterComponent instanceof TimeSpanFilter) {
+          handleTimeSpanFilter((TimeSpanFilter) filterComponent);
         }
+      }
     }
+    dataProvider.refreshAll();
+  }
 
-    private void undoSelectionAndReloadGridRow(Metadata oldSelectedMetadata, CheckBox selectionBoxFromUnselectedMetadataItem) {
-        selectionBoxFromUnselectedMetadataItem.setValue(false);
-        dataProvider.refreshItem(oldSelectedMetadata);
+  private void handleTimeSpanFilter(final TimeSpanFilter timeSpanFilter) {
+    dataProvider.setFromFilter(timeSpanFilter.getFrom());
+    dataProvider.setToFilter(timeSpanFilter.getTo());
+  }
+
+  private void handleTextFieldFilter(final Column<?, ?> column, final TextField textField) {
+    final String textFieldValue = textField.getValue();
+    if (textFieldValue != null && !textFieldValue.isEmpty()) {
+      switch (column.getId()) {
+        case Metadata.DETERMINER:
+          dataProvider.setDeterminerFilter(textFieldValue);
+          break;
+        case Metadata.RECORDER:
+          dataProvider.setRecorderFilter(textFieldValue);
+          break;
+        case Metadata.TAXON_NAME:
+          dataProvider.setTaxonFilter(textFieldValue);
+          break;
+        default:
+          logger().error("Filter by coloum {} is not supported!", column.getId());
+      }
     }
+  }
+
+  @PostConstruct
+  public void postConstruct() {
+    dataProvider = new MetadataDataProvider(metadataService);
+    setDataProvider(dataProvider);
+    setSelectionMode(SelectionMode.NONE);
+    buildAndAddColumns();
+    setSizeFull();
+  }
+
+  @Override
+  public void notifySubscribersAboutUpdatedList(final List<Metadata> list) {
+    for (final SelectionListSubscriber subscriber : subscribers) {
+      subscriber.currentSelectionListIs(list);
+    }
+  }
+
+  @Override
+  public void addSubscriber(final SelectionListSubscriber subscriber) {
+    subscribers.add(subscriber);
+  }
+
+  @Override
+  public void currentSelectionListIs(final List<Metadata> list) {
+    final List<Metadata> oldList = new ArrayList<>(selectedMetadatas);
+    selectedMetadatas = new ArrayList<>(list);
+    for (final Metadata oldSelectedMetadata : oldList) {
+      if (!selectedMetadatas.contains(oldSelectedMetadata)) {
+        final ValueProvider<Metadata, ?> valueProvider = getColumn(SELECTED).getValueProvider();
+        final CheckBox checkbox = (CheckBox) valueProvider.apply(oldSelectedMetadata);
+        undoSelectionAndReloadGridRow(oldSelectedMetadata, checkbox);
+      }
+    }
+  }
+
+  private void undoSelectionAndReloadGridRow(Metadata oldSelectedMetadata,
+      CheckBox selectionBoxFromUnselectedMetadataItem) {
+    selectionBoxFromUnselectedMetadataItem.setValue(false);
+    dataProvider.refreshItem(oldSelectedMetadata);
+  }
 }

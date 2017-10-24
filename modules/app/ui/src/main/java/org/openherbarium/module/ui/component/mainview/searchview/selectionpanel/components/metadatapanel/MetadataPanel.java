@@ -9,22 +9,22 @@ import org.openherbarium.module.ui.component.mainview.searchview.selectionpanel.
 
 public class MetadataPanel extends Panel {
 
-    private VerticalLayout contentLayout;
-    private MetadataFormLayout formLayout;
-    private ImageGridLayout tasksAndThumbnailLayout;
+  private VerticalLayout contentLayout;
+  private MetadataFormLayout formLayout;
+  private ImageGridLayout tasksAndThumbnailLayout;
 
-    public MetadataPanel(final Metadata metadata) {
-        contentLayout = new VerticalLayout();
-        formLayout = new MetadataFormLayout(metadata);
-        tasksAndThumbnailLayout = new ImageGridLayout(metadata);
-        contentLayout.setSizeFull();
-        contentLayout.addComponents(formLayout, tasksAndThumbnailLayout);
-        setSizeFull();
-        setContent(contentLayout);
-    }
+  public MetadataPanel(final Metadata metadata) {
+    contentLayout = new VerticalLayout();
+    formLayout = new MetadataFormLayout(metadata);
+    tasksAndThumbnailLayout = new ImageGridLayout(metadata);
+    contentLayout.setSizeFull();
+    contentLayout.addComponents(formLayout, tasksAndThumbnailLayout);
+    setSizeFull();
+    setContent(contentLayout);
+  }
 
-    public Button getRemoveButton() {
-        return tasksAndThumbnailLayout.getRemoveButton();
-    }
+  public Button getRemoveButton() {
+    return tasksAndThumbnailLayout.getRemoveButton();
+  }
 
 }

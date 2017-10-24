@@ -7,8 +7,8 @@ import org.rapidpm.ddi.implresolver.ClassResolver;
 
 @ResponsibleFor(MetadataService.class)
 public class MetadataServiceClassResolver implements ClassResolver<MetadataService> {
-    @Override
-    public Class<? extends MetadataService> resolve(final Class<MetadataService> interf) {
-        return MetadataServiceMOCKClient.class;
-    }
+  @Override
+  public Class<? extends MetadataService> resolve(final Class<MetadataService> interf) {
+    return MetadataServiceMOCKClient.class;
+  }
 }
