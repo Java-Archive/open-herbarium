@@ -25,7 +25,7 @@ public class MetadataServiceRESTEndpoint implements MetadataServiceREST, HasLogg
   @GET
   @Path(PATH_METHODE_FIND)
   @Produces(MediaType.APPLICATION_JSON)
-  public List<Metadata> find(@QueryParam(METHODE_FIND_QUERYPARAM_SORTFIELD) String sortField ,
+  public List<Metadata> find(@QueryParam(METHODE_FIND_QUERYPARAM_SORTFIELD) SortField sortField,
                              @QueryParam(METHODE_FIND_QUERYPARAM_SORTORDER) SortOrder sortOrder ,
                              @QueryParam(METHODE_FIND_QUERYPARAM_LIMIT) int limit ,
                              @QueryParam(METHODE_FIND_QUERYPARAM_SORTOFFSET) int offset,

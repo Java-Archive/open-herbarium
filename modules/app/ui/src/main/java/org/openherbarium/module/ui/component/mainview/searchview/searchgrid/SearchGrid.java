@@ -1,8 +1,26 @@
 package org.openherbarium.module.ui.component.mainview.searchview.searchgrid;
 
+import static org.openherbarium.module.backend.metadataservice.api.Metadata.DATE;
+import static org.openherbarium.module.backend.metadataservice.api.Metadata.DETERMINER;
+import static org.openherbarium.module.backend.metadataservice.api.Metadata.RECORDER;
+import static org.openherbarium.module.backend.metadataservice.api.Metadata.TAXON_NAME;
+import static org.openherbarium.module.ui.component.mainview.searchview.SearchView.MAX_SELECTED_METADATA;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import org.openherbarium.module.api.HasLogger;
+import org.openherbarium.module.backend.metadataservice.api.Metadata;
+import org.openherbarium.module.backend.metadataservice.api.MetadataService;
+import org.openherbarium.module.backend.metadataservice.api.Scan;
+import org.openherbarium.module.ui.component.mainview.searchview.interfaces.selectionlist.SelectionListSubscriber;
+import org.openherbarium.module.ui.component.mainview.searchview.interfaces.selectionlist.VaadinSelectionListSubject;
+import org.openherbarium.module.ui.component.mainview.searchview.searchgrid.dataprovider.MetadataDataProvider;
+import org.openherbarium.module.ui.component.mainview.searchview.searchgrid.filter.FilterableColumn;
+import org.openherbarium.module.ui.component.mainview.searchview.searchgrid.filter.TimeSpanFilter;
 import com.vaadin.data.ValueProvider;
-import com.vaadin.data.provider.DataProvider;
-import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.shared.ui.grid.GridStaticCellType;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -13,30 +31,9 @@ import com.vaadin.ui.components.grid.HeaderCell;
 import com.vaadin.ui.components.grid.HeaderRow;
 import com.vaadin.ui.renderers.TextRenderer;
 import com.vaadin.ui.themes.ValoTheme;
-import org.openherbarium.module.backend.metadataservice.api.Metadata;
-import org.openherbarium.module.backend.metadataservice.api.MetadataService;
-import org.openherbarium.module.backend.metadataservice.api.Scan;
-import org.openherbarium.module.backend.metadataservice.api.SortOrder;
-import org.openherbarium.module.ui.component.mainview.searchview.interfaces.selectionlist.VaadinSelectionListSubject;
-import org.openherbarium.module.ui.component.mainview.searchview.searchgrid.filter.FilterableColumn;
-import org.openherbarium.module.ui.component.mainview.searchview.searchgrid.filter.TimeSpanFilter;
-import org.openherbarium.module.ui.component.mainview.searchview.interfaces.selectionlist.SelectionListSubscriber;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static org.openherbarium.module.backend.metadataservice.api.Metadata.DATE;
-import static org.openherbarium.module.backend.metadataservice.api.Metadata.DETERMINER;
-import static org.openherbarium.module.backend.metadataservice.api.Metadata.RECORDER;
-import static org.openherbarium.module.backend.metadataservice.api.Metadata.TAXON_NAME;
-import static org.openherbarium.module.ui.component.mainview.searchview.SearchView.MAX_SELECTED_METADATA;
-
-public class SearchGrid extends Grid<Metadata> implements VaadinSelectionListSubject<Metadata>, SelectionListSubscriber {
+public class SearchGrid extends Grid<Metadata>
+        implements VaadinSelectionListSubject<Metadata>, SelectionListSubscriber, HasLogger {
 
     private static final String SCANS = "Scans";
     private static final String SELECTED = "Auswahl";
@@ -46,7 +43,7 @@ public class SearchGrid extends Grid<Metadata> implements VaadinSelectionListSub
 
     private static final String MESSAGE_MAX_2_ENTITIES_SELECTABLE = "Maximal erlaubte Anzahl an Datens\u00E4tzen ausgew\u00E4hlt";
 
-    private ListDataProvider<Metadata> dataProvider = new ListDataProvider<>(new ArrayList<>());
+    private MetadataDataProvider dataProvider = null;
     private final Set<FilterableColumn> columnDecorators = new HashSet<>();
     private List<Metadata> selectedMetadatas = new ArrayList<>();
 
@@ -105,7 +102,7 @@ public class SearchGrid extends Grid<Metadata> implements VaadinSelectionListSub
                     }
                 }
                 if (selectionChanged) {
-                    notifySubscribersAboutUpdatedList(new ArrayList(selectedMetadatas));
+                    notifySubscribersAboutUpdatedList(new ArrayList<Metadata>(selectedMetadatas));
                 }
             });
             return checkBox;
@@ -140,7 +137,7 @@ public class SearchGrid extends Grid<Metadata> implements VaadinSelectionListSub
         dataProvider.clearFilters();
         final HeaderRow filterRow = getHeaderRow(getHeaderRowCount() - 1);
         for (final FilterableColumn filterableColumn : columnDecorators) {
-            final Column column = filterableColumn.getColumn();
+            final Column<?, ?> column = filterableColumn.getColumn();
             final HeaderCell headerCell = filterRow.getCell(column);
             if (headerCell.getCellType() != GridStaticCellType.WIDGET) {
                 continue;
@@ -148,40 +145,43 @@ public class SearchGrid extends Grid<Metadata> implements VaadinSelectionListSub
             final Component filterComponent = headerCell.getComponent();
             if (columnDecorators.contains(filterableColumn) && filterableColumn.isFilterable() && filterComponent != null) {
                 if (filterComponent instanceof TextField) {
-                    final TextField textField = (TextField) filterComponent;
-                    final String textFieldValue = textField.getValue();
-                    if (textFieldValue != null && !textFieldValue.isEmpty()) {
-                        final ValueProvider<Metadata, String> valueProvider = column.getValueProvider();
-                        dataProvider.addFilter(valueProvider, value -> value.toLowerCase().contains(textFieldValue.toLowerCase()));
-                    }
+                    handleTextFieldFilter(column, (TextField) filterComponent);
                 } else if (filterComponent instanceof TimeSpanFilter) {
-                    final TimeSpanFilter timeSpanFilter = (TimeSpanFilter) filterComponent;
-                    final ValueProvider<Metadata, LocalDate> valueProvider = column.getValueProvider();
-                    dataProvider.addFilter(valueProvider, value -> {
-                        final LocalDate filterFrom = timeSpanFilter.getFrom();
-                        final LocalDate filterTo = timeSpanFilter.getTo();
-                        if (filterFrom == null && filterTo == null) {
-                            return true;
-                        }
-                        if (filterFrom != null && filterTo != null) {
-                            return ((value.isAfter(filterFrom) || value.isEqual(filterFrom)) &&
-                                    (value.isBefore(filterTo) || value.isEqual(filterTo)));
-                        }
-                        if (filterFrom != null) {
-                            return value.isAfter(filterFrom) || value.isEqual(filterFrom);
-                        }
-                        return value.isBefore(filterTo) || value.isEqual(filterTo);
-                    });
+                    handleTimeSpanFilter((TimeSpanFilter) filterComponent);
                 }
             }
         }
         dataProvider.refreshAll();
     }
 
+    private void handleTimeSpanFilter(final TimeSpanFilter timeSpanFilter) {
+        dataProvider.setFromFilter(timeSpanFilter.getFrom());
+        dataProvider.setToFilter(timeSpanFilter.getTo());
+    }
+
+    private void handleTextFieldFilter(final Column<?, ?> column, final TextField textField) {
+        final String textFieldValue = textField.getValue();
+        if (textFieldValue != null && !textFieldValue.isEmpty()) {
+            switch (column.getId()) {
+                case Metadata.DETERMINER:
+                    dataProvider.setDeterminerFilter(textFieldValue);
+                    break;
+                case Metadata.RECORDER:
+                    dataProvider.setRecorderFilter(textFieldValue);
+                    break;
+                case Metadata.TAXON_NAME:
+                    dataProvider.setTaxonFilter(textFieldValue);
+                    break;
+                default:
+                    logger().error("Filter by coloum {} is not supported!",
+                            column.getId());
+            }
+        }
+    }
+
     @PostConstruct
     public void postConstruct() {
-        final List<Metadata> metadataList = metadataService.find("", SortOrder.ASC, 100, 0, null, null, null);
-        dataProvider = DataProvider.ofCollection(metadataList);
+        dataProvider = new MetadataDataProvider(metadataService);
         setDataProvider(dataProvider);
         setSelectionMode(SelectionMode.NONE);
         buildAndAddColumns();

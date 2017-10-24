@@ -14,6 +14,6 @@ public interface MetadataServiceMOCK extends MetadataService {
   String PATH_BASE = "metadataservice";
 
   @Override //TODO decide what will happen with Checkstyle
-  List<Metadata> find(String sortField, SortOrder sortOrder, int limit, int offset, String taxon,
-      String determiner, String recorder);
+  List<Metadata> find(SortField sortField, SortOrder sortOrder, int limit, int offset,
+      String taxon, String determiner, String recorder);
 }

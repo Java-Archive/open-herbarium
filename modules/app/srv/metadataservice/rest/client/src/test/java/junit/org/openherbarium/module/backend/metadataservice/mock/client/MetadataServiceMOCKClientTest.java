@@ -1,20 +1,20 @@
 package junit.org.openherbarium.module.backend.metadataservice.mock.client;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.rapidpm.microservice.MainUndertow.REST_HOST_PROPERTY;
+import static org.rapidpm.microservice.MainUndertow.REST_PORT_PROPERTY;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openherbarium.module.backend.metadataservice.api.MetadataService;
+import org.openherbarium.module.backend.metadataservice.api.MetadataService.SortField;
 import org.openherbarium.module.backend.metadataservice.api.Person;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
 import org.openherbarium.module.backend.metadataservice.mock.client.MetadataServiceMOCKClient;
 import org.rapidpm.ddi.DI;
 import org.rapidpm.dependencies.core.net.PortUtils;
 import org.rapidpm.microservice.Main;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.rapidpm.microservice.MainUndertow.REST_HOST_PROPERTY;
-import static org.rapidpm.microservice.MainUndertow.REST_PORT_PROPERTY;
 
 public class MetadataServiceMOCKClientTest {
 
@@ -45,7 +45,7 @@ public class MetadataServiceMOCKClientTest {
     @Test
     public void test() {
         MetadataService client = DI.activateDI(MetadataServiceMOCKClient.class);
-        System.out.println(client.find("id", SortOrder.ASC, 1, 1, null, null, null));
+        System.out.println(client.find(SortField.TAXON, SortOrder.ASC, 1, 1, null, null, null));
     }
 
     @Test

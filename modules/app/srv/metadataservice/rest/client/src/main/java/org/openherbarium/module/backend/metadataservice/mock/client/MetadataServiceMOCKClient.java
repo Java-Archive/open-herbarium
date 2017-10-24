@@ -1,16 +1,5 @@
 package org.openherbarium.module.backend.metadataservice.mock.client;
 
-import org.apache.commons.lang3.StringUtils;
-import org.openherbarium.module.api.HasLogger;
-import org.openherbarium.module.api.config.Configuration;
-import org.openherbarium.module.backend.metadataservice.api.Metadata;
-import org.openherbarium.module.backend.metadataservice.api.Person;
-import org.openherbarium.module.backend.metadataservice.api.Scan;
-import org.openherbarium.module.backend.metadataservice.api.SortOrder;
-import org.openherbarium.module.backend.metadataservice.mock.api.MetadataServiceMOCK;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +9,16 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import org.apache.commons.lang3.StringUtils;
+import org.openherbarium.module.api.HasLogger;
+import org.openherbarium.module.api.config.Configuration;
+import org.openherbarium.module.backend.metadataservice.api.Metadata;
+import org.openherbarium.module.backend.metadataservice.api.Person;
+import org.openherbarium.module.backend.metadataservice.api.Scan;
+import org.openherbarium.module.backend.metadataservice.api.SortOrder;
+import org.openherbarium.module.backend.metadataservice.mock.api.MetadataServiceMOCK;
 
 /**
  *
@@ -77,7 +76,7 @@ public class MetadataServiceMOCKClient implements MetadataServiceMOCK, HasLogger
     }
 
     @Override
-    public List<Metadata> find(String sortField, SortOrder sortOrder, int limit, int offset,
+    public List<Metadata> find(SortField sortField, SortOrder sortOrder, int limit, int offset,
                                String taxon, String determiner,
                                String recorder) {
         return getMetadataStreamFiltered(determiner, recorder, taxon).skip(offset).limit(limit).collect(Collectors.toList());

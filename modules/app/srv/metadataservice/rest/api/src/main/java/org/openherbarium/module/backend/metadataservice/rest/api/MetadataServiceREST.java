@@ -24,6 +24,6 @@ public interface MetadataServiceREST extends MetadataService {
   String METHODE_FIND_QUERYPARAM_AFTER = "after";
 
   @Override //TODO decide what will happen with Checkstyle
-  List<Metadata> find(String sortField, SortOrder sortOrder, int limit, int offset, String taxon,
+  List<Metadata> find(SortField sortField, SortOrder sortOrder, int limit, int offset, String taxon,
       String determiner, String recorder);
 }

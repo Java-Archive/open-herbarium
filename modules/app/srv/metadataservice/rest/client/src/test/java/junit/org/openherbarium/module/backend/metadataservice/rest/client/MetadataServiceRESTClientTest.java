@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openherbarium.module.api.config.Configuration;
 import org.openherbarium.module.backend.metadataservice.api.MetadataService;
+import org.openherbarium.module.backend.metadataservice.api.MetadataService.SortField;
 import org.openherbarium.module.backend.metadataservice.api.SortOrder;
 import org.openherbarium.module.backend.metadataservice.rest.client.MetadataServiceRESTClient;
 import org.rapidpm.ddi.DI;
@@ -44,7 +45,7 @@ public class MetadataServiceRESTClientTest {
   @Test
   public void test() {
     MetadataService client = DI.activateDI(MetadataServiceRESTClient.class);
-    System.out.println(client.find("id", SortOrder.ASC, 1, 1, null, null, null));
+        System.out.println(client.find(SortField.TAXON, SortOrder.ASC, 1, 1, null, null, null));
   }
 
   public static class TestConfiguration implements Configuration {

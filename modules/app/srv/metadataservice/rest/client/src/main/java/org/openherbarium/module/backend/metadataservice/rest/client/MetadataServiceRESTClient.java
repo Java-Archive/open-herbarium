@@ -38,7 +38,7 @@ public class MetadataServiceRESTClient implements MetadataServiceREST, HasLogger
   }
 
   @Override
-  public List<Metadata> find(String sortField, SortOrder sortOrder, int limit, int offset,
+  public List<Metadata> find(SortField sortField, SortOrder sortOrder, int limit, int offset,
       String taxon, String determiner, String recorder) {
     final Response response = new ResteasyClientBuilder()
         .build()
