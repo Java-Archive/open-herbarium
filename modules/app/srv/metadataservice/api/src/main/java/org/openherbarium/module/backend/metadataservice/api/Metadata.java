@@ -49,8 +49,8 @@ public class Metadata {
     return recorder;
   }
 
-  public void setRecorder(Person finder) {
-    this.recorder = finder;
+  public void setRecorder(Person recorder) {
+    this.recorder = recorder;
   }
 
   public Person getDeterminer() {
