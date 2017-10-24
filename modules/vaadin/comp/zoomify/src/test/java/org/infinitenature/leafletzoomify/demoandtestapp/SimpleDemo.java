@@ -13,7 +13,7 @@ public class SimpleDemo extends AbstractTest {
 	public Component getTestComponent() {
 		final LMap leafletMap = new LMap();
 		leafletMap.setCrs(Crs.Simple);
-		leafletMap.setHeight("100%");
+		leafletMap.setHeight(100, Unit.PERCENTAGE);
 
 		leafletMap.setView(-40d, 80d, 3d);
 

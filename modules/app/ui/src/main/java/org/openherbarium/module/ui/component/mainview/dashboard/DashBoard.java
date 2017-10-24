@@ -1,13 +1,12 @@
 package org.openherbarium.module.ui.component.mainview.dashboard;
 
-import java.net.MalformedURLException;
-
-import javax.annotation.PostConstruct;
-
-import org.infinitenature.leafletzoomify.LZoomifyImage;
-import org.openherbarium.module.api.HasLogger;
 import com.vaadin.ui.Composite;
 import com.vaadin.ui.Label;
+import org.infinitenature.leafletzoomify.LZoomifyImage;
+import org.openherbarium.module.api.HasLogger;
+
+import javax.annotation.PostConstruct;
+import java.net.MalformedURLException;
 
 /**
  *

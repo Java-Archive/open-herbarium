@@ -1,16 +1,13 @@
 package org.openherbarium.module.ui.component.mainview.searchview;
 
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import org.openherbarium.module.api.HasLogger;
-import org.openherbarium.module.backend.metadataservice.api.Metadata;
-import org.openherbarium.module.backend.metadataservice.api.MetadataService;
-import org.openherbarium.module.backend.metadataservice.api.SortOrder;
-import org.openherbarium.module.ui.component.mainview.searchview.grid.SearchGrid;
 import com.vaadin.ui.Composite;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import org.openherbarium.module.api.HasLogger;
+import org.openherbarium.module.ui.component.mainview.searchview.searchgrid.SearchGrid;
+import org.openherbarium.module.ui.component.mainview.searchview.selectionpanel.SelectionPanel;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 
 /**
@@ -18,26 +15,28 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class SearchView extends Composite implements HasLogger {
 
+    public static final int MAX_SELECTED_METADATA = 2;
+    public static final String NOT_YET_IMPLEMENTED = "< Not yet implemented >";
+
     @Inject
-    private MetadataService metadataService;
+    private SearchGrid searchGrid;
+
+    @Inject
+    private SelectionPanel selectionPanel;
 
     private HorizontalLayout mainLayout;
 
-    private SearchGrid searchGrid;
-    private VerticalLayout selectedItemsLayout;
-
     @PostConstruct
     private void postConstruct() {
-
-    final List<Metadata> metadataList =
-        metadataService.find("", SortOrder.ASC, 100, 0, null, null, null);
-        searchGrid = new SearchGrid("Suche", metadataList);
+        searchGrid.addSubscriber(selectionPanel);
+        selectionPanel.addSubscriber(searchGrid);
         mainLayout = new HorizontalLayout();
         mainLayout.setSizeFull();
-        selectedItemsLayout = new VerticalLayout();
-        mainLayout.addComponentsAndExpand(searchGrid, selectedItemsLayout);
+        mainLayout.setMargin(false);
+        mainLayout.setSpacing(false);
+        mainLayout.addComponentsAndExpand(searchGrid, selectionPanel);
         mainLayout.setExpandRatio(searchGrid, 0.75f);
-        mainLayout.setExpandRatio(selectedItemsLayout, 0.25f);
+        mainLayout.setExpandRatio(selectionPanel, 0.25f);
         setCompositionRoot(mainLayout);
     }
 

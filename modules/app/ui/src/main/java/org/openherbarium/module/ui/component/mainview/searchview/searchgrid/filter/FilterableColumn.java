@@ -1,6 +1,7 @@
-package org.openherbarium.module.ui.component.mainview.searchview.grid.filter;
+package org.openherbarium.module.ui.component.mainview.searchview.searchgrid.filter;
 
 import com.vaadin.ui.Grid;
+
 public class FilterableColumn {
 
     private final Grid.Column column;

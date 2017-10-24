@@ -8,6 +8,11 @@ import net.vergien.beanautoutils.annotation.Bean;
 @Bean
 public class Metadata {
 
+  public static final String TAXON_NAME = "Taxon";
+  public static final String RECORDER = "Finder";
+  public static final String DETERMINER = "Bestimmer";
+  public static final String DATE = "Datum";
+
   private long id;
   private String externalId;
   private String taxonName;

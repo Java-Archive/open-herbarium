@@ -1,4 +1,4 @@
-package org.openherbarium.module.ui.component.mainview.searchview.grid;
+package org.openherbarium.module.ui.component.mainview.searchview.searchgrid;
 
 import com.vaadin.data.ValueProvider;
 import com.vaadin.data.provider.DataProvider;
@@ -14,37 +14,45 @@ import com.vaadin.ui.components.grid.HeaderRow;
 import com.vaadin.ui.renderers.TextRenderer;
 import com.vaadin.ui.themes.ValoTheme;
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
+import org.openherbarium.module.backend.metadataservice.api.MetadataService;
 import org.openherbarium.module.backend.metadataservice.api.Scan;
-import org.openherbarium.module.ui.component.mainview.searchview.grid.filter.TimeSpanFilter;
-import org.openherbarium.module.ui.component.mainview.searchview.grid.filter.FilterableColumn;
+import org.openherbarium.module.backend.metadataservice.api.SortOrder;
+import org.openherbarium.module.ui.component.mainview.searchview.interfaces.selectionlist.VaadinSelectionListSubject;
+import org.openherbarium.module.ui.component.mainview.searchview.searchgrid.filter.FilterableColumn;
+import org.openherbarium.module.ui.component.mainview.searchview.searchgrid.filter.TimeSpanFilter;
+import org.openherbarium.module.ui.component.mainview.searchview.interfaces.selectionlist.SelectionListSubscriber;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import java.time.LocalDate;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public class SearchGrid extends Grid<Metadata> {
+import static org.openherbarium.module.backend.metadataservice.api.Metadata.DATE;
+import static org.openherbarium.module.backend.metadataservice.api.Metadata.DETERMINER;
+import static org.openherbarium.module.backend.metadataservice.api.Metadata.RECORDER;
+import static org.openherbarium.module.backend.metadataservice.api.Metadata.TAXON_NAME;
+import static org.openherbarium.module.ui.component.mainview.searchview.SearchView.MAX_SELECTED_METADATA;
 
-    private static final String TAXON_NAME = "Taxon";
-    private static final String RECORDER = "Finder";
-    private static final String DETERMINER = "Bestimmer";
-    private static final String DATE = "Datum";
+public class SearchGrid extends Grid<Metadata> implements VaadinSelectionListSubject<Metadata>, SelectionListSubscriber {
+
     private static final String SCANS = "Scans";
     private static final String SELECTED = "Auswahl";
 
-    private static final String MESSAGE_MAX_2_ENTITIES_SELECTABLE = "Maximal 2 Datens\u00E4tze ausw\u00E4hlbar";
+    @Inject
+    private MetadataService metadataService;
 
-    private final ListDataProvider<Metadata> dataProvider;
+    private static final String MESSAGE_MAX_2_ENTITIES_SELECTABLE = "Maximal erlaubte Anzahl an Datens\u00E4tzen ausgew\u00E4hlt";
+
+    private ListDataProvider<Metadata> dataProvider = new ListDataProvider<>(new ArrayList<>());
     private final Set<FilterableColumn> columnDecorators = new HashSet<>();
-    private final Set<Metadata> selectedMetadatas = new HashSet<>();
+    private List<Metadata> selectedMetadatas = new ArrayList<>();
 
-    public SearchGrid(final String caption, final Collection<Metadata> items) {
-        setCaption(caption);
-        dataProvider = DataProvider.ofCollection(items);
-        setDataProvider(dataProvider);
-        setSelectionMode(SelectionMode.NONE);
-        buildAndAddColumns();
-        setSizeFull();
+    private List<SelectionListSubscriber> subscribers = new ArrayList<>();
+
+    public SearchGrid() {
     }
 
     private void buildAndAddColumns() {
@@ -76,19 +84,29 @@ public class SearchGrid extends Grid<Metadata> {
             final CheckBox checkBox = new CheckBox();
             checkBox.setData(metadata);
             checkBox.addValueChangeListener(event -> {
+                if (!event.isUserOriginated()) {
+                    return;
+                }
                 final Boolean selected = event.getValue();
                 final Metadata metadataFromCheckbox = (Metadata) checkBox.getData();
+                boolean selectionChanged = false;
                 if (selected) {
-                    if (selectedMetadatas.size() < 2) {
+                    if (selectedMetadatas.size() < MAX_SELECTED_METADATA) {
                         selectedMetadatas.add(metadataFromCheckbox);
+                        selectionChanged = true;
                     } else {
                         Notification.show(MESSAGE_MAX_2_ENTITIES_SELECTABLE);
                         checkBox.setValue(false);
                     }
                 } else {
-                    selectedMetadatas.remove(metadataFromCheckbox);
+                    if (selectedMetadatas.contains(metadataFromCheckbox)) {
+                        selectedMetadatas.remove(metadataFromCheckbox);
+                        selectionChanged = true;
+                    }
                 }
-                System.out.println(selectedMetadatas);
+                if (selectionChanged) {
+                    notifySubscribersAboutUpdatedList(new ArrayList(selectedMetadatas));
+                }
             });
             return checkBox;
         }).setSortable(false).setCaption("").setId(SELECTED), false);
@@ -111,7 +129,7 @@ public class SearchGrid extends Grid<Metadata> {
 
     private TextField createColumnFilterField(final String placeholder) {
         final TextField filterField = new TextField();
-        filterField.setWidth("100%");
+        filterField.setWidth(100, Unit.PERCENTAGE);
         filterField.addStyleName(ValoTheme.TEXTFIELD_TINY);
         filterField.setPlaceholder(placeholder);
         filterField.addValueChangeListener(event -> rebuildAndExecuteFilters());
@@ -160,4 +178,43 @@ public class SearchGrid extends Grid<Metadata> {
         dataProvider.refreshAll();
     }
 
+    @PostConstruct
+    public void postConstruct() {
+        final List<Metadata> metadataList = metadataService.find("", SortOrder.ASC, 100, 0, null, null, null);
+        dataProvider = DataProvider.ofCollection(metadataList);
+        setDataProvider(dataProvider);
+        setSelectionMode(SelectionMode.NONE);
+        buildAndAddColumns();
+        setSizeFull();
+    }
+
+    @Override
+    public void notifySubscribersAboutUpdatedList(final List<Metadata> list) {
+        for (final SelectionListSubscriber subscriber : subscribers) {
+            subscriber.currentSelectionListIs(list);
+        }
+    }
+
+    @Override
+    public void addSubscriber(final SelectionListSubscriber subscriber) {
+        subscribers.add(subscriber);
+    }
+
+    @Override
+    public void currentSelectionListIs(final List<Metadata> list) {
+        final List<Metadata> oldList = new ArrayList<>(selectedMetadatas);
+        selectedMetadatas = new ArrayList<>(list);
+        for (final Metadata oldSelectedMetadata : oldList) {
+            if (!selectedMetadatas.contains(oldSelectedMetadata)) {
+                final ValueProvider<Metadata, ?> valueProvider = getColumn(SELECTED).getValueProvider();
+                final CheckBox checkbox = (CheckBox) valueProvider.apply(oldSelectedMetadata);
+                undoSelectionAndReloadGridRow(oldSelectedMetadata, checkbox);
+            }
+        }
+    }
+
+    private void undoSelectionAndReloadGridRow(Metadata oldSelectedMetadata, CheckBox selectionBoxFromUnselectedMetadataItem) {
+        selectionBoxFromUnselectedMetadataItem.setValue(false);
+        dataProvider.refreshItem(oldSelectedMetadata);
+    }
 }

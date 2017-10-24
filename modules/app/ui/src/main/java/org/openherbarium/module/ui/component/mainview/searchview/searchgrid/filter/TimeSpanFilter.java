@@ -1,4 +1,4 @@
-package org.openherbarium.module.ui.component.mainview.searchview.grid.filter;
+package org.openherbarium.module.ui.component.mainview.searchview.searchgrid.filter;
 
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.Alignment;
