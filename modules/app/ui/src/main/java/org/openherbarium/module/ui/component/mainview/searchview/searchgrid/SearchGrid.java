@@ -50,8 +50,6 @@ public class SearchGrid extends Grid<Metadata>
 
   private List<SelectionListSubscriber> subscribers = new ArrayList<>();
 
-  public SearchGrid() {}
-
   private void buildAndAddColumns() {
     addAllColumns();
     addFilterRow();
