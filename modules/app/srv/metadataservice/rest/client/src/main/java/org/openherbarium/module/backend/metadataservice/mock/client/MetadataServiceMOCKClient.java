@@ -9,7 +9,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 import org.openherbarium.module.api.HasLogger;
@@ -38,9 +37,6 @@ public class MetadataServiceMOCKClient implements MetadataServiceMOCK, HasLogger
       Collections.unmodifiableList(createMockData(1000));
   @Inject
   private Configuration configuration;
-
-  @PostConstruct
-  public void init() {}
 
   private String targetURL() {
     final String targetURL =
