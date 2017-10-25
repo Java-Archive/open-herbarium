@@ -1,0 +1,21 @@
+<config
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xmlns='http://www.ehcache.org/v3'
+    xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
+
+
+  <cache alias="default" uses-template="defaultTemplate"/>
+
+  <cache-template name="defaultTemplate">
+    <key-type>org.rapidpm.binarycache.api.CacheKey</key-type>
+    <value-type>org.rapidpm.binarycache.api.CacheByteArray</value-type>
+    <expiry>
+      <!-- tti=time to idle; ttl=time to live; -->
+      <tti unit="hours">2</tti>
+    </expiry>
+
+    <heap unit="entries">200000</heap>
+  </cache-template>
+
+
+</config>

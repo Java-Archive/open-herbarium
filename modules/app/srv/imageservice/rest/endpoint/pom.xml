@@ -118,13 +118,46 @@
         </configuration>
         <executions>
           <execution>
-            <id>performance test</id>
+            <id>integration test</id>
             <goals>
               <goal>integration-test</goal>
             </goals>
             <configuration>
-              <skip>${skipPerformanceTest}</skip>
+              <skip>${skipintegrationtest}</skip>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.bazaarvoice.maven.plugins</groupId>
+        <artifactId>process-exec-maven-plugin</artifactId>
+        <version>0.8</version>
+        <executions>
+          <!--Start process-->
+          <execution>
+            <id>start-jar</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+            <configuration>
+              <name>imageservice</name>
+              <workingDir>${project.build.directory}</workingDir>
+              <arguments>
+                <argument>java</argument>
+                <argument>-jar</argument>
+                <argument>${project.build.finalName}.jar</argument>
+                <argument>${project.basedir}${file.separator}_data${file.separator}example_images</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <!--Stop Process-->
+          <execution>
+            <id>stop-jar-process</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop-all</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
@@ -132,17 +165,17 @@
   </build>
 
   <properties>
-    <skipPerformanceTest>true</skipPerformanceTest>
+    <skipintegrationtest>true</skipintegrationtest>
   </properties>
 
   <profiles>
     <profile>
-      <id>qm-qs-performancetest</id>
+      <id>qm-qs-integrationtest</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
       <properties>
-        <skipPerformanceTest>false</skipPerformanceTest>
+        <skipintegrationtest>false</skipintegrationtest>
       </properties>
     </profile>
   </profiles>

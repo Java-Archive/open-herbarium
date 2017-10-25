@@ -16,13 +16,10 @@ class RecordedSimulation extends Simulation {
 
   val headers_0 = Map("Upgrade-Insecure-Requests" -> "1")
 
-  val uri1 = "http://localhost:7081/rest/cache/default/eyJDTEFTUyI6Im9yZy5yYXBpZHBtLmJpbmFyeWNhY2hlLmFwaS5kZWZhdWx0a2V5LkRlZmF1bHRDYWNoZUtleSIsIkNPTlRFTlQiOnsia2V5IjoiMTIzIn19"
-
   val scnProperties = scenario("Properties")
     .exec(http("Properties")
       .get("/rest/imageservice/47659/properties")
       .headers(headers_0))
-
 
   val scnImage = scenario("Image")
     .exec(http("Image")
@@ -31,12 +28,11 @@ class RecordedSimulation extends Simulation {
 
   setUp(
     scnProperties.inject(
-      atOnceUsers(50),
-      constantUsersPerSec(100) during (10) randomized
+      atOnceUsers(100),
+      constantUsersPerSec(30) during 15 randomized
     ),
     scnImage.inject(
-      atOnceUsers(50),
-      rampUsers(100) over (10)
+      heavisideUsers(500) over 30
     ))
     .protocols(httpProtocol)
 }

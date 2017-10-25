@@ -1,8 +1,11 @@
 package org.openherbarium.module.srv.imageservice.rest.endpoint.rest.v001;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openherbarium.module.srv.imageservice.rest.endpoint.rest.BaseRestTest;
+import org.openherbarium.module.srv.imageservice.rest.endpoint.util.ImageServiceConstants;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -14,6 +17,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class ImageServiceRestEndpointTest001 extends BaseRestTest {
+
+  @BeforeEach
+  protected void setUp() {
+    super.setUp();
+    System.setProperty(ImageServiceConstants.IMAGE_FOLDER_PROPERTY, "_data/example_images");
+  }
+
+  @Override
+  @AfterEach
+  protected void tearDown() {
+    System.clearProperty(ImageServiceConstants.IMAGE_FOLDER_PROPERTY);
+    super.tearDown();
+  }
 
   @Test
   void test001() {

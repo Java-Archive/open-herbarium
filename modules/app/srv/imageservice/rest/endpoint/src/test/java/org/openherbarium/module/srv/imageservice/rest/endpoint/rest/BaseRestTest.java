@@ -12,7 +12,7 @@ public class BaseRestTest {
   protected int port;
 
   @BeforeEach
-  void setUp() {
+  protected void setUp() {
     DI.activatePackages("org.openherbarium");
     DI.activatePackages("org.rapidpm");
 
@@ -24,7 +24,7 @@ public class BaseRestTest {
   }
 
   @AfterEach
-  void tearDown() {
+  protected void tearDown() {
     Main.stop();
     System.clearProperty(MainUndertow.REST_PORT_PROPERTY);
     System.clearProperty(MainUndertow.REST_HOST_PROPERTY);

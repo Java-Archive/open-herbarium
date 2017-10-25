@@ -10,8 +10,6 @@ import org.rapidpm.binarycache.api.defaultkey.DefaultCacheKey;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -92,7 +90,7 @@ public class ImageServiceImpl implements ImageService {
   }
 
   private Path getBasePath() {
-    final String path = System.getProperty(IMAGE_FOLDER_PROPERTY, "_data/example_images");
+    final String path = System.getProperty(IMAGE_FOLDER_PROPERTY);
     return Paths.get(path);
   }
 
@@ -106,17 +104,6 @@ public class ImageServiceImpl implements ImageService {
   @Override
   public void clearCache() {
     cache.clearCache(CACHE_NAME);
-  }
-
-  private byte[] loadDummyImage() {
-    try {
-      URL url = getClass().getClassLoader().getResource("404.jpg");
-      final Path path = Paths.get(url.toURI());
-      return Files.readAllBytes(path);
-    } catch (NullPointerException | URISyntaxException | IOException e) {
-      LOGGER.log(Level.SEVERE, e.getMessage(), e);
-      return new byte[0];
-    }
   }
 
 }

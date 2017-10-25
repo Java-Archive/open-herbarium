@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openherbarium.module.srv.imageservice.rest.endpoint.api.ImageService;
+import org.openherbarium.module.srv.imageservice.rest.endpoint.util.ImageServiceConstants;
 import org.rapidpm.ddi.DI;
 
 import java.io.File;
@@ -17,6 +18,7 @@ public class ImageServiceTest001 {
 
   @BeforeEach
   void setUp() {
+    System.setProperty(ImageServiceConstants.IMAGE_FOLDER_PROPERTY, "_data/example_images");
     DI.clearReflectionModel();
     DI.activatePackages("org.openherbarium");
   }
@@ -25,6 +27,7 @@ public class ImageServiceTest001 {
   void tearDown() {
     imageService.clearCache();
     DI.clearReflectionModel();
+    System.clearProperty(ImageServiceConstants.IMAGE_FOLDER_PROPERTY);
   }
 
   @Test
