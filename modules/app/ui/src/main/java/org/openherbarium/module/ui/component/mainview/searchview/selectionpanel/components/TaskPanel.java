@@ -45,6 +45,7 @@ public class TaskPanel extends Composite {
     setCompositionRoot(contentLayout);
     tasksBoxLayout.setWidth(100, Unit.PERCENTAGE);
     setWidth(100, Unit.PERCENTAGE);
+    this.setEnabled(false);
   }
 
   private void configureTaskComboBox(ComboBox<Task> tasksComboBox) {
@@ -74,5 +75,10 @@ public class TaskPanel extends Composite {
     contentLayout.setComponentAlignment(goButton, Alignment.MIDDLE_CENTER);
     contentLayout.setExpandRatio(tasksBoxLayout, 0.8f);
     contentLayout.setExpandRatio(goButton, 0.2f);
+  }
+
+  @Override
+  public void setEnabled(boolean enabled) {
+    contentLayout.setEnabled(enabled);
   }
 }

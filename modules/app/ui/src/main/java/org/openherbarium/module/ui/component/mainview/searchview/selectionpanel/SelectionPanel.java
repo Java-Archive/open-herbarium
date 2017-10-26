@@ -82,6 +82,8 @@ public class SelectionPanel extends Panel
 
   @Override
   public void currentSelectionListIs(final List<Metadata> list) {
+    final boolean atLeastTwoMetadataSelected = (list.size() >= 2);
+    taskPanel.setEnabled(atLeastTwoMetadataSelected);
     metadataPanelByMetadata.clear();
     for (final Metadata metadata : list) {
       metadataPanelByMetadata.put(metadata, buildMetadataPanelForMetadata(metadata));
