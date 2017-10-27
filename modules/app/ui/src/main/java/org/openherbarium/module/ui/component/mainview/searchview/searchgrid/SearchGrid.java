@@ -35,14 +35,14 @@ import com.vaadin.ui.themes.ValoTheme;
 public class SearchGrid extends Grid<Metadata>
     implements VaadinSelectionListSubject<Metadata>, SelectionListSubscriber, HasLogger {
 
-  private static final String SCANS = "Scans";
-  private static final String SELECTED = "Auswahl";
+  private static final String SCANS = "Scans"; //TODO use property Service -> i18n
+  private static final String SELECTED = "Auswahl"; //TODO use property Service -> i18n
 
   @Inject
   private MetadataService metadataService;
 
   private static final String MESSAGE_MAX_2_ENTITIES_SELECTABLE =
-      "Maximal erlaubte Anzahl an Datens\u00E4tzen ausgew\u00E4hlt";
+      "Maximal erlaubte Anzahl an Datens\u00E4tzen ausgew\u00E4hlt"; //TODO use property Service -> i18n
 
   private MetadataDataProvider dataProvider = null;
   private final Set<FilterableColumn> columnDecorators = new HashSet<>();

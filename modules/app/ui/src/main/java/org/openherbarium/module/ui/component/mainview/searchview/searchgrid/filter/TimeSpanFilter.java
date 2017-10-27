@@ -11,8 +11,8 @@ import java.time.LocalDate;
 
 public class TimeSpanFilter extends Composite implements HasValue.ValueChangeListener<LocalDate> {
 
-  private static final String FROM = "Von";
-  private static final String TO = "Bis";
+  private static final String FROM = "Von"; //TODO use property Service -> i18n
+  private static final String TO = "Bis"; //TODO use property Service -> i18n
 
   private enum DateFilter {
     FROM, TO

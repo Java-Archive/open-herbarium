@@ -23,13 +23,12 @@ public class SearchView extends Composite implements HasLogger {
   @Inject
   private SelectionPanel selectionPanel;
 
-  private HorizontalLayout mainLayout;
+  private HorizontalLayout mainLayout = new HorizontalLayout();
 
   @PostConstruct
   private void postConstruct() {
     searchGrid.addSubscriber(selectionPanel);
     selectionPanel.addSubscriber(searchGrid);
-    mainLayout = new HorizontalLayout();
     mainLayout.setSizeFull();
     mainLayout.setMargin(false);
     mainLayout.setSpacing(false);

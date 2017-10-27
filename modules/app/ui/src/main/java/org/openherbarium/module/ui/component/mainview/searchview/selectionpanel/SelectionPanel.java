@@ -17,7 +17,7 @@ import static org.openherbarium.module.ui.component.mainview.searchview.SearchVi
 public class SelectionPanel extends Panel
     implements SelectionListSubscriber, VaadinSelectionListSubject<Metadata> {
 
-  private static final String SELECTION = "Auswahl";
+  private static final String SELECTION = "Auswahl"; //TODO use property Service -> i18n
 
   private VerticalLayout contentLayout = new VerticalLayout();
   private TaskPanel taskPanel = new TaskPanel();

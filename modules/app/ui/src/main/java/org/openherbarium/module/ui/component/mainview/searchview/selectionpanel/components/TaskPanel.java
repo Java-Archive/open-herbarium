@@ -14,11 +14,11 @@ import static org.openherbarium.module.ui.component.mainview.searchview.SearchVi
 
 public class TaskPanel extends Composite {
 
-  private static final String TASKS = "Aufgaben";
-  private static final String RUN = "Los!";
+  private static final String TASKS = "Aufgaben"; //TODO use property Service -> i18n
+  private static final String RUN = "Los!"; //TODO use property Service -> i18n
 
   private enum Task {
-    COMPARE("Auswahl vergleichen");
+    COMPARE("Auswahl vergleichen"); //TODO use property Service -> i18n
 
     private final String readableName;
 

@@ -16,8 +16,8 @@ import static org.openherbarium.module.ui.component.mainview.searchview.SearchVi
 
 public class ImageGridLayout extends GridLayout {
 
-  public static final String FULLSCREEN_CAPTION = "Vollbild";
-  public static final String REMOVE_CAPTION = "Entfernen";
+  public static final String FULLSCREEN_CAPTION = "Vollbild"; //TODO use property Service -> i18n
+  public static final String REMOVE_CAPTION = "Entfernen"; //TODO use property Service -> i18n
 
   private static final Map<ButtonTask, VaadinIcons> ICON_BY_BUTTONTASK = new HashMap<>();
 
