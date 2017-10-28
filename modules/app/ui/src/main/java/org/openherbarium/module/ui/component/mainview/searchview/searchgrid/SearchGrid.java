@@ -6,6 +6,7 @@ import static org.openherbarium.module.backend.metadataservice.api.Metadata.RECO
 import static org.openherbarium.module.backend.metadataservice.api.Metadata.TAXON_NAME;
 import static org.openherbarium.module.ui.component.mainview.searchview.SearchView.MAX_SELECTED_METADATA;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -75,7 +76,9 @@ public class SearchGrid extends Grid<Metadata>
         .setId(SCANS).setSortable(false).setExpandRatio(6).setRenderer(scans -> {
           final StringBuilder sb = new StringBuilder();
           if (scans != null) {
-            for (final Scan scan : scans) {
+            final List<Scan> scanList = new ArrayList<>(scans);
+            Collections.sort(scanList);
+            for (final Scan scan : scanList) {
               sb.append(scan.getName()).append(", ");
             }
             return sb.substring(0, sb.length() - 2);

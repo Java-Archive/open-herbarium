@@ -3,7 +3,7 @@ package org.openherbarium.module.backend.metadataservice.api;
 import net.vergien.beanautoutils.annotation.Bean;
 
 @Bean
-public class Scan {
+public class Scan implements Comparable<Scan> {
   private long id;
   private String name;
 
@@ -36,5 +36,10 @@ public class Scan {
   @Override
   public String toString() {
     return ScanBeanUtil.doToString(this);
+  }
+
+  @Override
+  public int compareTo(Scan scan) {
+    return name.compareTo(scan.getName());
   }
 }

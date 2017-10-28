@@ -1,8 +1,12 @@
 package org.openherbarium.module.backend.metadataservice.api;
 
-import java.time.LocalDate;
-import java.util.Set;
 import net.vergien.beanautoutils.annotation.Bean;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 // TODO implementing QUAD breaks JSON deserialization because of missing default constructor
 @Bean
@@ -12,6 +16,7 @@ public class Metadata {
   public static final String RECORDER = "Finder";
   public static final String DETERMINER = "Bestimmer";
   public static final String DATE = "Datum";
+  public static final String SCANS = "Scans";
 
   private long id;
   private String externalId;
@@ -75,6 +80,20 @@ public class Metadata {
 
   public void setDate(LocalDate date) {
     this.date = date;
+  }
+
+  public Scan fetchDefaultScan() {
+      return fetchScansAsSortedList().get(0);
+  }
+
+  public List<Scan> fetchScansAsSortedList() {
+    final Set<Scan> scans = getScans();
+    if (scans != null && !scans.isEmpty()) {
+      final List<Scan> scansList = new ArrayList<>(scans);
+      Collections.sort(scansList);
+      return scansList;
+    }
+    return new ArrayList<>();
   }
 
   @Override
