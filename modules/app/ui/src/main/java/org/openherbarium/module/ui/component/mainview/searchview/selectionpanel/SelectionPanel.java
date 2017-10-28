@@ -2,22 +2,30 @@ package org.openherbarium.module.ui.component.mainview.searchview.selectionpanel
 
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+import org.openherbarium.module.api.property.PropertyService;
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
 import org.openherbarium.module.ui.component.mainview.searchview.interfaces.selectionlist.SelectionListSubscriber;
 import org.openherbarium.module.ui.component.mainview.searchview.interfaces.selectionlist.VaadinSelectionListSubject;
-import org.openherbarium.module.ui.component.mainview.searchview.selectionpanel.components.metadatapanel.MetadataPanel;
 import org.openherbarium.module.ui.component.mainview.searchview.selectionpanel.components.TaskPanel;
+import org.openherbarium.module.ui.component.mainview.searchview.selectionpanel.components.metadatapanel.MetadataPanel;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import static org.openherbarium.module.ui.component.mainview.searchview.SearchView.MAX_SELECTED_METADATA;
 
 public class SelectionPanel extends Panel
     implements SelectionListSubscriber, VaadinSelectionListSubject<Metadata> {
 
-  private static final String SELECTION = "Auswahl"; //TODO use property Service -> i18n
+  private static final String SELECTION = "searchview.selectionpanel.selection";
+
+  @Inject
+  private PropertyService propertyService;
 
   private VerticalLayout contentLayout = new VerticalLayout();
   private TaskPanel taskPanel = new TaskPanel();
@@ -28,8 +36,9 @@ public class SelectionPanel extends Panel
 
   private List<SelectionListSubscriber> subscribers = new ArrayList<>();
 
-  public SelectionPanel() {
-    setCaption(SELECTION);
+  @PostConstruct
+  public void postConstruct() {
+    setCaption(propertyService.resolve(SELECTION));
     contentLayout.addComponents(taskPanel, metadataPanelContainer);
     doLayout();
     setContent(contentLayout);

@@ -1,26 +1,5 @@
 package org.openherbarium.module.ui.component.mainview.searchview.searchgrid;
 
-import static org.openherbarium.module.backend.metadataservice.api.Metadata.DATE;
-import static org.openherbarium.module.backend.metadataservice.api.Metadata.DETERMINER;
-import static org.openherbarium.module.backend.metadataservice.api.Metadata.RECORDER;
-import static org.openherbarium.module.backend.metadataservice.api.Metadata.TAXON_NAME;
-import static org.openherbarium.module.ui.component.mainview.searchview.SearchView.MAX_SELECTED_METADATA;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import org.openherbarium.module.api.HasLogger;
-import org.openherbarium.module.backend.metadataservice.api.Metadata;
-import org.openherbarium.module.backend.metadataservice.api.MetadataService;
-import org.openherbarium.module.backend.metadataservice.api.Scan;
-import org.openherbarium.module.ui.component.mainview.searchview.interfaces.selectionlist.SelectionListSubscriber;
-import org.openherbarium.module.ui.component.mainview.searchview.interfaces.selectionlist.VaadinSelectionListSubject;
-import org.openherbarium.module.ui.component.mainview.searchview.searchgrid.dataprovider.MetadataDataProvider;
-import org.openherbarium.module.ui.component.mainview.searchview.searchgrid.filter.FilterableColumn;
-import org.openherbarium.module.ui.component.mainview.searchview.searchgrid.filter.TimeSpanFilter;
 import com.vaadin.data.ValueProvider;
 import com.vaadin.shared.ui.grid.GridStaticCellType;
 import com.vaadin.ui.CheckBox;
@@ -32,18 +11,43 @@ import com.vaadin.ui.components.grid.HeaderCell;
 import com.vaadin.ui.components.grid.HeaderRow;
 import com.vaadin.ui.renderers.TextRenderer;
 import com.vaadin.ui.themes.ValoTheme;
+import org.openherbarium.module.api.HasLogger;
+import org.openherbarium.module.api.property.PropertyService;
+import org.openherbarium.module.backend.metadataservice.api.Metadata;
+import org.openherbarium.module.backend.metadataservice.api.MetadataService;
+import org.openherbarium.module.backend.metadataservice.api.Scan;
+import org.openherbarium.module.ui.component.mainview.searchview.interfaces.selectionlist.SelectionListSubscriber;
+import org.openherbarium.module.ui.component.mainview.searchview.interfaces.selectionlist.VaadinSelectionListSubject;
+import org.openherbarium.module.ui.component.mainview.searchview.searchgrid.dataprovider.MetadataDataProvider;
+import org.openherbarium.module.ui.component.mainview.searchview.searchgrid.filter.FilterableColumn;
+import org.openherbarium.module.ui.component.mainview.searchview.searchgrid.filter.TimeSpanFilter;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static org.openherbarium.module.backend.metadataservice.api.Metadata.DATE;
+import static org.openherbarium.module.backend.metadataservice.api.Metadata.DETERMINER;
+import static org.openherbarium.module.backend.metadataservice.api.Metadata.RECORDER;
+import static org.openherbarium.module.backend.metadataservice.api.Metadata.TAXON_NAME;
+import static org.openherbarium.module.ui.component.mainview.searchview.SearchView.MAX_SELECTED_METADATA;
 
 public class SearchGrid extends Grid<Metadata>
     implements VaadinSelectionListSubject<Metadata>, SelectionListSubscriber, HasLogger {
 
-  private static final String SCANS = "Scans"; //TODO use property Service -> i18n
-  private static final String SELECTED = "Auswahl"; //TODO use property Service -> i18n
+  private static final String SCANS = "searchview.searchgrid.columns.scans";
+  private static final String SELECTED = "searchview.searchgrid.columns.selection";
+  private static final String MESSAGE_MAX_2_ENTITIES_SELECTABLE = "errormessages.max_entities_reached";
 
   @Inject
   private MetadataService metadataService;
 
-  private static final String MESSAGE_MAX_2_ENTITIES_SELECTABLE =
-      "Maximal erlaubte Anzahl an Datens\u00E4tzen ausgew\u00E4hlt"; //TODO use property Service -> i18n
+  @Inject
+  private PropertyService propertyService;
 
   private MetadataDataProvider dataProvider = null;
   private final Set<FilterableColumn> columnDecorators = new HashSet<>();
@@ -72,8 +76,8 @@ public class SearchGrid extends Grid<Metadata>
             + metadata.getDeterminer().getLastName()).setCaption(DETERMINER).setId(DETERMINER),
         true);
     columnDecorators.add(columnDecorator);
-    columnDecorator = new FilterableColumn(addColumn(Metadata::getScans).setCaption(SCANS)
-        .setId(SCANS).setSortable(false).setExpandRatio(6).setRenderer(scans -> {
+    columnDecorator = new FilterableColumn(addColumn(Metadata::getScans).setCaption(propertyService.resolve(SCANS))
+        .setId(propertyService.resolve(SCANS)).setSortable(false).setExpandRatio(6).setRenderer(scans -> {
           final StringBuilder sb = new StringBuilder();
           if (scans != null) {
             final List<Scan> scanList = new ArrayList<>(scans);
@@ -101,7 +105,7 @@ public class SearchGrid extends Grid<Metadata>
             selectedMetadatas.add(metadataFromCheckbox);
             selectionChanged = true;
           } else {
-            Notification.show(MESSAGE_MAX_2_ENTITIES_SELECTABLE);
+            Notification.show(propertyService.resolve(MESSAGE_MAX_2_ENTITIES_SELECTABLE));
             checkBox.setValue(false);
           }
         } else {

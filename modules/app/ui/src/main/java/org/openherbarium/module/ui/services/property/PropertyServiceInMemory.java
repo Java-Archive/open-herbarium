@@ -49,5 +49,11 @@ public class PropertyServiceInMemory implements PropertyService {
     storage.put("menu.point.exit", "Logout");
     storage.put("menu.point.exit.message", "You want to go?");
 
+    storage.put("searchview.searchgrid.columns.scans", "Scans");
+    storage.put("searchview.searchgrid.columns.selection", "Auswahl");
+    storage.put("searchview.selectionpanel.selection", "Auswahl");
+
+    storage.put("errormessages.max_entities_reached", "Maximal erlaubte Anzahl an Datens\u00E4tzen ausgew\u00E4hlt");
+
   }
 }
