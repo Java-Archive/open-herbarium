@@ -162,6 +162,7 @@ public class SearchGrid extends Grid<Metadata>
       }
     }
     dataProvider.refreshAll();
+    notifySubscribersAboutUpdatedList(new ArrayList<>());
   }
 
   private void handleTimeSpanFilter(final TimeSpanFilter timeSpanFilter) {
