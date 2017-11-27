@@ -1,14 +1,8 @@
 package org.openherbarium.module.srv.imageservice.rest.endpoint.impl;
 
-import org.apache.commons.io.IOUtils;
-import org.openherbarium.module.srv.imageservice.rest.endpoint.api.ImageService;
-import org.openherbarium.module.srv.imageservice.rest.endpoint.util.PathFinder;
-import org.rapidpm.binarycache.api.BinaryCacheClient;
-import org.rapidpm.binarycache.api.CacheByteArray;
-import org.rapidpm.binarycache.api.Result;
-import org.rapidpm.binarycache.api.defaultkey.DefaultCacheKey;
-
-import javax.inject.Inject;
+import static org.openherbarium.module.srv.imageservice.rest.endpoint.util.ImageServiceConstants.CACHE_NAME;
+import static org.openherbarium.module.srv.imageservice.rest.endpoint.util.ImageServiceConstants.IMAGE_FOLDER_PROPERTY;
+import static org.openherbarium.module.srv.imageservice.rest.endpoint.util.ImageServiceConstants.IMAGE_PROPERTIES_XML;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,8 +10,14 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static org.openherbarium.module.srv.imageservice.rest.endpoint.util.ImageServiceConstants.*;
+import javax.inject.Inject;
+import org.apache.commons.io.IOUtils;
+import org.openherbarium.module.srv.imageservice.rest.endpoint.api.ImageService;
+import org.openherbarium.module.srv.imageservice.rest.endpoint.util.PathFinder;
+import org.rapidpm.binarycache.api.BinaryCacheClient;
+import org.rapidpm.binarycache.api.CacheByteArray;
+import org.rapidpm.binarycache.api.Result;
+import org.rapidpm.binarycache.api.defaultkey.DefaultCacheKey;
 
 public class ImageServiceImpl implements ImageService {
 
@@ -55,7 +55,7 @@ public class ImageServiceImpl implements ImageService {
     final DefaultCacheKey cacheKey = new DefaultCacheKey(imageId + "_" + tileGroup + "_" + image);
     final Optional<CacheByteArray> cachedElement = cache.getCachedElement(CACHE_NAME, cacheKey);
     if (cachedElement.isPresent()) {
-      return Optional.ofNullable(cachedElement.get().byteArray);
+      return Optional.ofNullable(cachedElement.get().getByteArray());
     } else {
       return tryToLoadImageFromDisk(imageId, tileGroup, image, cacheKey);
     }

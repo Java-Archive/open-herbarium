@@ -14,8 +14,8 @@
 
   <properties>
 
-    <rapidpm-microservice.version>0.9.1</rapidpm-microservice.version>
-    <rapidpm-dynamic-cdi.version>0.9.1</rapidpm-dynamic-cdi.version>
+    <rapidpm-microservice.version>1.0.0</rapidpm-microservice.version>
+    <rapidpm-dynamic-cdi.version>1.0.0</rapidpm-dynamic-cdi.version> 
     <!--<rapidpm-proxybuilder.version>0.9.0</rapidpm-proxybuilder.version>-->
 
     <maven.compiler.target>1.8</maven.compiler.target>
