@@ -95,13 +95,12 @@
 
   </dependencies>
 
-
-
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.19</version>
         <configuration>
           <trimStackTrace>false</trimStackTrace>
           <includes>
@@ -116,17 +115,17 @@
           <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-surefire-provider</artifactId>
-            <version>1.0.0</version>
+            <version>${junit.platform.version}</version>
           </dependency>
           <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.0.0</version>
+            <version>${junit.jupiter.version}</version>
           </dependency>
           <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
-            <version>4.12.0</version>
+            <version>${junit.vintage.version}</version>
           </dependency>
         </dependencies>
       </plugin>
