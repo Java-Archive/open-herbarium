@@ -1,5 +1,6 @@
 package org.openherbarium.module.backend.metadataservice.rest.client;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -39,7 +40,7 @@ public class MetadataServiceRESTClient implements MetadataServiceREST, HasLogger
 
   @Override
   public List<Metadata> find(SortField sortField, SortOrder sortOrder, int limit, int offset,
-      String taxon, String determiner, String recorder) {
+      String taxon, String determiner, String recorder, LocalDate from, LocalDate to) {
     final Response response = new ResteasyClientBuilder()
         .build()
         .target(targetURL())

@@ -78,7 +78,7 @@ public class MetadataServiceMOCKClient implements MetadataServiceMOCK, HasLogger
 
   @Override
   public List<Metadata> find(SortField sortField, SortOrder sortOrder, int limit, int offset,
-      String taxon, String determiner, String recorder) {
+      String taxon, String determiner, String recorder, LocalDate from, LocalDate to) {
     return getMetadataStreamFiltered(determiner, recorder, taxon).skip(offset).limit(limit)
         .collect(Collectors.toList());
   }

@@ -38,7 +38,7 @@ public class MetadataDataProvider extends AbstractBackEndDataProvider<Metadata, 
       sortField = toSortField(vaadinSortOrder);
     }
     return metadataService.find(sortField, sortOrder, query.getLimit(), query.getOffset(),
-        taxonFilter, determinerFilter, recorderFilter).stream();
+        taxonFilter, determinerFilter, recorderFilter, fromFilter, toFilter).stream();
   }
 
   private SortField toSortField(com.vaadin.data.provider.SortOrder<String> vaadinSortOrder) {

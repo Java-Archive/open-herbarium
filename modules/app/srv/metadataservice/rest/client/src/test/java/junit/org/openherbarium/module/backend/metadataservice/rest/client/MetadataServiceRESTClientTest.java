@@ -45,7 +45,8 @@ public class MetadataServiceRESTClientTest {
   @Test
   public void test() {
     MetadataService client = DI.activateDI(MetadataServiceRESTClient.class);
-        System.out.println(client.find(SortField.TAXON, SortOrder.ASC, 1, 1, null, null, null));
+    System.out
+        .println(client.find(SortField.TAXON, SortOrder.ASC, 1, 1, null, null, null, null, null));
   }
 
   public static class TestConfiguration implements Configuration {

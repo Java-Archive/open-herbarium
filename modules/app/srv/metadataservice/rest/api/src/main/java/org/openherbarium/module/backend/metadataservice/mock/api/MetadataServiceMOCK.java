@@ -1,5 +1,6 @@
 package org.openherbarium.module.backend.metadataservice.mock.api;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.openherbarium.module.backend.metadataservice.api.Metadata;
 import org.openherbarium.module.backend.metadataservice.api.MetadataService;
@@ -15,5 +16,5 @@ public interface MetadataServiceMOCK extends MetadataService {
 
   @Override //TODO decide what will happen with Checkstyle
   List<Metadata> find(SortField sortField, SortOrder sortOrder, int limit, int offset,
-      String taxon, String determiner, String recorder);
+      String taxon, String determiner, String recorder, LocalDate from, LocalDate to);
 }
