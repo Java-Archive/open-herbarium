@@ -29,6 +29,7 @@ public class MainView
     addMenuTab("Main", DefaultView.class);
     addMenuTab("Admin", AdminView.class);
     addMenuTab("Dashboard", DashboardView.class);
+    addMenuTab("Search", SearchView.class);
     tabs.setOrientation(Tabs.Orientation.VERTICAL);
     addToDrawer(tabs);
     addToNavbar(new DrawerToggle());
