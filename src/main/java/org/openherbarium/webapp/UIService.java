@@ -13,6 +13,7 @@ public class UIService
 
   public static void main(String[] args) throws ParseException {
     System.setProperty(SERVLET_PARAMETER_ENABLE_DEV_SERVER, "false");
+    System.setProperty("vaadin.compatibilityMode", "true");
     System.setProperty(CORE_UI_BASE_PKG, "org.openherbarium");
 
 

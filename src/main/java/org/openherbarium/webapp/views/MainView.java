@@ -6,12 +6,11 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
 //@Viewport("width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes, viewport-fit=cover")
-@PWA(name = "OpenHerbarium", shortName = "OpenHerbarium")
+//@PWA(name = "OpenHerbarium", shortName = "OpenHerbarium")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @Route("")
 public class MainView
