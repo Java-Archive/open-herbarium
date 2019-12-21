@@ -1,28 +1,47 @@
 package org.openherbarium.webapp.views;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
+import org.rapidpm.dependencies.core.logger.HasLogger;
+
+import java.util.HashMap;
+import java.util.Map;
 
 //@Viewport("width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes, viewport-fit=cover")
 //@PWA(name = "OpenHerbarium", shortName = "OpenHerbarium")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
-@Route("")
 public class MainView
-    extends AppLayout {
+    extends AppLayout implements BeforeEnterObserver, HasLogger {
+
+  private Tabs                                 tabs                  = new Tabs();
+  private Map<Class<? extends Component>, Tab> navigationTargetToTab = new HashMap<>();
+
 
   public MainView() {
-    setPrimarySection(AppLayout.Section.DRAWER);
-    Image img = new Image("https://i.imgur.com/GPpnszs.png", "Vaadin Logo");
-    img.setHeight("44px");
-    addToNavbar(new DrawerToggle(), img);
-    Tabs tabs = new Tabs(new Tab("Home"), new Tab("About"));
+    addMenuTab("Main", DefaultView.class);
+    addMenuTab("Admin", AdminView.class);
+    addMenuTab("Dashboard", DashboardView.class);
     tabs.setOrientation(Tabs.Orientation.VERTICAL);
     addToDrawer(tabs);
+    addToNavbar(new DrawerToggle());
   }
+  private void addMenuTab(String label, Class<? extends Component> target) {
+    Tab tab = new Tab(new RouterLink(label, target));
+    navigationTargetToTab.put(target, tab);
+    tabs.add(tab);
+  }
+
+  @Override
+  public void beforeEnter(BeforeEnterEvent event) {
+    tabs.setSelectedTab(navigationTargetToTab.get(event.getNavigationTarget()));
+  }
+
 }
