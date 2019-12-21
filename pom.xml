@@ -112,7 +112,10 @@
       <groupId>com.vaadin</groupId>
       <artifactId>vaadin-tabs-flow</artifactId>
     </dependency>
-
+	<dependency>
+		<groupId>com.vaadin</groupId>
+		<artifactId>vaadin-grid-flow</artifactId>
+	</dependency>
     <!--    external -->
 <!--    <dependency>-->
 <!--      <groupId>com.github.appreciated</groupId>-->
@@ -135,6 +138,13 @@
     <dependency>
     	<groupId>org.apache.commons</groupId>
     	<artifactId>commons-lang3</artifactId>
+    </dependency>
+    
+    <!-- WerBeo REST-Client -->
+    <dependency>
+    	<groupId>org.infinitenature.werbeo.service</groupId>
+    	<artifactId>werbeo-service-rest-client</artifactId>
+    	<version>0.1.5110</version>
     </dependency>
   </dependencies>
 
@@ -166,4 +176,12 @@
       </plugin>
     </plugins>
   </build>
+  
+  <repositories>
+  	<repository>
+  		<!-- for the werbeo rest client -->
+  		<id>werbeo-release</id>
+		<url>https://artifactory.loe.auf.uni-rostock.de/artifactory/libs-release-local</url>
+  	</repository>
+  </repositories>
 </project>

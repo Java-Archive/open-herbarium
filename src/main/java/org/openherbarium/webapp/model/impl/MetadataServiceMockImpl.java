@@ -10,25 +10,37 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
+import org.infinitenature.werbeo.client.Werbeo;
 import org.openherbarium.webapp.model.Metadata;
 import org.openherbarium.webapp.model.MetadataFilter;
 import org.openherbarium.webapp.model.MetadataService;
 import org.openherbarium.webapp.model.Person;
 import org.openherbarium.webapp.model.Scan;
 import org.openherbarium.webapp.model.SortOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MetadataServiceMockImpl implements MetadataService {
+  private static final Logger LOGGER = LoggerFactory.getLogger(MetadataServiceMockImpl.class);
   private static final List<Metadata> META_DATA = new ArrayList<>();
   static {
-    for (int i = 1; i <= 100; i++) {
+    for (int i = 1; i <= 800; i++) {
       META_DATA.add(new Metadata(i, UUID.randomUUID().toString(), getTaxon(i), getRecorder(i),
           getDeterminer(i), getDate(i), getScans(i)));
     }
   }
 
+  private Werbeo werbeo;
+
+  public MetadataServiceMockImpl() {
+    werbeo = new Werbeo("http://api.test.infinitenature.org");
+  }
+
   @Override
   public List<Metadata> find(SortField sortField, SortOrder sortOrder, int limit, int offset,
       MetadataFilter metadataFilter) {
+    LOGGER.info("Filter: {}, SortField: {}, SortOrder: {}, limit: {}, offset: {}", metadataFilter,
+        sortField, sortOrder, limit, offset);
     Stream<Metadata> filteredStream = createFilteredStream(metadataFilter);
     Stream<Metadata> sortedSteam = filteredStream.sorted(createComparator(sortField, sortOrder));
     return sortedSteam.skip(offset).limit(limit).collect(Collectors.toList());
@@ -59,6 +71,7 @@ public class MetadataServiceMockImpl implements MetadataService {
 
   @Override
   public long count(MetadataFilter metadataFilter) {
+    LOGGER.info("Filter: {}", metadataFilter);
     return createFilteredStream(metadataFilter).count();
   }
 
@@ -98,7 +111,7 @@ public class MetadataServiceMockImpl implements MetadataService {
   }
 
   private static LocalDate getDate(int i) {
-    return LocalDate.of(1900 + (i % 50), i % 12, i % 28);
+    return LocalDate.of(1900 + (i % 50), (i % 12) + 1, (i % 28) + 1);
   }
 
   private static Person getRecorder(int i) {
