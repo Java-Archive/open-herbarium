@@ -1,1 +1,0 @@
-# Zoomify Component for Vaadin

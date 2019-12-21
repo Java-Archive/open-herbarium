@@ -1,3 +1,10 @@
+node/*
+node_modules/*
+package.json
+package-lock.json
+webpack.config.js
+webpack.generated.js
+
 **/_data/webdrivers
 .idea/
 *.iml
