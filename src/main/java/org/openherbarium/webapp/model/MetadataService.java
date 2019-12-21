@@ -1,11 +1,7 @@
 package org.openherbarium.webapp.model;
 
-import java.time.LocalDate;
 import java.util.List;
 
-/**
- *
- */
 public interface MetadataService {
 
   public enum SortField {
@@ -13,7 +9,7 @@ public interface MetadataService {
   }
 
   public List<Metadata> find(SortField sortField, SortOrder sortOrder, int limit, int offset,
-      String taxon, String determiner, String recorder, LocalDate from, LocalDate to);
+      MetadataFilter metadataFilter);
 
-  public long count(String taxon, String determiner, String recorder);
+  public long count(MetadataFilter metadataFilter);
 }

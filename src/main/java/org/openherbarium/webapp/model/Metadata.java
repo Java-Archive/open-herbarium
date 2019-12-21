@@ -22,6 +22,22 @@ public class Metadata {
   private LocalDate date;
   private Set<Scan> scans;
 
+  public Metadata() {
+    super();
+  }
+
+  public Metadata(long id, String externalId, String taxonName, Person recorder, Person determiner,
+      LocalDate date, Set<Scan> scans) {
+    super();
+    this.id = id;
+    this.externalId = externalId;
+    this.taxonName = taxonName;
+    this.recorder = recorder;
+    this.determiner = determiner;
+    this.date = date;
+    this.scans = scans;
+  }
+
   public long getId() {
     return id;
   }

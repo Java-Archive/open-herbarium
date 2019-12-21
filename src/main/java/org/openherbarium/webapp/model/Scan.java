@@ -4,6 +4,16 @@ public class Scan implements Comparable<Scan> {
   private long id;
   private String name;
 
+  public Scan() {
+    super();
+  }
+
+  public Scan(long id, String name) {
+    super();
+    this.id = id;
+    this.name = name;
+  }
+
   public long getId() {
     return id;
   }

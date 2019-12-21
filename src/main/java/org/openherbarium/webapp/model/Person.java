@@ -1,6 +1,8 @@
 package org.openherbarium.webapp.model;
 
-public class Person {
+import java.util.Comparator;
+
+public class Person implements Comparable<Person> {
   public Person() {
     super();
   }
@@ -28,5 +30,11 @@ public class Person {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  @Override
+  public int compareTo(Person person2) {
+    return Comparator.comparing(Person::getLastName).thenComparing(Person::getFirstName)
+        .compare(this, person2);
   }
 }
