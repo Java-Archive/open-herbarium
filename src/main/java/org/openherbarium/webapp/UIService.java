@@ -1,11 +1,9 @@
 package org.openherbarium.webapp;
 
-import com.vaadin.flow.server.Constants;
 import org.apache.commons.cli.ParseException;
 import org.rapidpm.frp.model.Result;
 import org.rapidpm.vaadin.nano.CoreUIServiceJava;
-
-import static com.vaadin.flow.server.Constants.SERVLET_PARAMETER_ENABLE_DEV_SERVER;
+import com.vaadin.flow.server.Constants;
 
 public class UIService
     extends CoreUIServiceJava {
