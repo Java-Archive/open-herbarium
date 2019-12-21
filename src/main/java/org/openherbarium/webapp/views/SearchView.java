@@ -17,7 +17,7 @@ public class SearchView extends Div {
   public SearchView() {
     setHeight("100%");
     searchGrid.setDataProvider(dataProvider);
-    
+
     add(new Span("Filter view"));
     add(searchGrid);
   }
