@@ -7,3 +7,13 @@
 * i18nPageTitle
 * IDGenerator
 * FlowSecurity
+
+## Tasks OpenHerbarium
+* VLeafLet Demo
+
+
+## Tasks
+* Dynamic Menu
+* LoginScreen
+* BasicApp as dependency
+* 

@@ -7,14 +7,13 @@
   <parent>
     <groupId>org.rapidpm</groupId>
     <artifactId>rapidpm-vaadin-dependencies-v14</artifactId>
-    <version>04.05.02-RPM</version>
+    <version>04.06.00-RPM</version>
   </parent>
 
 
   <groupId>org.open-herbarium</groupId>
   <artifactId>herbarium-parent</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-
 
 
   <!--Project Header Infos-->
@@ -80,7 +79,7 @@
     <dependency>
       <groupId>org.rapidpm.vaadin</groupId>
       <artifactId>nano-vaadin-undertow</artifactId>
-      <version>01.00.03-RPM</version>
+      <version>01.00.04-RPM</version>
     </dependency>
     <dependency>
       <groupId>commons-cli</groupId>
@@ -88,7 +87,7 @@
     </dependency>
 
 
-<!--    Vaadin-->
+    <!--    Vaadin-->
 
     <!--For Core Vaadin Components-->
     <dependency>
@@ -112,24 +111,33 @@
       <groupId>com.vaadin</groupId>
       <artifactId>vaadin-tabs-flow</artifactId>
     </dependency>
-	<dependency>
-		<groupId>com.vaadin</groupId>
-		<artifactId>vaadin-grid-flow</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>com.vaadin</groupId>
-		<artifactId>vaadin-text-field-flow</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>com.vaadin</groupId>
-		<artifactId>vaadin-date-picker-flow</artifactId>
-	</dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-grid-flow</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-text-field-flow</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-date-picker-flow</artifactId>
+    </dependency>
     <!--    external -->
-<!--    <dependency>-->
-<!--      <groupId>com.github.appreciated</groupId>-->
-<!--      <artifactId>vaadin-css-grid</artifactId>-->
-<!--      <version>2.0.0.beta3</version>-->
-<!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>com.github.appreciated</groupId>-->
+    <!--      <artifactId>vaadin-css-grid</artifactId>-->
+    <!--      <version>2.0.0.beta3</version>-->
+    <!--    </dependency>-->
+
+
+<!--    Vaadin Addons-->
+
+    <dependency>
+      <groupId>org.rapidpm.vaadin</groupId>
+      <artifactId>i18n-provider-for-flow</artifactId>
+      <version>00.08.01-RPM</version>
+    </dependency>
 
 
     <!--Logging-->
@@ -141,18 +149,18 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
     </dependency>
-    
+
     <!-- Utils -->
     <dependency>
-    	<groupId>org.apache.commons</groupId>
-    	<artifactId>commons-lang3</artifactId>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
     </dependency>
-    
+
     <!-- WerBeo REST-Client -->
     <dependency>
-    	<groupId>org.infinitenature.werbeo.service</groupId>
-    	<artifactId>werbeo-service-rest-client</artifactId>
-    	<version>0.1.5110</version>
+      <groupId>org.infinitenature.werbeo.service</groupId>
+      <artifactId>werbeo-service-rest-client</artifactId>
+      <version>0.1.5110</version>
     </dependency>
   </dependencies>
 
@@ -184,12 +192,12 @@
       </plugin>
     </plugins>
   </build>
-  
+
   <repositories>
-  	<repository>
-  		<!-- for the werbeo rest client -->
-  		<id>werbeo-release</id>
-		<url>https://artifactory.loe.auf.uni-rostock.de/artifactory/libs-release-local</url>
-  	</repository>
+    <repository>
+      <!-- for the werbeo rest client -->
+      <id>werbeo-release</id>
+      <url>https://artifactory.loe.auf.uni-rostock.de/artifactory/libs-release-local</url>
+    </repository>
   </repositories>
 </project>
