@@ -116,6 +116,14 @@
 		<groupId>com.vaadin</groupId>
 		<artifactId>vaadin-grid-flow</artifactId>
 	</dependency>
+	<dependency>
+		<groupId>com.vaadin</groupId>
+		<artifactId>vaadin-text-field-flow</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.vaadin</groupId>
+		<artifactId>vaadin-date-picker-flow</artifactId>
+	</dependency>
     <!--    external -->
 <!--    <dependency>-->
 <!--      <groupId>com.github.appreciated</groupId>-->
